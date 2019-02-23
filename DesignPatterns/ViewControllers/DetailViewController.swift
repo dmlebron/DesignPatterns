@@ -7,26 +7,65 @@
 
 import UIKit
 
+// MARK: - DataDisplayable
+extension DetailViewController: DataDisplayable {
+    struct ViewData {
+        let name: String
+        let companyUrl: String?
+        let attributedDescription: NSAttributedString?
+        let location: String?
+    }
+}
+
 class DetailViewController: UIViewController {
-    private var job: Job?
+    private var viewData: ViewData?
     
-    @IBOutlet weak var companyNameLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var topDividerView: UIView!
+    @IBOutlet weak var websiteLabel: UILabel!
+    @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var locationAndUrlStackView: UIStackView!
+    @IBOutlet weak var locationAndUrlHeightConstaint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewLoaded()
-        companyNameLabel.text = job?.companyName
+        nameLabel.text = viewData?.name
+        
+        websiteLabel.text = viewData?.companyUrl ?? "No URL"
+        locationLabel.text = viewData?.location ?? "No Location Data"
+        
+        if let attributedDesription = viewData?.attributedDescription {
+            descriptionTextView.attributedText = attributedDesription
+        }
     }
     
-    func set(job: Job) {
-        self.job = job
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        descriptionTextView.contentOffset = .zero
+    }
+    
+    func set(viewData: ViewData) {
+        self.viewData = viewData
+    }
+}
+
+// MARK: - Private Methods
+private extension DetailViewController {
+    func updateLocationAndUrlStackViewConstraint() {
+        guard viewData?.companyUrl == nil && viewData?.location == nil else {
+            locationAndUrlHeightConstaint.isActive = false
+            return
+        }
+        locationAndUrlHeightConstaint.constant = 0
     }
 }
 
 // MARK: - ViewCustomizing
 extension DetailViewController: ViewCustomizing {
     func setupUI() {
-        companyNameLabel.textColor = CurrentEnvironment.color.darkGray
+        nameLabel.textColor = CurrentEnvironment.color.darkGray
         topDividerView.backgroundColor = CurrentEnvironment.color.darkGray
     }
 }

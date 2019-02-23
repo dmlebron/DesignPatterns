@@ -48,3 +48,7 @@ extension CellRegistration {
         return UINib(nibName: name, bundle: nil)
     }
 }
+
+protocol DataDisplayable {
+    associatedtype ViewData
+}

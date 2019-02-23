@@ -23,6 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 private extension AppDelegate {
     func setupSharedUI() {
         UINavigationBar.appearance().barTintColor = CurrentEnvironment.color.darkGray
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: CurrentEnvironment.color.light]
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: CurrentEnvironment.color.white]
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().tintColor = CurrentEnvironment.color.white
     }
 }

@@ -18,40 +18,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="aH5-EV-doW">
-                                <rect key="frame" x="16" y="64" width="343" height="50"/>
-                                <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Postal code" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tB1-KY-3A3">
-                                        <rect key="frame" x="0.0" y="0.0" width="155.5" height="50"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="go"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="BYZ-38-t0r" id="bqU-Jo-7cU"/>
-                                        </connections>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A2O-da-rOl">
-                                        <rect key="frame" x="155.5" y="0.0" width="187.5" height="50"/>
-                                        <state key="normal" title="Update Location"/>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="A2O-da-rOl" firstAttribute="top" secondItem="aH5-EV-doW" secondAttribute="top" id="8Jh-jK-xAc"/>
-                                    <constraint firstAttribute="height" constant="50" id="EbP-9R-E37"/>
-                                    <constraint firstItem="tB1-KY-3A3" firstAttribute="top" secondItem="aH5-EV-doW" secondAttribute="top" id="Q2P-Wd-5Fm"/>
-                                    <constraint firstAttribute="bottom" secondItem="tB1-KY-3A3" secondAttribute="bottom" id="WH8-9a-jZi"/>
-                                    <constraint firstAttribute="bottom" secondItem="A2O-da-rOl" secondAttribute="bottom" id="Wn5-g2-Jh0"/>
-                                </constraints>
-                            </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VAG-5c-bSm">
-                                <rect key="frame" x="8" y="115" width="359" height="1"/>
+                                <rect key="frame" x="0.0" y="115" width="375" height="1"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="bLP-MP-BXa"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="G6U-eG-mCi">
-                                <rect key="frame" x="0.0" y="117" width="375" height="550"/>
+                                <rect key="frame" x="0.0" y="116" width="375" height="551"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="MS8-ds-ZQc" style="IBUITableViewCellStyleDefault" id="0wr-8W-bAY">
@@ -77,26 +52,38 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="5WK-YW-nkH"/>
                                 </connections>
                             </tableView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Query" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tB1-KY-3A3">
+                                <rect key="frame" x="8" y="64" width="359" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="LiA-x2-3gh"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="bqU-Jo-7cU"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="VAG-5c-bSm" firstAttribute="top" secondItem="aH5-EV-doW" secondAttribute="bottom" constant="1" id="6BV-Sh-aHd"/>
-                            <constraint firstItem="aH5-EV-doW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="928-a5-wqd"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aH5-EV-doW" secondAttribute="trailing" constant="16" id="I1n-fg-b1c"/>
+                            <constraint firstItem="VAG-5c-bSm" firstAttribute="top" secondItem="tB1-KY-3A3" secondAttribute="bottom" constant="1" id="2O7-S2-vsP"/>
+                            <constraint firstItem="tB1-KY-3A3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="5fE-GL-kGl"/>
+                            <constraint firstItem="tB1-KY-3A3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="9G5-VA-0l8"/>
                             <constraint firstItem="G6U-eG-mCi" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="RXM-7C-vTa"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tB1-KY-3A3" secondAttribute="trailing" constant="8" id="TJw-uy-V1g"/>
                             <constraint firstItem="G6U-eG-mCi" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="WAl-xE-Xbv"/>
                             <constraint firstItem="G6U-eG-mCi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="btO-2y-KoX"/>
-                            <constraint firstItem="G6U-eG-mCi" firstAttribute="top" secondItem="VAG-5c-bSm" secondAttribute="bottom" constant="1" id="eMr-Yv-2lh"/>
-                            <constraint firstItem="aH5-EV-doW" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="gum-qq-j4c"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="VAG-5c-bSm" secondAttribute="trailing" constant="8" id="kYu-Py-lJ1"/>
-                            <constraint firstItem="VAG-5c-bSm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="oij-cd-9gl"/>
+                            <constraint firstItem="G6U-eG-mCi" firstAttribute="top" secondItem="VAG-5c-bSm" secondAttribute="bottom" id="eMr-Yv-2lh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="VAG-5c-bSm" secondAttribute="trailing" id="kYu-Py-lJ1"/>
+                            <constraint firstItem="VAG-5c-bSm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="oij-cd-9gl"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="UZ5-ti-ewK"/>
+                    <navigationItem key="navigationItem" id="UZ5-ti-ewK">
+                        <nil key="title"/>
+                    </navigationItem>
                     <connections>
-                        <outlet property="searchButton" destination="A2O-da-rOl" id="bhX-od-Km9"/>
-                        <outlet property="searchStackView" destination="aH5-EV-doW" id="PZG-ix-RBD"/>
                         <outlet property="searchText" destination="tB1-KY-3A3" id="1D0-vP-OSM"/>
                         <outlet property="tableView" destination="G6U-eG-mCi" id="wII-dE-5gM"/>
                         <outlet property="topDividerView" destination="VAG-5c-bSm" id="m3s-7U-UKh"/>

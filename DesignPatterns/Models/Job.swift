@@ -33,4 +33,17 @@ struct Job: Decodable {
         guard let companyUrlString = companyUrlString else { return nil }
         return URL(string: companyUrlString)
     }
+    
+    var attributedDescriptionText: NSAttributedString? {
+        guard let htmlData = description?.data(using: String.Encoding.unicode) else {
+            return nil
+        }
+        do {
+            let attributedText = try NSAttributedString(data: htmlData, options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
+            return attributedText
+        } catch {
+            print("Error \(error.localizedDescription) ")
+            return nil
+        }
+    }
 }

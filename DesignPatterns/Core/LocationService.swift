@@ -26,7 +26,7 @@ final class LocationService: LocationServiceType {
     }
     
     func currentAddress(completion: @escaping (MKPlacemark?) -> ()) {
-        guard let location = locationManager.location else { return }
+        guard let location = locationManager.location else { return completion(nil) }
         
         geo.reverseGeocodeLocation(location) { (placemarks, error) in
             guard let location = placemarks?.first?.location, let postalAddress = placemarks?.first?.postalAddress else {
