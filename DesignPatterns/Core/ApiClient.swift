@@ -56,6 +56,7 @@ struct ApiClient: ApiClientType {
     }
 }
 
+// MARK: -
 extension ApiClient {
     typealias Completion = (Result) -> Void
     enum Result {

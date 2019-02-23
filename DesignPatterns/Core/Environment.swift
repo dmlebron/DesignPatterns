@@ -8,37 +8,32 @@
 
 import Foundation
 
-// MARK: - Constants
-fileprivate struct Constants {
-    struct Production {
-        static var apiURLString: String { return "https://jobs.github.com/positions.json" }
-    }
-    
-    struct Development {
-        static var apiURLString: String { return "https://jobs.github.com/positions.json" }
-    }
-}
-
 struct Environment {
-    
     let apiURLSring: String
     let apiClient: ApiClientType
     let locationService: LocationServiceType
+    let color: Color
     
     init(apiURLSring: String,
          apiClient: ApiClientType,
-         locationService: LocationServiceType) {
+         locationService: LocationServiceType,
+         color: Color) {
         
         self.apiURLSring = apiURLSring
         self.apiClient = apiClient
         self.locationService = locationService
+        self.color = color
     }
     
-    static let production = Environment(apiURLSring: Constants.Production.apiURLString,
-                                        apiClient: ApiClient(),
-                                        locationService: LocationService())
-    
-    static let development = Environment(apiURLSring: Constants.Development.apiURLString,
+    static let development = Environment(apiURLSring: "https://jobs.github.com/positions.json",
                                          apiClient: ApiClient(),
-                                         locationService: LocationService())
+                                         locationService: LocationService(),
+                                         color: Color())
+}
+
+extension Environment {
+    static let mock = Environment(apiURLSring: "https://jobs.github.com/positions.json",
+                                  apiClient: MockApiClient(),
+                                  locationService: MockLocationService(),
+                                  color: Color())
 }

@@ -7,13 +7,22 @@
 
 import UIKit
 
-let CurrentEnvironment = Environment.development
+var CurrentEnvironment = Environment.development
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         CurrentEnvironment.locationService.requestWhenInUseAuthorization()
+        setupSharedUI()
         return true
     }
 }
 
+// MARK: - Private Methods
+private extension AppDelegate {
+    func setupSharedUI() {
+        UINavigationBar.appearance().barTintColor = CurrentEnvironment.color.darkGray
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: CurrentEnvironment.color.light]
+    }
+}
