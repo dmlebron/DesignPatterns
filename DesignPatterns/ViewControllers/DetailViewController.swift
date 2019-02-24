@@ -61,6 +61,6 @@ extension DetailViewController: ViewCustomizing {
     func setupUI() {
         nameLabel.textColor = CurrentEnvironment.color.darkGray
         topDividerView.backgroundColor = CurrentEnvironment.color.darkGray
-        imageView.contentMode = .scaleAspectFit
+        companyImageView.contentMode = .scaleAspectFit
     }
 }

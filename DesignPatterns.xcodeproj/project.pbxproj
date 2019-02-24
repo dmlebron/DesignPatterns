@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		465010BD22221D7C0062DF6D /* Image+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010BC22221D7C0062DF6D /* Image+String.swift */; };
 		4654D5352220F07200782AFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5342220F07200782AFA /* AppDelegate.swift */; };
 		4654D53C2220F07300782AFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4654D53B2220F07300782AFA /* Assets.xcassets */; };
 		4654D54A2220F07300782AFA /* DesignPatternsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5492220F07300782AFA /* DesignPatternsTests.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		465010BC22221D7C0062DF6D /* Image+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+String.swift"; sourceTree = "<group>"; };
 		4654D5312220F07200782AFA /* DesignPatterns.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesignPatterns.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4654D5342220F07200782AFA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4654D53B2220F07300782AFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				4654D55F2220F38D00782AFA /* Protocols.swift */,
 				4654D5712221273C00782AFA /* Color.swift */,
 				4654D5792221299C00782AFA /* App+Storyboard.swift */,
+				465010BC22221D7C0062DF6D /* Image+String.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				4654D57A2221299C00782AFA /* App+Storyboard.swift in Sources */,
 				4654D5782221294800782AFA /* DetailViewController.swift in Sources */,
 				4654D5602220F38D00782AFA /* Protocols.swift in Sources */,
+				465010BD22221D7C0062DF6D /* Image+String.swift in Sources */,
 				4654D5652221057500782AFA /* Job.swift in Sources */,
 				4654D5352220F07200782AFA /* AppDelegate.swift in Sources */,
 				4654D56722210B2800782AFA /* Environment.swift in Sources */,
