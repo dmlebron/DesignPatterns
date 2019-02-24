@@ -86,8 +86,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="lXo-RT-VwW"/>
                     <connections>
+                        <outlet property="companyImageView" destination="JRA-qx-eoK" id="I4C-Yr-zmb"/>
                         <outlet property="descriptionTextView" destination="C9Y-m1-1k6" id="hbB-yk-w1v"/>
-                        <outlet property="imageView" destination="JRA-qx-eoK" id="vAg-Ys-ILt"/>
                         <outlet property="locationLabel" destination="rNA-sa-INJ" id="4sE-Oq-Zsn"/>
                         <outlet property="nameLabel" destination="pP2-A8-NYK" id="DkS-E0-MuU"/>
                         <outlet property="topDividerView" destination="LlN-YC-MK6" id="6As-Hr-xp3"/>

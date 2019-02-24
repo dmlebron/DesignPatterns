@@ -27,7 +27,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var topLabelsStackView: UIStackView!
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var companyImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +42,7 @@ class DetailViewController: UIViewController {
         }
         
         viewData?.imageUrlString?.image { [weak self] (image) in
-            self?.imageView.image = image
+            self?.companyImageView.image = image
         }
     }
     
