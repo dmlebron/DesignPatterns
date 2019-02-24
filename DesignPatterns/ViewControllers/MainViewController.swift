@@ -124,7 +124,8 @@ extension MainViewController: UITableViewDelegate {
             let urlString = jobs[indexPath.row].companyUrlString
             let attributedDescription = jobs[indexPath.row].attributedDescriptionText
             let location = jobs[indexPath.row].location
-            let detailViewData = DetailViewController.ViewData(name: name, companyUrl: urlString, attributedDescription: attributedDescription, location: location)
+            let imageUrlString = jobs[indexPath.row].companyLogo
+            let detailViewData = DetailViewController.ViewData(name: name, companyUrl: urlString, attributedDescription: attributedDescription, location: location, imageUrlString: imageUrlString)
             viewController.set(viewData: detailViewData)
             navigationController?.pushViewController(viewController, animated: true)
         }

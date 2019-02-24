@@ -14,6 +14,7 @@ extension DetailViewController: DataDisplayable {
         let companyUrl: String?
         let attributedDescription: NSAttributedString?
         let location: String?
+        let imageUrlString: String?
     }
 }
 
@@ -25,8 +26,8 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var websiteLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var locationLabel: UILabel!
-    @IBOutlet weak var locationAndUrlStackView: UIStackView!
-    @IBOutlet weak var locationAndUrlHeightConstaint: NSLayoutConstraint!
+    @IBOutlet weak var topLabelsStackView: UIStackView!
+    @IBOutlet weak var imageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,10 @@ class DetailViewController: UIViewController {
         
         if let attributedDesription = viewData?.attributedDescription {
             descriptionTextView.attributedText = attributedDesription
+        }
+        
+        viewData?.imageUrlString?.image { [weak self] (image) in
+            self?.imageView.image = image
         }
     }
     
@@ -51,21 +56,11 @@ class DetailViewController: UIViewController {
     }
 }
 
-// MARK: - Private Methods
-private extension DetailViewController {
-    func updateLocationAndUrlStackViewConstraint() {
-        guard viewData?.companyUrl == nil && viewData?.location == nil else {
-            locationAndUrlHeightConstaint.isActive = false
-            return
-        }
-        locationAndUrlHeightConstaint.constant = 0
-    }
-}
-
 // MARK: - ViewCustomizing
 extension DetailViewController: ViewCustomizing {
     func setupUI() {
         nameLabel.textColor = CurrentEnvironment.color.darkGray
         topDividerView.backgroundColor = CurrentEnvironment.color.darkGray
+        imageView.contentMode = .scaleAspectFit
     }
 }
