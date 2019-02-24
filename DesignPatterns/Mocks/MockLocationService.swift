@@ -24,7 +24,7 @@ class MockLocationService: LocationServiceType {
     
     var didCallAddressForPostalCode = false
     var expectedAddressForPostalCodePlaceMark: MKPlacemark?
-    func addressFor(postalCode: String, completion: @escaping (MKPlacemark?) -> ()) {
+    func addressFor(location: String, completion: @escaping (MKPlacemark?) -> ()) {
         didCallAddressForPostalCode = true
         completion(expectedAddressForPostalCodePlaceMark)
     }

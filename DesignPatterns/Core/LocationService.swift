@@ -13,7 +13,7 @@ import Contacts
 protocol LocationServiceType {
     func requestWhenInUseAuthorization()
     func currentAddress(completion: @escaping (MKPlacemark?) -> ())
-    func addressFor(postalCode: String, completion: @escaping (MKPlacemark?) -> ())
+    func addressFor(location: String, completion: @escaping (MKPlacemark?) -> ())
 }
 
 final class LocationService: LocationServiceType {
@@ -38,8 +38,8 @@ final class LocationService: LocationServiceType {
         }
     }
     
-    func addressFor(postalCode: String, completion: @escaping (MKPlacemark?) -> ()) {
-        geo.geocodeAddressString(postalCode) { (placemarks, error) in
+    func addressFor(location: String, completion: @escaping (MKPlacemark?) -> ()) {
+        geo.geocodeAddressString(location) { (placemarks, error) in
             guard let location = placemarks?.first?.location, let postalAddress = placemarks?.first?.postalAddress else {
                 return completion(nil)
             }

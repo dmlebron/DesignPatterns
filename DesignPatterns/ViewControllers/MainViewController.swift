@@ -11,6 +11,7 @@ import UIKit
 extension MainViewController: DataDisplayable {
     private enum Constants {
         enum Text {
+            static var title: String { return "Search Github Jobs" }
             static var noLocation: String { return "No Location" }
             static var errorTitle: String { return "Error" }
             static var okButtonTitle: String { return "OK" }
@@ -33,16 +34,19 @@ class MainViewController: UIViewController {
     private(set) var viewData: ViewData? {
         didSet {
             guard let viewData = self.viewData else {
-                self.navigationItem.title = Constants.Text.noLocation
+                locationText.text = Constants.Text.noLocation
                 return
             }
-            navigationItem.title = viewData.parsed
+            locationText.text = viewData.parsed
         }
     }
     private(set) var jobs: Jobs = []
     @IBOutlet weak var topDividerView: UIView!
     @IBOutlet weak var searchText: UITextField!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var locationText: UITextField!
+    @IBOutlet weak var locationView: UIView!
+    @IBOutlet weak var currentLocationButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,13 +61,16 @@ class MainViewController: UIViewController {
 
 // MARK: - Private Methods
 private extension MainViewController {
-    func updateLocationAndSearch() {
-        updateCurrentAddress() { [unowned self] in
-            guard let query = self.searchText.text, !query.isEmpty else { return }
+    func search() {
+        guard let query = searchText.text, !query.isEmpty else { return }
+        if let location = locationText.text {
+            updateAddressFor(location: location) { [weak self] in
+                self?.fetchJobs(query: query)
+            }
+        } else {
             self.fetchJobs(query: query)
         }
         searchText.resignFirstResponder()
-
     }
     
     func fetchJobs(query: String) {
@@ -81,12 +88,21 @@ private extension MainViewController {
         }
     }
     
-    func updateCurrentAddress(_ completion: (() -> ())? = nil) {
+    @objc func updateCurrentAddress() {
         CurrentEnvironment.locationService.currentAddress { [unowned self] (placemark) in
             if let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode {
                 self.viewData = ViewData(postalCode: postalCode, city: city, country: country)
             }
-            completion?()
+        }
+    }
+    
+    func updateAddressFor(location: String, completion: @escaping () -> Void) {
+        CurrentEnvironment.locationService.addressFor(location: location) { [unowned self] (placemark) in
+            guard let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode else {
+                return completion()
+            }
+            self.viewData = ViewData(postalCode: postalCode, city: city, country: country)
+            completion()
         }
     }
     
@@ -119,6 +135,7 @@ extension MainViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         guard let viewController = UIStoryboard.detail.instantiateInitialViewController() as? DetailViewController else { return }
         if let name = jobs[indexPath.row].companyName {
             let urlString = jobs[indexPath.row].companyUrlString
@@ -135,7 +152,7 @@ extension MainViewController: UITableViewDelegate {
 // MARK: - UITextFieldDelegate
 extension MainViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        updateLocationAndSearch()
+        search()
         return false
     }
 }
@@ -149,13 +166,24 @@ extension MainViewController: ViewCustomizing {
         tableView.estimatedRowHeight = 80
         topDividerView.backgroundColor = UIColor.black
         searchText.textColor = CurrentEnvironment.color.white
-        let placeholder = NSAttributedString(string: Constants.Text.placeholderTitle, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
-        searchText.attributedPlaceholder = placeholder
-        navigationItem.title = Constants.Text.noLocation
+        let searchPlaceholder = NSAttributedString(string: Constants.Text.placeholderTitle, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
+        searchText.attributedPlaceholder = searchPlaceholder
+        locationText.textColor = CurrentEnvironment.color.white
+        let locationPlaceholder = NSAttributedString(string: "Location", attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
+        locationText.attributedPlaceholder = locationPlaceholder
+        locationText.clearsOnBeginEditing = true
+        navigationItem.title = Constants.Text.title
         view.backgroundColor = CurrentEnvironment.color.darkGray
+        locationView.backgroundColor = CurrentEnvironment.color.darkGray
+        currentLocationButton.setImage(UIImage.location, for: .normal)
+        currentLocationButton.imageView?.contentMode = .scaleAspectFit
     }
     
     func additionalSetup() {
         tableView.register(MainTableViewCell.nib, forCellReuseIdentifier: MainTableViewCell.identifier)
+    }
+    
+    func setupSelectors() {
+        currentLocationButton.addTarget(self, action: #selector(updateCurrentAddress), for: .touchUpInside)
     }
 }
