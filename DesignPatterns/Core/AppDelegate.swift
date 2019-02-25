@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Environment
 var CurrentEnvironment = Environment.development
 
 @UIApplicationMain
@@ -15,6 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         CurrentEnvironment.locationService.requestWhenInUseAuthorization()
         setupSharedUI()
+        
+        let builder = ModuleBuilder()
+        let navigationController = builder.main()
+        
+        let window = UIWindow()
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
+        self.window = window
+        
         return true
     }
 }

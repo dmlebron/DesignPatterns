@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - MainViewModelInput
 protocol MainViewModelInput: AnyObject {
     func viewDidAppear()
     func searchTapped(query: String, location: String?)
@@ -16,14 +17,29 @@ protocol MainViewModelInput: AnyObject {
     func jobAtIndexPath(_ indexPath: IndexPath) -> Job?
 }
 
+// MARK: - MainViewModelOutput
 protocol MainViewModelOutput: AnyObject {
+    func setViewModel(_ viewModel: MainViewModelInput)
     func reloadTableView()
-    func userLocationChanged(_ userLocation: UserLocation)
+    func userLocationChanged(_ userLocation: UserLocation?)
     func showAlert(error: Error)
 }
 
+// MARK: - Constants
+private extension MainViewModel {
+    enum Constants {
+        enum TableView {
+            static var numberOfSections: Int { return 1 }
+        }
+    }
+}
+
 final class MainViewModel {
-    private var userLocation: UserLocation?
+    private var userLocation: UserLocation? {
+        didSet {
+            output?.userLocationChanged(userLocation)
+        }
+    }
     private(set) var jobs: Jobs = []
     private weak var output: MainViewModelOutput?
     
@@ -88,12 +104,8 @@ extension MainViewModel: MainViewModelInput {
         updateCurrentAddress()
     }
     
-    func cellTappedAtIndexPath(_ indexPath: IndexPath) {
-        
-    }
-    
     func numberOfSections() -> Int {
-        return 1
+        return Constants.TableView.numberOfSections
     }
     
     func numberOfRows() -> Int {

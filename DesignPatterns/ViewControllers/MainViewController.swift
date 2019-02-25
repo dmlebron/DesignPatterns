@@ -28,13 +28,11 @@ class MainViewController: UIViewController {
     @IBOutlet weak var locationText: UITextField!
     @IBOutlet weak var locationView: UIView!
     @IBOutlet weak var currentLocationButton: UIButton!
-    var viewModel: MainViewModelInput!
+    private var viewModel: MainViewModelInput!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         customize()
-        // TODO: inject
-        viewModel = MainViewModel(output: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,19 +40,25 @@ class MainViewController: UIViewController {
     }
 }
 
+// MARK: - Private Methods
 private extension MainViewController {
     @objc func updateCurrentLocationTapped() {
         viewModel.updateCurrentLocationTapped()
     }
 }
 
+// MARK: - MainViewModelOutput
 extension MainViewController: MainViewModelOutput {
+    func setViewModel(_ viewModel: MainViewModelInput) {
+        self.viewModel = viewModel
+    }
+    
     func reloadTableView() {
         tableView.reloadData()
     }
     
-    func userLocationChanged(_ userLocation: UserLocation) {
-        locationText.text = userLocation.parsed
+    func userLocationChanged(_ userLocation: UserLocation?) {
+        locationText.text = userLocation?.parsed ?? Constants.Text.noLocation
     }
     
     func showAlert(error: Error) {
@@ -129,7 +133,6 @@ extension MainViewController: ViewCustomizing {
         locationView.backgroundColor = CurrentEnvironment.color.darkGray
         currentLocationButton.setImage(UIImage.location, for: .normal)
         currentLocationButton.imageView?.contentMode = .scaleAspectFit
-        locationText.text = Constants.Text.noLocation
     }
     
     func additionalSetup() {

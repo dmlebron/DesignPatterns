@@ -29,6 +29,7 @@
 		4654D57F22212B5100782AFA /* MainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4654D57D22212B5100782AFA /* MainTableViewCell.xib */; };
 		4654D5812221302200782AFA /* MockApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D568222122FF00782AFA /* MockApiClient.swift */; };
 		466C0109222399CE00F07766 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466C0108222399CE00F07766 /* MainViewModel.swift */; };
+		466C010B2223A84900F07766 /* ModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466C010A2223A84900F07766 /* ModuleBuilder.swift */; };
 		469EEA59222392D6005E75A3 /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EEA58222392D6005E75A3 /* UserLocation.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,7 @@
 		4654D57C22212B5100782AFA /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		4654D57D22212B5100782AFA /* MainTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainTableViewCell.xib; sourceTree = "<group>"; };
 		466C0108222399CE00F07766 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		466C010A2223A84900F07766 /* ModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBuilder.swift; sourceTree = "<group>"; };
 		469EEA58222392D6005E75A3 /* UserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,6 +153,7 @@
 				4654D55A2220F36400782AFA /* LocationService.swift */,
 				4654D56622210B2800782AFA /* Environment.swift */,
 				465010BE222236FE0062DF6D /* ImageCache.swift */,
+				466C010A2223A84900F07766 /* ModuleBuilder.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				4654D5652221057500782AFA /* Job.swift in Sources */,
 				4654D5352220F07200782AFA /* AppDelegate.swift in Sources */,
 				4654D56722210B2800782AFA /* Environment.swift in Sources */,
+				466C010B2223A84900F07766 /* ModuleBuilder.swift in Sources */,
 				465010C1222245510062DF6D /* App+UIImage.swift in Sources */,
 				4654D5812221302200782AFA /* MockApiClient.swift in Sources */,
 				4654D5572220F35100782AFA /* MainViewController.swift in Sources */,
