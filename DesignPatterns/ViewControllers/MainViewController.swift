@@ -21,78 +21,40 @@ extension MainViewController {
 }
 
 class MainViewController: UIViewController {
-    private(set) var userLocation: UserLocation? {
-        didSet {
-            guard let userLocation = self.userLocation else {
-                locationText.text = Constants.Text.noLocation
-                return
-            }
-            locationText.text = userLocation.parsed
-        }
-    }
-    private(set) var jobs: Jobs = []
+
     @IBOutlet weak var topDividerView: UIView!
     @IBOutlet weak var searchText: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var locationText: UITextField!
     @IBOutlet weak var locationView: UIView!
     @IBOutlet weak var currentLocationButton: UIButton!
+    var viewModel: MainViewModelInput!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         customize()
+        // TODO: inject
+        viewModel = MainViewModel(output: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        updateCurrentAddress()
+        viewModel.viewDidAppear()
     }
 }
 
-// MARK: - Private Methods
 private extension MainViewController {
-    func search() {
-        guard let query = searchText.text, !query.isEmpty else { return }
-        if let location = locationText.text {
-            updateAddressFor(location: location) { [weak self] in
-                self?.fetchJobs(query: query)
-            }
-        } else {
-            self.fetchJobs(query: query)
-        }
-        searchText.resignFirstResponder()
+    @objc func updateCurrentLocationTapped() {
+        viewModel.updateCurrentLocationTapped()
+    }
+}
+
+extension MainViewController: MainViewModelOutput {
+    func reloadTableView() {
+        tableView.reloadData()
     }
     
-    func fetchJobs(query: String) {
-        let route = userLocation != nil ? Route.parameters([.jobType: query, .location: userLocation!.city]) : Route.parameters([Parameter.jobType: query])
-        guard let url = URL(string: route.completeUrl) else { return }
-        CurrentEnvironment.apiClient.get(url: url) { [unowned self] result in
-            switch result {
-            case .success(let jobs):
-                self.jobs = jobs
-                self.tableView.reloadData()
-                
-            case .failed(let error):
-                self.showAlert(error: error)
-            }
-        }
-    }
-    
-    @objc func updateCurrentAddress() {
-        CurrentEnvironment.locationService.currentAddress { [unowned self] (placemark) in
-            if let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode {
-                self.userLocation = UserLocation(postalCode: postalCode, city: city, country: country)
-            }
-        }
-    }
-    
-    func updateAddressFor(location: String, completion: @escaping () -> Void) {
-        CurrentEnvironment.locationService.addressFor(location: location) { [unowned self] (placemark) in
-            guard let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode else {
-                return completion()
-            }
-            self.userLocation = UserLocation(postalCode: postalCode, city: city, country: country)
-            completion()
-        }
+    func userLocationChanged(_ userLocation: UserLocation) {
+        locationText.text = userLocation.parsed
     }
     
     func showAlert(error: Error) {
@@ -106,17 +68,20 @@ private extension MainViewController {
 // MARK: - UITableViewDataSource
 extension MainViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return viewModel.numberOfSections()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return jobs.count
+        return viewModel.numberOfRows()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as! MainTableViewCell
-        cell.titleLabel.text = jobs[indexPath.row].title
-        cell.companyNameLabel.text = jobs[indexPath.row].companyName
+        guard let job = viewModel.jobAtIndexPath(indexPath),
+            let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {
+            return UITableViewCell()
+        }
+        cell.titleLabel.text = job.title
+        cell.companyNameLabel.text = job.companyName
         return cell
     }
 }
@@ -125,8 +90,8 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let viewController = UIStoryboard.detail.instantiateInitialViewController() as? DetailViewController else { return }
-        let job = jobs[indexPath.row]
+        guard let viewController = UIStoryboard.detail.instantiateInitialViewController() as? DetailViewController,
+            let job = viewModel.jobAtIndexPath(indexPath) else { return }
         viewController.set(job: job)
         navigationController?.pushViewController(viewController, animated: true)
     }
@@ -135,7 +100,10 @@ extension MainViewController: UITableViewDelegate {
 // MARK: - UITextFieldDelegate
 extension MainViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        search()
+        if let query = searchText.text {
+            viewModel.searchTapped(query: query, location: locationText.text)
+        }
+        view.endEditing(true)
         return false
     }
 }
@@ -161,6 +129,7 @@ extension MainViewController: ViewCustomizing {
         locationView.backgroundColor = CurrentEnvironment.color.darkGray
         currentLocationButton.setImage(UIImage.location, for: .normal)
         currentLocationButton.imageView?.contentMode = .scaleAspectFit
+        locationText.text = Constants.Text.noLocation
     }
     
     func additionalSetup() {
@@ -168,6 +137,6 @@ extension MainViewController: ViewCustomizing {
     }
     
     func setupSelectors() {
-        currentLocationButton.addTarget(self, action: #selector(updateCurrentAddress), for: .touchUpInside)
+        currentLocationButton.addTarget(self, action: #selector(updateCurrentLocationTapped), for: .touchUpInside)
     }
 }
