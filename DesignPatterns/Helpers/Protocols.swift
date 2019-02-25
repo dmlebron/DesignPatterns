@@ -7,8 +7,9 @@
 
 import UIKit
 
+// MARK - ViewCustomizing
 protocol ViewCustomizing {
-    func viewLoaded()
+    func customize()
     func setupUI()
     func addSubviews()
     func addConstraints()
@@ -17,7 +18,7 @@ protocol ViewCustomizing {
 }
 
 extension ViewCustomizing {
-    func viewLoaded() {
+    func customize() {
         setupUI()
         setupSelectors()
         addSubviews()
@@ -31,6 +32,7 @@ extension ViewCustomizing {
     func additionalSetup() {}
 }
 
+// MARK - CellRegistration
 protocol CellRegistration where Self: UITableViewCell {
     static var identifier: String { get }
     static var nib: UINib { get }
@@ -49,6 +51,7 @@ extension CellRegistration {
     }
 }
 
+// MARK - DataDisplayable
 protocol DataDisplayable {
     associatedtype ViewData
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: - DataDisplayable
-extension MainViewController: DataDisplayable {
+extension MainViewController {
     private enum Constants {
         enum Text {
             static var title: String { return "Search Github Jobs" }
@@ -18,26 +18,16 @@ extension MainViewController: DataDisplayable {
             static var placeholderTitle: String { return "Input Search" }
         }
     }
-    
-    struct ViewData {
-        let postalCode: String
-        let city: String
-        let country: String
-        
-        var parsed: String {
-            return "\(city), \(country)"
-        }
-    }
 }
 
 class MainViewController: UIViewController {
-    private(set) var viewData: ViewData? {
+    private(set) var userLocation: UserLocation? {
         didSet {
-            guard let viewData = self.viewData else {
+            guard let userLocation = self.userLocation else {
                 locationText.text = Constants.Text.noLocation
                 return
             }
-            locationText.text = viewData.parsed
+            locationText.text = userLocation.parsed
         }
     }
     private(set) var jobs: Jobs = []
@@ -50,12 +40,11 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewLoaded()
+        customize()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         updateCurrentAddress()
-        searchText.becomeFirstResponder()
     }
 }
 
@@ -74,7 +63,7 @@ private extension MainViewController {
     }
     
     func fetchJobs(query: String) {
-        let route = viewData != nil ? Route.parameters([.jobType: query, .location: viewData!.postalCode]) : Route.parameters([Parameter.jobType: query])
+        let route = userLocation != nil ? Route.parameters([.jobType: query, .location: userLocation!.city]) : Route.parameters([Parameter.jobType: query])
         guard let url = URL(string: route.completeUrl) else { return }
         CurrentEnvironment.apiClient.get(url: url) { [unowned self] result in
             switch result {
@@ -91,7 +80,7 @@ private extension MainViewController {
     @objc func updateCurrentAddress() {
         CurrentEnvironment.locationService.currentAddress { [unowned self] (placemark) in
             if let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode {
-                self.viewData = ViewData(postalCode: postalCode, city: city, country: country)
+                self.userLocation = UserLocation(postalCode: postalCode, city: city, country: country)
             }
         }
     }
@@ -101,7 +90,7 @@ private extension MainViewController {
             guard let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode else {
                 return completion()
             }
-            self.viewData = ViewData(postalCode: postalCode, city: city, country: country)
+            self.userLocation = UserLocation(postalCode: postalCode, city: city, country: country)
             completion()
         }
     }
@@ -137,15 +126,9 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let viewController = UIStoryboard.detail.instantiateInitialViewController() as? DetailViewController else { return }
-        if let name = jobs[indexPath.row].companyName {
-            let urlString = jobs[indexPath.row].companyUrlString
-            let attributedDescription = jobs[indexPath.row].attributedDescriptionText
-            let location = jobs[indexPath.row].location
-            let imageUrlString = jobs[indexPath.row].companyLogo
-            let detailViewData = DetailViewController.ViewData(name: name, companyUrl: urlString, attributedDescription: attributedDescription, location: location, imageUrlString: imageUrlString)
-            viewController.set(viewData: detailViewData)
-            navigationController?.pushViewController(viewController, animated: true)
-        }
+        let job = jobs[indexPath.row]
+        viewController.set(job: job)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
@@ -160,6 +143,7 @@ extension MainViewController: UITextFieldDelegate {
 // MARK: - ViewCustomization
 extension MainViewController: ViewCustomizing {
     func setupUI() {
+        navigationItem.title = Constants.Text.title
         tableView.backgroundColor = CurrentEnvironment.color.white
         tableView.tableFooterView = UIView()
         tableView.rowHeight = UITableView.automaticDimension
@@ -168,11 +152,11 @@ extension MainViewController: ViewCustomizing {
         searchText.textColor = CurrentEnvironment.color.white
         let searchPlaceholder = NSAttributedString(string: Constants.Text.placeholderTitle, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         searchText.attributedPlaceholder = searchPlaceholder
+        searchText.clearButtonMode = .whileEditing
         locationText.textColor = CurrentEnvironment.color.white
         let locationPlaceholder = NSAttributedString(string: "Location", attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         locationText.attributedPlaceholder = locationPlaceholder
-        locationText.clearsOnBeginEditing = true
-        navigationItem.title = Constants.Text.title
+        locationText.clearButtonMode = .whileEditing
         view.backgroundColor = CurrentEnvironment.color.darkGray
         locationView.backgroundColor = CurrentEnvironment.color.darkGray
         currentLocationButton.setImage(UIImage.location, for: .normal)

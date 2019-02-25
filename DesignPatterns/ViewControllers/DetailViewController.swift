@@ -7,19 +7,8 @@
 
 import UIKit
 
-// MARK: - DataDisplayable
-extension DetailViewController: DataDisplayable {
-    struct ViewData {
-        let name: String
-        let companyUrl: String?
-        let attributedDescription: NSAttributedString?
-        let location: String?
-        let imageUrlString: String?
-    }
-}
-
 class DetailViewController: UIViewController {
-    private var viewData: ViewData?
+    private var job: Job?
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var topDividerView: UIView!
@@ -31,17 +20,17 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewLoaded()
-        nameLabel.text = viewData?.name
+        customize()
+        nameLabel.text = job?.companyName
         
-        websiteLabel.text = viewData?.companyUrl ?? "No URL"
-        locationLabel.text = viewData?.location ?? "No Location Data"
+        websiteLabel.text = job?.companyUrlString ?? "No URL"
+        locationLabel.text = job?.location ?? "No Location Data"
         
-        if let attributedDesription = viewData?.attributedDescription {
+        if let attributedDesription = job?.attributedDescriptionText {
             descriptionTextView.attributedText = attributedDesription
         }
         
-        viewData?.imageUrlString?.image { [weak self] (image) in
+        job?.companyLogo?.image { [weak self] (image) in
             self?.companyImageView.image = image
         }
     }
@@ -51,8 +40,8 @@ class DetailViewController: UIViewController {
         descriptionTextView.contentOffset = .zero
     }
     
-    func set(viewData: ViewData) {
-        self.viewData = viewData
+    func set(job: Job) {
+        self.job = job
     }
 }
 

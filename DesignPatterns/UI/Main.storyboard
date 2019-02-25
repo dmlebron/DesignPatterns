@@ -55,7 +55,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="jDj-Dg-EQM">
                                 <rect key="frame" x="8" y="64" width="359" height="100"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Query" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tB1-KY-3A3">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Query" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tB1-KY-3A3">
                                         <rect key="frame" x="0.0" y="0.0" width="359" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="LiA-x2-3gh"/>
