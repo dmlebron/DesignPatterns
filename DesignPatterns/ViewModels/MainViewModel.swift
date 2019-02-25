@@ -102,8 +102,8 @@ extension MainViewModel: MainViewModelInput {
     
     func cellTappedAtIndexPath(_ indexPath: IndexPath) {
         guard let job = jobAtIndexPath(indexPath) else { return }
-        let detailViewController = ModuleBuilder().detail(job: job)
-        output?.pushViewController(detailViewController)
+//        let detailViewController = ModuleBuilder().detail(job: job)
+//        output?.pushViewController(detailViewController)
     }
     
     func updateCurrentLocationTapped() {

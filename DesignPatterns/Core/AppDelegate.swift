@@ -35,9 +35,8 @@ private extension AppDelegate {
     }
     
     func setupWindow() {
-        let builder = ModuleBuilder()
-        let mainViewController = builder.main()
-        let navigationController = UINavigationController(rootViewController: mainViewController)
+        let mainBuilder = MainModuleBuilder()
+        let navigationController = MainRouter.present(builder: mainBuilder)
         let window = UIWindow()
         window.rootViewController = navigationController
         window.makeKeyAndVisible()

@@ -7,6 +7,14 @@
 
 import UIKit
 
+protocol MainViewInput: AnyObject {
+    
+}
+
+protocol MainViewOutput: AnyObject {
+    func set(view: MainViewInput)
+}
+
 // MARK: - DataDisplayable
 extension MainViewController {
     private enum Constants {
@@ -48,7 +56,7 @@ private extension MainViewController {
 }
 
 // MARK: - MainViewModelOutput
-extension MainViewController: MainViewModelOutput {
+extension MainViewController: MainViewInput {
     func set(viewModel: MainViewModelInput) {
         self.viewModel = viewModel
     }

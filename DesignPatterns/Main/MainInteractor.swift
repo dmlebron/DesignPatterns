@@ -8,17 +8,25 @@
 
 import Foundation
 
-protocol MainInteractorInput {
+protocol MainInteractorInput: AnyObject {
     func fetchJobs(query: String)
     func updateCurrentAddress()
 }
 
-protocol MainInteractorOutput {
-    
+protocol MainInteractorOutput: AnyObject {
+    func userLocationChanged(_ userLocation: UserLocation?)
+    func changed(jobs: Jobs)
+    func failed(error: Error)
 }
 
 final class MainInteractor {
-    
+    private var userLocation: UserLocation? {
+        didSet {
+            output?.userLocationChanged(userLocation)
+        }
+    }
+    private(set) var jobs: Jobs = []
+    weak var output: MainInteractorOutput?
 }
 
 extension MainInteractor: MainInteractorInput {
@@ -29,10 +37,10 @@ extension MainInteractor: MainInteractorInput {
             switch result {
             case .success(let jobs):
                 self.jobs = jobs
-                self.output?.reloadTableView()
+                self.output?.changed(jobs: jobs)
                 
             case .failed(let error):
-                self.output?.showAlert(error: error)
+                self.output?.failed(error: error)
             }
         }
     }
