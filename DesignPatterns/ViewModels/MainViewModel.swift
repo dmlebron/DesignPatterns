@@ -7,7 +7,6 @@
 
 import Foundation
 
-// MARK: - MainViewModelInput
 protocol MainViewModelInput: AnyObject {
     func viewDidAppear()
     func searchTapped(query: String, location: String?)
@@ -17,9 +16,8 @@ protocol MainViewModelInput: AnyObject {
     func jobAtIndexPath(_ indexPath: IndexPath) -> Job?
 }
 
-// MARK: - MainViewModelOutput
 protocol MainViewModelOutput: AnyObject {
-    func setViewModel(_ viewModel: MainViewModelInput)
+    func set(viewModel: MainViewModelInput)
     func reloadTableView()
     func userLocationChanged(_ userLocation: UserLocation?)
     func showAlert(error: Error)

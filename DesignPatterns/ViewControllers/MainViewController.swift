@@ -49,7 +49,7 @@ private extension MainViewController {
 
 // MARK: - MainViewModelOutput
 extension MainViewController: MainViewModelOutput {
-    func setViewModel(_ viewModel: MainViewModelInput) {
+    func set(viewModel: MainViewModelInput) {
         self.viewModel = viewModel
     }
     
@@ -94,10 +94,9 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let viewController = UIStoryboard.detail.instantiateInitialViewController() as? DetailViewController,
-            let job = viewModel.jobAtIndexPath(indexPath) else { return }
-        viewController.set(job: job)
-        navigationController?.pushViewController(viewController, animated: true)
+        guard let job = viewModel.jobAtIndexPath(indexPath) else { return }
+        let detailViewController = ModuleBuilder().detail(job: job)
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 

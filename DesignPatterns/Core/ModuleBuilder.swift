@@ -8,11 +8,17 @@
 import UIKit
 
 struct ModuleBuilder {
-    func main() -> UINavigationController {
-        let navigationController = UIStoryboard.main.instantiateInitialViewController() as! UINavigationController
-        let mainViewController = navigationController.topViewController as! MainViewController
+    func main() -> UIViewController {
+        let mainViewController = UIStoryboard.main.instantiateInitialViewController() as! MainViewController
         let mainViewModel = MainViewModel(output: mainViewController)
-        mainViewController.setViewModel(mainViewModel)
-        return navigationController
+        mainViewController.set(viewModel: mainViewModel)
+        return mainViewController
+    }
+    
+    func detail(job: Job) -> UIViewController {
+        let detailViewController = UIStoryboard.detail.instantiateInitialViewController() as! DetailViewController
+        let detailViewModel = DetailViewModel(output: detailViewController, job: job)
+        detailViewController.set(viewModel: detailViewModel)
+        return detailViewController
     }
 }

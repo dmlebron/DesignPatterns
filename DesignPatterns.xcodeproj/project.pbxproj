@@ -31,6 +31,7 @@
 		466C0109222399CE00F07766 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466C0108222399CE00F07766 /* MainViewModel.swift */; };
 		466C010B2223A84900F07766 /* ModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466C010A2223A84900F07766 /* ModuleBuilder.swift */; };
 		469EEA59222392D6005E75A3 /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EEA58222392D6005E75A3 /* UserLocation.swift */; };
+		EEF6D2DD22247A6F004BE390 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF6D2DC22247A6E004BE390 /* DetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		466C0108222399CE00F07766 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		466C010A2223A84900F07766 /* ModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBuilder.swift; sourceTree = "<group>"; };
 		469EEA58222392D6005E75A3 /* UserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
+		EEF6D2DC22247A6E004BE390 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				466C0108222399CE00F07766 /* MainViewModel.swift */,
+				EEF6D2DC22247A6E004BE390 /* DetailViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				4654D57E22212B5100782AFA /* MainTableViewCell.swift in Sources */,
 				4654D57A2221299C00782AFA /* App+Storyboard.swift in Sources */,
 				465010BF222236FE0062DF6D /* ImageCache.swift in Sources */,
+				EEF6D2DD22247A6F004BE390 /* DetailViewModel.swift in Sources */,
 				4654D5782221294800782AFA /* DetailViewController.swift in Sources */,
 				4654D5602220F38D00782AFA /* Protocols.swift in Sources */,
 				469EEA59222392D6005E75A3 /* UserLocation.swift in Sources */,

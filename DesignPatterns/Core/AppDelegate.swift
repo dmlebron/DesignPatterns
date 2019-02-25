@@ -17,13 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CurrentEnvironment.locationService.requestWhenInUseAuthorization()
         setupSharedUI()
         
-        let builder = ModuleBuilder()
-        let navigationController = builder.main()
-        
-        let window = UIWindow()
-        window.rootViewController = navigationController
-        window.makeKeyAndVisible()
-        self.window = window
+        setupWindow()
         
         return true
     }
@@ -38,5 +32,15 @@ private extension AppDelegate {
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().tintColor = CurrentEnvironment.color.white
+    }
+    
+    func setupWindow() {
+        let builder = ModuleBuilder()
+        let mainViewController = builder.main()
+        let navigationController = UINavigationController(rootViewController: mainViewController)
+        let window = UIWindow()
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
+        self.window = window
     }
 }

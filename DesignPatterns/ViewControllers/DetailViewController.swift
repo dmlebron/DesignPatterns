@@ -7,12 +7,27 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
-    private var job: Job?
+// MARK: - Objects
+extension DetailViewController {
+    struct ViewData {
+        let name: String
+        let description: NSAttributedString
+        let location: String
+        let urlString: String
+    }
+    
+    enum WebsiteUrlButtonState {
+        case active(String)
+        case inactive(String)
+    }
+}
+
+final class DetailViewController: UIViewController {
+    private var viewModel: DetailViewModelInput!
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var topDividerView: UIView!
-    @IBOutlet weak var websiteLabel: UILabel!
+    @IBOutlet weak var websiteUrlButton: UIButton!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var topLabelsStackView: UIStackView!
@@ -21,27 +36,37 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         customize()
-        nameLabel.text = job?.companyName
-        
-        websiteLabel.text = job?.companyUrlString ?? "No URL"
-        locationLabel.text = job?.location ?? "No Location Data"
-        
-        if let attributedDesription = job?.attributedDescriptionText {
-            descriptionTextView.attributedText = attributedDesription
-        }
-        
-        job?.companyLogo?.image { [weak self] (image) in
-            self?.companyImageView.image = image
-        }
+        viewModel.viewDidLoad()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         descriptionTextView.contentOffset = .zero
     }
+}
+
+// MARK: - Private Methods
+private extension DetailViewController {
+    @objc func websiteUrlButtonTapped() {
+        viewModel.websiteUrlButtonTapped()
+    }
+}
+
+// MARK: - DetailViewModelOutput
+extension DetailViewController: DetailViewModelOutput {
+    func changed(viewData: ViewData) {
+        nameLabel.text = viewData.name
+        websiteUrlButton.setTitle(viewData.urlString, for: .normal)
+        locationLabel.text = viewData.location
+        descriptionTextView.attributedText = viewData.description
+    }
     
-    func set(job: Job) {
-        self.job = job
+    func set(viewModel: DetailViewModelInput) {
+        self.viewModel = viewModel
+    }
+    
+    func set(companyLogo: UIImage?) {
+        companyImageView.image = companyLogo
     }
 }
 
@@ -51,5 +76,9 @@ extension DetailViewController: ViewCustomizing {
         nameLabel.textColor = CurrentEnvironment.color.darkGray
         topDividerView.backgroundColor = CurrentEnvironment.color.darkGray
         companyImageView.contentMode = .scaleAspectFit
+    }
+    
+    func setupSelectors() {
+        websiteUrlButton.addTarget(self, action: #selector(websiteUrlButtonTapped), for: .touchUpInside)
     }
 }
