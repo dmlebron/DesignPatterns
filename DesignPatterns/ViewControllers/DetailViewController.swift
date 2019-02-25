@@ -12,7 +12,7 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var topDividerView: UIView!
-    @IBOutlet weak var websiteLabel: UILabel!
+    @IBOutlet weak var websiteUrlButton: UIButton!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var topLabelsStackView: UIStackView!
@@ -21,18 +21,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         customize()
-        nameLabel.text = job?.companyName
-        
-        websiteLabel.text = job?.companyUrlString ?? "No URL"
-        locationLabel.text = job?.location ?? "No Location Data"
-        
-        if let attributedDesription = job?.attributedDescriptionText {
-            descriptionTextView.attributedText = attributedDesription
-        }
-        
-        job?.companyLogo?.image { [weak self] (image) in
-            self?.companyImageView.image = image
-        }
+        setupData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -45,11 +34,42 @@ class DetailViewController: UIViewController {
     }
 }
 
+// MARK: - Private Methods
+private extension DetailViewController {
+    @objc func websiteUrlButtonTapped() {
+        guard let url = job?.companyUrl else { return }
+        UIApplication.shared.open(url)
+    }
+    
+    func setupData() {
+        nameLabel.text = job?.companyName
+        websiteUrlButton.setTitle(job?.companyUrlString, for: .normal)
+        websiteUrlButton.setTitle("No URL", for: .disabled)
+        locationLabel.text = job?.location ?? "No Location Data"
+        
+        if job?.companyUrl == nil {
+            websiteUrlButton.isEnabled = false
+        }
+        
+        if let attributedDesription = job?.attributedDescriptionText {
+            descriptionTextView.attributedText = attributedDesription
+        }
+        
+        job?.companyLogo?.image { [weak self] (image) in
+            self?.companyImageView.image = image
+        }
+    }
+}
+
 // MARK: - ViewCustomizing
 extension DetailViewController: ViewCustomizing {
     func setupUI() {
         nameLabel.textColor = CurrentEnvironment.color.darkGray
         topDividerView.backgroundColor = CurrentEnvironment.color.darkGray
         companyImageView.contentMode = .scaleAspectFit
+    }
+    
+    func setupSelectors() {
+        websiteUrlButton.addTarget(self, action: #selector(websiteUrlButtonTapped), for: .touchUpInside)
     }
 }

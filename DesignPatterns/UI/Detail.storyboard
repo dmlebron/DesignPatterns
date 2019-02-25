@@ -29,7 +29,7 @@
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="P8Y-wZ-oFS">
-                                        <rect key="frame" x="91" y="6.5" width="268" height="62.5"/>
+                                        <rect key="frame" x="91" y="0.5" width="268" height="74.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pP2-A8-NYK">
                                                 <rect key="frame" x="0.0" y="0.0" width="268" height="26.5"/>
@@ -43,12 +43,10 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b0C-Yh-fNC">
-                                                <rect key="frame" x="0.0" y="44.5" width="268" height="18"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e0h-zd-EXL">
+                                                <rect key="frame" x="0.0" y="44.5" width="268" height="30"/>
+                                                <state key="normal" title="Button"/>
+                                            </button>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -92,7 +90,7 @@
                         <outlet property="nameLabel" destination="pP2-A8-NYK" id="DkS-E0-MuU"/>
                         <outlet property="topDividerView" destination="LlN-YC-MK6" id="6As-Hr-xp3"/>
                         <outlet property="topLabelsStackView" destination="P8Y-wZ-oFS" id="0Kq-wV-ZzN"/>
-                        <outlet property="websiteLabel" destination="b0C-Yh-fNC" id="7Fr-CS-8C6"/>
+                        <outlet property="websiteUrlButton" destination="e0h-zd-EXL" id="fCl-Oe-qo6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t82-JZ-9au" userLabel="First Responder" sceneMemberID="firstResponder"/>
