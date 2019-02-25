@@ -10,13 +10,15 @@ import UIKit
 
 protocol DetailViewModelInput: AnyObject {
     func viewDidLoad()
-    func func websiteUrlButtonTapped()
+    func websiteUrlButtonTapped()
 }
 
 protocol DetailViewModelOutput: AnyObject {
-    func set(viewModel: DetailViewModelInput)
     func changed(viewData: DetailViewController.ViewData)
+    func set(viewModel: DetailViewModelInput)
     func set(companyLogo: UIImage?)
+    func set(websiteUrlState: DetailViewController.WebsiteUrlState)
+    func openUrl(_ url: URL)
 }
 
 extension DetailViewModel {
@@ -43,9 +45,23 @@ private extension DetailViewModel {
         guard let name = job.companyName else { return }
         let location = job.location ?? Constants.noLocationString
         let urlString = job.companyUrlString ?? Constants.noUrlString
-        let description = Constants.noDescriptionAttributedString
+        let description = job.attributedDescriptionText ?? Constants.noDescriptionAttributedString
         let viewData = DetailViewController.ViewData(name: name, description: description, location: location, urlString: urlString)
         output?.changed(viewData: viewData)
+    }
+    
+    func prepareWebsiteUrl() {
+        let websiteUrlState: DetailViewController.WebsiteUrlState
+        if let urlString = job.companyUrlString {
+            websiteUrlState = DetailViewController.WebsiteUrlState(isEnabled: true,
+                                                                   title: urlString,
+                                                                   state: .normal)
+        } else {
+            websiteUrlState = DetailViewController.WebsiteUrlState(isEnabled: false,
+                                                                   title: Constants.noUrlString,
+                                                                   state: .disabled)
+        }
+        output?.set(websiteUrlState: websiteUrlState)
     }
     
     func loadCompanyLogo() {
@@ -58,7 +74,13 @@ private extension DetailViewModel {
 // MARK: - DetailViewModelInput
 extension DetailViewModel: DetailViewModelInput {
     func viewDidLoad() {
-        prepareViewData()
         loadCompanyLogo()
+        prepareViewData()
+        prepareWebsiteUrl()
+    }
+    
+    func websiteUrlButtonTapped() {
+        guard let url = job.companyUrl else { return }
+        output?.openUrl(url)
     }
 }

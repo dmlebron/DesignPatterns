@@ -5,11 +5,12 @@
 //  Copyright © 2019 dmlebron. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol MainViewModelInput: AnyObject {
     func viewDidAppear()
     func searchTapped(query: String, location: String?)
+    func cellTappedAtIndexPath(_ indexPath: IndexPath)
     func updateCurrentLocationTapped()
     func numberOfSections() -> Int
     func numberOfRows() -> Int
@@ -21,6 +22,7 @@ protocol MainViewModelOutput: AnyObject {
     func reloadTableView()
     func userLocationChanged(_ userLocation: UserLocation?)
     func showAlert(error: Error)
+    func pushViewController(_ viewcontroller: UIViewController)
 }
 
 // MARK: - Constants
@@ -96,6 +98,12 @@ extension MainViewModel: MainViewModelInput {
         } else {
             self.fetchJobs(query: query)
         }
+    }
+    
+    func cellTappedAtIndexPath(_ indexPath: IndexPath) {
+        guard let job = jobAtIndexPath(indexPath) else { return }
+        let detailViewController = ModuleBuilder().detail(job: job)
+        output?.pushViewController(detailViewController)
     }
     
     func updateCurrentLocationTapped() {

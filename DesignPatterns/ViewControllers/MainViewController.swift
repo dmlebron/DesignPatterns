@@ -67,6 +67,10 @@ extension MainViewController: MainViewModelOutput {
         alertController.addAction(alertAction)
         present(alertController, animated: true)
     }
+    
+    func pushViewController(_ viewcontroller: UIViewController) {
+        navigationController?.pushViewController(viewcontroller, animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -94,9 +98,7 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let job = viewModel.jobAtIndexPath(indexPath) else { return }
-        let detailViewController = ModuleBuilder().detail(job: job)
-        navigationController?.pushViewController(detailViewController, animated: true)
+        viewModel.cellTappedAtIndexPath(indexPath)
     }
 }
 

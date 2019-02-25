@@ -16,9 +16,10 @@ extension DetailViewController {
         let urlString: String
     }
     
-    enum WebsiteUrlButtonState {
-        case active(String)
-        case inactive(String)
+    struct WebsiteUrlState {
+        let isEnabled: Bool
+        let title: String
+        let state: UIControl.State
     }
 }
 
@@ -56,7 +57,6 @@ private extension DetailViewController {
 extension DetailViewController: DetailViewModelOutput {
     func changed(viewData: ViewData) {
         nameLabel.text = viewData.name
-        websiteUrlButton.setTitle(viewData.urlString, for: .normal)
         locationLabel.text = viewData.location
         descriptionTextView.attributedText = viewData.description
     }
@@ -67,6 +67,15 @@ extension DetailViewController: DetailViewModelOutput {
     
     func set(companyLogo: UIImage?) {
         companyImageView.image = companyLogo
+    }
+    
+    func set(websiteUrlState: WebsiteUrlState) {
+        websiteUrlButton.setTitle(websiteUrlState.title, for: websiteUrlState.state)
+        websiteUrlButton.isEnabled = websiteUrlState.isEnabled
+    }
+    
+    func openUrl(_ url: URL) {
+        UIApplication.shared.open(url)
     }
 }
 
