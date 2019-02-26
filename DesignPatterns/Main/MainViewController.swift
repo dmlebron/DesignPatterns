@@ -8,16 +8,30 @@
 import UIKit
 
 protocol MainViewInput: AnyObject {
-    
+    func changed(viewData: MainViewController.ViewData)
+    func showAlert(error: Error)
 }
 
 protocol MainViewOutput: AnyObject {
     func set(view: MainViewInput)
+    func viewDidAppear()
+    func searchTapped(query: String, location: String?)
+    func updateCurrentLocationTapped()
+    func cellTapped(job: Job?, navigationController: UINavigationController?)
 }
 
 // MARK: - DataDisplayable
 extension MainViewController {
+    enum ViewData {
+        case jobs(Jobs)
+        case userLocation(UserLocation?)
+    }
+    
     private enum Constants {
+        enum TableView {
+            static var numberOfSections: Int { return 1 }
+        }
+        
         enum Text {
             static var title: String { return "Search Github Jobs" }
             static var noLocation: String { return "No Location" }
@@ -36,7 +50,18 @@ class MainViewController: UIViewController {
     @IBOutlet weak var locationText: UITextField!
     @IBOutlet weak var locationView: UIView!
     @IBOutlet weak var currentLocationButton: UIButton!
-    private var viewModel: MainViewModelInput!
+    private var presenter: MainViewOutput!
+    private var viewData: ViewData?
+    private var jobs: Jobs = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    private var userLocation: UserLocation? {
+        didSet {
+            locationText.text = userLocation?.parsed ?? Constants.Text.noLocation
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,29 +69,31 @@ class MainViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        viewModel.viewDidAppear()
+        presenter.viewDidAppear()
     }
 }
 
 // MARK: - Private Methods
 private extension MainViewController {
     @objc func updateCurrentLocationTapped() {
-        viewModel.updateCurrentLocationTapped()
+        presenter.updateCurrentLocationTapped()
     }
 }
 
 // MARK: - MainViewModelOutput
 extension MainViewController: MainViewInput {
-    func set(viewModel: MainViewModelInput) {
-        self.viewModel = viewModel
+    func set(presenter: MainViewOutput) {
+        self.presenter = presenter
     }
     
-    func reloadTableView() {
-        tableView.reloadData()
-    }
-    
-    func userLocationChanged(_ userLocation: UserLocation?) {
-        locationText.text = userLocation?.parsed ?? Constants.Text.noLocation
+    func changed(viewData: MainViewController.ViewData) {
+        switch viewData {
+        case .jobs(let jobs):
+            self.jobs = jobs
+            
+        case .userLocation(let userLocation):
+            self.userLocation = userLocation
+        }
     }
     
     func showAlert(error: Error) {
@@ -75,27 +102,23 @@ extension MainViewController: MainViewInput {
         alertController.addAction(alertAction)
         present(alertController, animated: true)
     }
-    
-    func pushViewController(_ viewcontroller: UIViewController) {
-        navigationController?.pushViewController(viewcontroller, animated: true)
-    }
 }
 
 // MARK: - UITableViewDataSource
 extension MainViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.numberOfSections()
+        return Constants.TableView.numberOfSections
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRows()
+        return jobs.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let job = viewModel.jobAtIndexPath(indexPath),
-            let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {
             return UITableViewCell()
         }
+        let job = jobs[indexPath.row]
         cell.titleLabel.text = job.title
         cell.companyNameLabel.text = job.companyName
         return cell
@@ -106,7 +129,8 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        viewModel.cellTappedAtIndexPath(indexPath)
+        let job = jobs[indexPath.row]
+        presenter.cellTapped(job: job, navigationController: navigationController)
     }
 }
 
@@ -114,7 +138,7 @@ extension MainViewController: UITableViewDelegate {
 extension MainViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let query = searchText.text {
-            viewModel.searchTapped(query: query, location: locationText.text)
+            presenter.searchTapped(query: query, location: locationText.text)
         }
         view.endEditing(true)
         return false

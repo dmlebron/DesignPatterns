@@ -6,7 +6,7 @@
 //  Copyright © 2019 dmlebron. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 final class MainPresenter {
     private let interactor: MainInteractorInput
@@ -24,19 +24,36 @@ extension MainPresenter: MainViewOutput {
     func set(view: MainViewInput) {
         self.view = view
     }
+    
+    func viewDidAppear() {
+        interactor.updateCurrentAddress()
+    }
+    
+    func searchTapped(query: String, location: String?) {
+        interactor.fetchJobs(query: query, location: location)
+    }
+    
+    func updateCurrentLocationTapped() {
+        interactor.updateCurrentAddress()
+    }
+    
+    func cellTapped(job: Job?, navigationController: UINavigationController?) {
+        guard let navigationController = navigationController, let job = job else { return }
+        router.navigateToDetailViewController(context: navigationController, job: job)
+    }
 }
 
 // MARK: - MainInteractorOutput
 extension MainPresenter: MainInteractorOutput {
-    func userLocationChanged(_ userLocation: UserLocation?) {
-        
+    func changed(userLocation: UserLocation?) {
+        view?.changed(viewData: MainViewController.ViewData.userLocation(userLocation))
     }
     
     func changed(jobs: Jobs) {
-        
+        view?.changed(viewData: MainViewController.ViewData.jobs(jobs))
     }
     
     func failed(error: Error) {
-        
+        view?.showAlert(error: error)
     }
 }

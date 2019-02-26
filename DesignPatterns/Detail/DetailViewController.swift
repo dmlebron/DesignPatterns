@@ -7,24 +7,37 @@
 
 import UIKit
 
+protocol DetailViewInput: AnyObject {
+    func changed(viewData: DetailViewController.ViewData)
+    func set(companyLogo: UIImage?)
+}
+
+protocol DetailViewOutput: AnyObject {
+    func set(view: DetailViewInput)
+    func viewDidLoad()
+    func websiteUrlButtonTapped(url: URL?)
+}
+
 // MARK: - Objects
 extension DetailViewController {
     struct ViewData {
         let name: String
         let description: NSAttributedString
-        let location: String
-        let urlString: String
+        let location: String?
+        let urlString: String?
+        let url: URL?
     }
     
-    struct WebsiteUrlState {
-        let isEnabled: Bool
-        let title: String
-        let state: UIControl.State
+    enum Constants {
+        static var noUrlString: String { return "No URL" }
+        static var noLocationString: String { return "No Location Data" }
+        static var noDescriptionAttributedString: NSAttributedString { return NSAttributedString(string: "No Desription") }
     }
 }
 
 final class DetailViewController: UIViewController {
-    private var viewModel: DetailViewModelInput!
+    private var presenter: DetailViewOutput!
+    private var viewData: ViewData?
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var topDividerView: UIView!
@@ -37,7 +50,8 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         customize()
-        viewModel.viewDidLoad()
+        presenter.viewDidLoad()
+        prepareWebsiteUrl()
     }
     
     override func viewDidLayoutSubviews() {
@@ -49,33 +63,35 @@ final class DetailViewController: UIViewController {
 // MARK: - Private Methods
 private extension DetailViewController {
     @objc func websiteUrlButtonTapped() {
-        viewModel.websiteUrlButtonTapped()
+        presenter.websiteUrlButtonTapped(url: viewData?.url)
     }
+    
+    func prepareWebsiteUrl() {
+        if let urlString = viewData?.urlString {
+            websiteUrlButton.setTitle(urlString, for: .normal)
+            websiteUrlButton.isEnabled = true
+        } else {
+            websiteUrlButton.setTitle(Constants.noUrlString, for: .disabled)
+            websiteUrlButton.isEnabled = false
+        }
+    }
+
 }
 
 // MARK: - DetailViewModelOutput
-extension DetailViewController: DetailViewModelOutput {
+extension DetailViewController: DetailViewInput {
     func changed(viewData: ViewData) {
         nameLabel.text = viewData.name
         locationLabel.text = viewData.location
         descriptionTextView.attributedText = viewData.description
     }
     
-    func set(viewModel: DetailViewModelInput) {
-        self.viewModel = viewModel
+    func set(presenter: DetailViewOutput) {
+        self.presenter = presenter
     }
     
     func set(companyLogo: UIImage?) {
         companyImageView.image = companyLogo
-    }
-    
-    func set(websiteUrlState: WebsiteUrlState) {
-        websiteUrlButton.setTitle(websiteUrlState.title, for: websiteUrlState.state)
-        websiteUrlButton.isEnabled = websiteUrlState.isEnabled
-    }
-    
-    func openUrl(_ url: URL) {
-        UIApplication.shared.open(url)
     }
 }
 

@@ -9,19 +9,19 @@
 import UIKit
 
 protocol MainRouterInput: AnyObject {
-    static func present(builder: MainModuleBuilder) -> UINavigationController
+    static func navigationControllerForMainModuleSetup(builder: MainModuleBuilder) -> UINavigationController
     func navigateToDetailViewController(context: UINavigationController, job: Job)
 }
 
 final class MainRouter: MainRouterInput {
-    static func present(builder: MainModuleBuilder) -> UINavigationController {
+    static func navigationControllerForMainModuleSetup(builder: MainModuleBuilder) -> UINavigationController {
         let module = builder.module
         let context = UINavigationController(rootViewController: module)
-        context.pushViewController(module, animated: true)
         return context
     }
     
     func navigateToDetailViewController(context: UINavigationController, job: Job) {
-        
+        let builder = DetailModuleBuilder()
+        DetailRouter.present(job: job, builder: builder, context: context)
     }
 }

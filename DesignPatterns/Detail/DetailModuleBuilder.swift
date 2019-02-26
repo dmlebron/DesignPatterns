@@ -8,9 +8,15 @@
 import UIKit
 
 struct DetailModuleBuilder {
-    var module: UIViewController {
-        let mainViewController = UIStoryboard.main.instantiateInitialViewController() as! MainViewController
+    func module(job: Job) -> UIViewController {
+        let view = UIStoryboard.detail.instantiateInitialViewController() as! DetailViewController
+        let router = DetailRouter()
+        let interactor = DetailInteractor(job: job)
+        let presenter = DetailPresenter(interactor: interactor, router: router)
+        interactor.set(presenter: presenter)
+        presenter.set(view: view)
+        view.set(presenter: presenter)
         
-        return mainViewController
+        return view
     }
 }

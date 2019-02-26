@@ -10,11 +10,13 @@ import UIKit
 
 struct MainModuleBuilder {
     var module: UIViewController {
-        let mainViewController = UIStoryboard.main.instantiateInitialViewController() as! MainViewController
+        let view = UIStoryboard.main.instantiateInitialViewController() as! MainViewController
         let router = MainRouter()
         let interactor = MainInteractor()
         let presenter = MainPresenter(interactor: interactor, router: router)
-        presenter.set(view: mainViewController)
-        return mainViewController
+        interactor.set(presenter: presenter)
+        presenter.set(view: view)
+        view.set(presenter: presenter)
+        return view
     }
 }

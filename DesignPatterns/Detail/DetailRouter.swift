@@ -9,17 +9,18 @@
 import UIKit
 
 protocol DetailRouterInput: AnyObject {
-    static func present(builder: DetailModuleBuilder, context: UINavigationController)
-    func navigateToDetailViewController(context: UINavigationController, job: Job)
+    static func present(job: Job, builder: DetailModuleBuilder, context: UINavigationController)
+    func openUrl(_ url: URL?)
 }
 
 final class DetailRouter: DetailRouterInput {
-    static func present(builder: DetailModuleBuilder, context: UINavigationController) {
-        let module = builder.module
+    static func present(job: Job, builder: DetailModuleBuilder, context: UINavigationController) {
+        let module = builder.module(job: job)
         context.pushViewController(module, animated: true)
     }
     
-    func navigateToDetailViewController(context: UINavigationController, job: Job) {
-        
+    func openUrl(_ url: URL?) {
+        guard let url = url else { return }
+        UIApplication.shared.open(url)
     }
 }
