@@ -54,18 +54,16 @@ private extension DetailViewModel {
         let websiteUrlState: DetailViewController.WebsiteUrlState
         if let urlString = job.companyUrlString {
             websiteUrlState = DetailViewController.WebsiteUrlState(isEnabled: true,
-                                                                   title: urlString,
-                                                                   state: .normal)
+                                                                   title: urlString)
         } else {
             websiteUrlState = DetailViewController.WebsiteUrlState(isEnabled: false,
-                                                                   title: Constants.noUrlString,
-                                                                   state: .disabled)
+                                                                   title: Constants.noUrlString)
         }
         output?.set(websiteUrlState: websiteUrlState)
     }
     
     func loadCompanyLogo() {
-        job.companyLogo?.image { [unowned self] (image) in
+        job.imageUrl?.loadImage { [unowned self] (image) in
             self.output?.set(companyLogo: image)
         }
     }

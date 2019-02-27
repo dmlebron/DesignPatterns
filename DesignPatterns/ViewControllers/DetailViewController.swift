@@ -19,7 +19,6 @@ extension DetailViewController {
     struct WebsiteUrlState {
         let isEnabled: Bool
         let title: String
-        let state: UIControl.State
     }
 }
 
@@ -70,7 +69,7 @@ extension DetailViewController: DetailViewModelOutput {
     }
     
     func set(websiteUrlState: WebsiteUrlState) {
-        websiteUrlButton.setTitle(websiteUrlState.title, for: websiteUrlState.state)
+        websiteUrlButton.setTitle(websiteUrlState.title, for: .normal)
         websiteUrlButton.isEnabled = websiteUrlState.isEnabled
     }
     
