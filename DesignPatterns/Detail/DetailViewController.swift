@@ -23,15 +23,10 @@ extension DetailViewController {
     struct ViewData {
         let name: String
         let description: NSAttributedString
-        let location: String?
-        let urlString: String?
+        let location: String
+        let urlString: String
         let url: URL?
-    }
-    
-    enum Constants {
-        static var noUrlString: String { return "No URL" }
-        static var noLocationString: String { return "No Location Data" }
-        static var noDescriptionAttributedString: NSAttributedString { return NSAttributedString(string: "No Desription") }
+        let isWebsiteButtonEnabled: Bool
     }
 }
 
@@ -51,7 +46,6 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         customize()
         presenter.viewDidLoad()
-        prepareWebsiteUrl()
     }
     
     override func viewDidLayoutSubviews() {
@@ -60,30 +54,14 @@ final class DetailViewController: UIViewController {
     }
 }
 
-// MARK: - Private Methods
-private extension DetailViewController {
-    @objc func websiteUrlButtonTapped() {
-        presenter.websiteUrlButtonTapped(url: viewData?.url)
-    }
-    
-    func prepareWebsiteUrl() {
-        if let urlString = viewData?.urlString {
-            websiteUrlButton.setTitle(urlString, for: .normal)
-            websiteUrlButton.isEnabled = true
-        } else {
-            websiteUrlButton.setTitle(Constants.noUrlString, for: .disabled)
-            websiteUrlButton.isEnabled = false
-        }
-    }
-
-}
-
 // MARK: - DetailViewModelOutput
 extension DetailViewController: DetailViewInput {
     func changed(viewData: ViewData) {
         nameLabel.text = viewData.name
         locationLabel.text = viewData.location
         descriptionTextView.attributedText = viewData.description
+        prepareWebsiteUrlButton(viewData: viewData)
+        self.viewData = viewData
     }
     
     func set(presenter: DetailViewOutput) {
@@ -92,6 +70,18 @@ extension DetailViewController: DetailViewInput {
     
     func set(companyLogo: UIImage?) {
         companyImageView.image = companyLogo
+    }
+}
+
+// MARK: - Private Methods
+private extension DetailViewController {
+    @objc func websiteUrlButtonTapped() {
+        presenter.websiteUrlButtonTapped(url: viewData?.url)
+    }
+
+    func prepareWebsiteUrlButton(viewData: ViewData) {
+        websiteUrlButton.setTitle(viewData.urlString, for: .normal)
+        websiteUrlButton.isEnabled = viewData.isWebsiteButtonEnabled
     }
 }
 

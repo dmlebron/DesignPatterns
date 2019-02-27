@@ -14,7 +14,7 @@ struct Job: Decodable {
     let title: String
     let companyUrlString: String?
     let companyLogo: String?
-    let companyName: String?
+    let companyName: String
     let type: String?
     let description: String?
     let location: String?
@@ -32,6 +32,11 @@ struct Job: Decodable {
     var companyUrl: URL? {
         guard let companyUrlString = companyUrlString else { return nil }
         return URL(string: companyUrlString)
+    }
+
+    var imageUrl: URL? {
+        guard let companyLogo = companyLogo else { return nil }
+        return URL(string: companyLogo)
     }
     
     var attributedDescriptionText: NSAttributedString? {

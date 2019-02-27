@@ -8,9 +8,20 @@
 
 import UIKit
 
+// MARK: - Constants
+private extension DetailPresenter {
+    enum Constants {
+        static var noUrlString: String { return "No URL" }
+        static var noLocationString: String { return "No Location Data" }
+        static var noDescriptionAttributedString: NSAttributedString { return NSAttributedString(string: "No Desription") }
+    }
+}
+
 final class DetailPresenter {
+    typealias ViewData = DetailViewController.ViewData
     private let router: DetailRouterInput
     private let interactor: DetailInteractorInput
+    private var job: Job?
     weak var view: DetailViewInput?
     
     init(interactor: DetailInteractorInput, router: DetailRouterInput) {
@@ -22,16 +33,9 @@ final class DetailPresenter {
 // MARK: - DetailViewOutput
 extension DetailPresenter: DetailViewOutput {
     func viewDidLoad() {
-        guard let name = job?.companyName,
-        let attributedDescription = job?.attributedDescriptionText else { return }
-        let viewData = DetailViewController.ViewData(name: name, description: attributedDescription, location: job?.location, urlString: job?.companyUrlString, url: job?.companyUrl)
-        view?.changed(viewData: viewData)
+        interactor.fetchJob()
     }
-    
-    func loadCompanyLogo(urlString: String?) {
-        interactor.loadCompanyLogo(stringUrl: urlString)
-    }
-    
+
     func websiteUrlButtonTapped(url: URL?) {
         router.openUrl(url)
     }
@@ -42,8 +46,30 @@ extension DetailPresenter: DetailInteractorOutput {
     func set(view: DetailViewInput) {
         self.view = view
     }
-    
-    func changed(companyLogo: UIImage?) {
-        view?.set(companyLogo: companyLogo)
+
+    func changed(job: Job) {
+        prepareViewModel(job: job)
+    }
+}
+
+// MARK: - Private Methods
+private extension DetailPresenter {
+    func prepareViewModel(job: Job) {
+        let name = job.companyName
+        let attributedDescription = job.attributedDescriptionText ?? Constants.noDescriptionAttributedString
+        let location = job.location ?? Constants.noLocationString
+        let urlString = job.companyUrlString ?? Constants.noUrlString
+        let isWebsiteButtonEnabled = job.companyUrl != nil
+        let viewData = ViewData(name: name,
+                                description: attributedDescription,
+                                location: location,
+                                urlString: urlString,
+                                url: job.companyUrl,
+                                isWebsiteButtonEnabled: isWebsiteButtonEnabled)
+        view?.changed(viewData: viewData)
+
+        job.imageUrl?.loadImage { [weak self] (image) in
+            self?.view?.set(companyLogo: image)
+        }
     }
 }

@@ -13,12 +13,15 @@ protocol DetailRouterInput: AnyObject {
     func openUrl(_ url: URL?)
 }
 
-final class DetailRouter: DetailRouterInput {
+final class DetailRouter {}
+
+// MARK: - DetailRouterInput
+extension DetailRouter: DetailRouterInput {
     static func present(job: Job, builder: DetailModuleBuilder, context: UINavigationController) {
         let module = builder.module(job: job)
         context.pushViewController(module, animated: true)
     }
-    
+
     func openUrl(_ url: URL?) {
         guard let url = url else { return }
         UIApplication.shared.open(url)

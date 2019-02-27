@@ -24,6 +24,7 @@ final class MainInteractor {
    private weak var presenter: MainInteractorOutput?
 }
 
+// MARK: - MainInteractorInput
 extension MainInteractor: MainInteractorInput {
     func set(presenter: MainInteractorOutput) {
         self.presenter = presenter

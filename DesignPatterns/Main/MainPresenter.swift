@@ -9,6 +9,7 @@
 import UIKit
 
 final class MainPresenter {
+    private typealias ViewData = MainViewController.ViewData
     private let interactor: MainInteractorInput
     private let router: MainRouterInput
     private weak var view: MainViewInput?
@@ -46,11 +47,11 @@ extension MainPresenter: MainViewOutput {
 // MARK: - MainInteractorOutput
 extension MainPresenter: MainInteractorOutput {
     func changed(userLocation: UserLocation?) {
-        view?.changed(viewData: MainViewController.ViewData.userLocation(userLocation))
+        view?.changed(viewData: ViewData.userLocation(userLocation))
     }
     
     func changed(jobs: Jobs) {
-        view?.changed(viewData: MainViewController.ViewData.jobs(jobs))
+        view?.changed(viewData: ViewData.jobs(jobs))
     }
     
     func failed(error: Error) {
