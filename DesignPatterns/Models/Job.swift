@@ -33,6 +33,11 @@ struct Job: Decodable {
         guard let companyUrlString = companyUrlString else { return nil }
         return URL(string: companyUrlString)
     }
+
+    var imageUrl: URL? {
+        guard let companyLogo = companyLogo else { return nil }
+        return URL(string: companyLogo)
+    }
     
     var attributedDescriptionText: NSAttributedString? {
         guard let htmlData = description?.data(using: String.Encoding.unicode) else {

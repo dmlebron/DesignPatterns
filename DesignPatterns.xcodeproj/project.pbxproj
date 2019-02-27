@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		465010BD22221D7C0062DF6D /* Image+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010BC22221D7C0062DF6D /* Image+String.swift */; };
+		465010BD22221D7C0062DF6D /* URL+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010BC22221D7C0062DF6D /* URL+String.swift */; };
 		465010BF222236FE0062DF6D /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010BE222236FE0062DF6D /* ImageCache.swift */; };
 		465010C1222245510062DF6D /* App+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010C0222245510062DF6D /* App+UIImage.swift */; };
 		4654D5352220F07200782AFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5342220F07200782AFA /* AppDelegate.swift */; };
@@ -42,7 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		465010BC22221D7C0062DF6D /* Image+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+String.swift"; sourceTree = "<group>"; };
+		465010BC22221D7C0062DF6D /* URL+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+String.swift"; sourceTree = "<group>"; };
 		465010BE222236FE0062DF6D /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		465010C0222245510062DF6D /* App+UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+UIImage.swift"; sourceTree = "<group>"; };
 		4654D5312220F07200782AFA /* DesignPatterns.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesignPatterns.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,7 +158,7 @@
 				4654D55F2220F38D00782AFA /* Protocols.swift */,
 				4654D5712221273C00782AFA /* Color.swift */,
 				4654D5792221299C00782AFA /* App+Storyboard.swift */,
-				465010BC22221D7C0062DF6D /* Image+String.swift */,
+				465010BC22221D7C0062DF6D /* URL+String.swift */,
 				465010C0222245510062DF6D /* App+UIImage.swift */,
 			);
 			path = Helpers;
@@ -308,7 +308,7 @@
 				4654D5782221294800782AFA /* DetailViewController.swift in Sources */,
 				4654D5602220F38D00782AFA /* Protocols.swift in Sources */,
 				469EEA59222392D6005E75A3 /* UserLocation.swift in Sources */,
-				465010BD22221D7C0062DF6D /* Image+String.swift in Sources */,
+				465010BD22221D7C0062DF6D /* URL+String.swift in Sources */,
 				4654D5652221057500782AFA /* Job.swift in Sources */,
 				4654D5352220F07200782AFA /* AppDelegate.swift in Sources */,
 				4654D56722210B2800782AFA /* Environment.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  Image+String.swift
+//  URL+String.swift
 //  DesignPatterns
 //
 //  Created by david martinez on 2/23/19.
@@ -9,19 +9,24 @@
 import UIKit
 
 extension URL {
-    func image(_ completion: @escaping (UIImage?) -> Void) {
-        if let image = CurrentEnvironment.imageCache.imageForKey(self) {
+    private var cachingKey: String {
+        return absoluteString
+    }
+
+    func loadImage(_ completion: @escaping (UIImage?) -> Void) {
+        if let image = CurrentEnvironment.imageCache.imageForKey(cachingKey) {
             completion(image)
             return
         }
-        
-        guard let url = URL(string: self) else {
-            return completion(nil)
-        }
-        
+
         DispatchQueue.global(qos: .userInitiated).async {
-            guard let data = try? Data(contentsOf: url), let image = UIImage(data: data) else { return completion(nil) }
-            CurrentEnvironment.imageCache.setImage(image, forKey: self)
+            guard let data = try? Data(contentsOf: self), let image = UIImage(data: data) else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            CurrentEnvironment.imageCache.setImage(image, forKey: self.cachingKey)
             DispatchQueue.main.async {
                 completion(image)
             }
