@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension String {
+extension URL {
     func image(_ completion: @escaping (UIImage?) -> Void) {
         if let image = CurrentEnvironment.imageCache.imageForKey(self) {
             completion(image)
