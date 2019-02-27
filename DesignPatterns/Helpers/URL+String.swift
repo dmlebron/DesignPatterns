@@ -1,5 +1,5 @@
 //
-//  Image+String.swift
+//  URL+String.swift
 //  DesignPatterns
 //
 //  Created by david martinez on 2/23/19.
