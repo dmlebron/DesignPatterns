@@ -8,8 +8,17 @@
 
 import UIKit
 
+// MARK: - Constants
+private extension MainPresenter {
+    enum Constants {
+        enum TableView {
+            static var numberOfSections: Int { return 1 }
+        }
+    }
+}
+
 final class MainPresenter {
-    private typealias ViewData = MainViewController.ViewData
+    private typealias ViewDataType = MainViewController.ViewDataType
     private let interactor: MainInteractorInput
     private let router: MainRouterInput
     private weak var view: MainViewInput?
@@ -47,14 +56,28 @@ extension MainPresenter: MainViewOutput {
 // MARK: - MainInteractorOutput
 extension MainPresenter: MainInteractorOutput {
     func changed(userLocation: UserLocation?) {
-        view?.changed(viewData: ViewData.userLocation(userLocation))
+        view?.changed(viewDataType: ViewDataType.userLocation(userLocation))
     }
     
     func changed(jobs: Jobs) {
-        view?.changed(viewData: ViewData.jobs(jobs))
+        prepareTableViewData(jobs: jobs)
     }
     
     func failed(error: Error) {
         view?.showAlert(error: error)
+    }
+}
+
+// MARK: - Private Methods
+private extension MainPresenter {
+    func prepareTableViewData(jobs: Jobs) {
+        var items: [IndexPath: Job] = [:]
+        
+        for (index, job) in jobs.enumerated() {
+            items[IndexPath(row: index, section: 0)] = job
+        }
+        
+        let tableViewData = MainViewController.TableViewViewData(numberOfSections: Constants.TableView.numberOfSections, numberOfRows: jobs.count, items: items)
+        view?.changed(viewDataType: ViewDataType.tableViewData(tableViewData))
     }
 }
