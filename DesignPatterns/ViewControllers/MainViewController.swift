@@ -8,8 +8,8 @@
 import UIKit
 
 // MARK: - DataDisplayable
-extension MainViewController {
-    private enum Constants {
+private extension MainViewController {
+    enum Constants {
         enum Text {
             static var title: String { return "Search Github Jobs" }
             static var noLocation: String { return "No Location" }
@@ -20,8 +20,7 @@ extension MainViewController {
     }
 }
 
-class MainViewController: UIViewController {
-
+final class MainViewController: UIViewController {
     @IBOutlet weak var topDividerView: UIView!
     @IBOutlet weak var searchText: UITextField!
     @IBOutlet weak var tableView: UITableView!

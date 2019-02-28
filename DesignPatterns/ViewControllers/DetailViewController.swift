@@ -20,15 +20,14 @@ extension DetailViewController {
         let isEnabled: Bool
         let title: String
     }
-    
+}
+
+// MARK: - Constants
+private extension DetailViewController {
     enum Constants {
         enum ReadMoreButton {
-            static var bottomLayerHeight: CGFloat {
-                return 1
-            }
-            static var heightConstraint: CGFloat {
-                return 30
-            }
+            static var bottomLayerHeight: CGFloat { return 1 }
+            static var heightConstraint: CGFloat { return 30 }
         }
     }
 }
