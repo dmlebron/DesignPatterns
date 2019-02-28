@@ -39,6 +39,10 @@ extension DetailPresenter: DetailViewOutput {
     func websiteUrlButtonTapped(url: URL?) {
         router.openUrl(url)
     }
+    
+    func readMoreButtonTapped(context: UINavigationController?, attributedDescription: NSAttributedString) {
+        router.navigateToJobDescriptionViewController(context: context, attributedDescription: attributedDescription)
+    }
 }
 
 // MARK: - DetailInteractorOutput

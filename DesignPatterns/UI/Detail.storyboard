@@ -43,7 +43,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vsj-Pm-mMg">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e0h-zd-EXL">
                                                 <rect key="frame" x="0.0" y="44.5" width="268" height="30"/>
                                                 <state key="normal" title="Button"/>
                                             </button>
@@ -58,24 +58,34 @@
                                     <constraint firstAttribute="height" constant="1" id="yTz-7m-sqT"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="C9Y-m1-1k6">
-                                <rect key="frame" x="8" y="93" width="359" height="566"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES"/>
-                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GSY-pH-ps6">
+                                <rect key="frame" x="8" y="86" width="359" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" clipsSubviews="YES" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UIM-xj-Nxb">
+                                <rect key="frame" x="8" y="106.5" width="359" height="0.0"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="PKI-zB-dae"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="Read More"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="LlN-YC-MK6" firstAttribute="top" secondItem="4cg-Aw-Izn" secondAttribute="bottom" constant="1" id="4OB-lY-8LF"/>
-                            <constraint firstItem="C9Y-m1-1k6" firstAttribute="top" secondItem="LlN-YC-MK6" secondAttribute="bottom" constant="8" id="9BQ-4w-rVf"/>
-                            <constraint firstItem="xQV-k0-xB7" firstAttribute="bottom" secondItem="C9Y-m1-1k6" secondAttribute="bottom" constant="8" id="Sci-Nx-YvG"/>
-                            <constraint firstItem="C9Y-m1-1k6" firstAttribute="leading" secondItem="xQV-k0-xB7" secondAttribute="leading" constant="8" id="cva-9B-o1v"/>
+                            <constraint firstItem="xQV-k0-xB7" firstAttribute="trailing" secondItem="GSY-pH-ps6" secondAttribute="trailing" constant="8" id="AsE-fu-UDV"/>
+                            <constraint firstItem="UIM-xj-Nxb" firstAttribute="leading" secondItem="xQV-k0-xB7" secondAttribute="leading" constant="8" id="ChW-Ll-905"/>
+                            <constraint firstItem="GSY-pH-ps6" firstAttribute="leading" secondItem="xQV-k0-xB7" secondAttribute="leading" constant="8" id="IR0-PC-cQO"/>
+                            <constraint firstItem="UIM-xj-Nxb" firstAttribute="top" secondItem="GSY-pH-ps6" secondAttribute="bottom" id="Sgk-br-iW2"/>
+                            <constraint firstItem="GSY-pH-ps6" firstAttribute="height" relation="lessThanOrEqual" secondItem="2d9-4Y-cky" secondAttribute="height" multiplier="0.5" id="Zgv-Yb-cjo"/>
                             <constraint firstItem="LlN-YC-MK6" firstAttribute="leading" secondItem="xQV-k0-xB7" secondAttribute="leading" constant="8" id="cxE-FO-aDr"/>
-                            <constraint firstItem="xQV-k0-xB7" firstAttribute="trailing" secondItem="C9Y-m1-1k6" secondAttribute="trailing" constant="8" id="hUV-1C-A3d"/>
+                            <constraint firstItem="xQV-k0-xB7" firstAttribute="trailing" secondItem="UIM-xj-Nxb" secondAttribute="trailing" constant="8" id="hBZ-pR-EKm"/>
                             <constraint firstItem="4cg-Aw-Izn" firstAttribute="leading" secondItem="xQV-k0-xB7" secondAttribute="leading" constant="8" id="mxr-zx-tHe"/>
+                            <constraint firstItem="GSY-pH-ps6" firstAttribute="top" secondItem="LlN-YC-MK6" secondAttribute="bottom" constant="1" id="nta-7o-ita"/>
                             <constraint firstItem="xQV-k0-xB7" firstAttribute="trailing" secondItem="4cg-Aw-Izn" secondAttribute="trailing" constant="8" id="oMb-lW-Gh6"/>
                             <constraint firstItem="4cg-Aw-Izn" firstAttribute="top" secondItem="2d9-4Y-cky" secondAttribute="top" constant="8" id="wCx-bZ-xl3"/>
                             <constraint firstItem="xQV-k0-xB7" firstAttribute="trailing" secondItem="LlN-YC-MK6" secondAttribute="trailing" constant="8" id="xMc-u7-y3k"/>
@@ -85,17 +95,52 @@
                     <navigationItem key="navigationItem" id="lXo-RT-VwW"/>
                     <connections>
                         <outlet property="companyImageView" destination="JRA-qx-eoK" id="I4C-Yr-zmb"/>
-                        <outlet property="descriptionTextView" destination="C9Y-m1-1k6" id="hbB-yk-w1v"/>
+                        <outlet property="descriptionLabel" destination="GSY-pH-ps6" id="pZ4-Dd-4OI"/>
                         <outlet property="locationLabel" destination="rNA-sa-INJ" id="4sE-Oq-Zsn"/>
                         <outlet property="nameLabel" destination="pP2-A8-NYK" id="DkS-E0-MuU"/>
+                        <outlet property="readMoreButton" destination="UIM-xj-Nxb" id="ZrT-Vc-k47"/>
+                        <outlet property="readMoreButtonConstraint" destination="PKI-zB-dae" id="p7u-yi-foN"/>
                         <outlet property="topDividerView" destination="LlN-YC-MK6" id="6As-Hr-xp3"/>
                         <outlet property="topLabelsStackView" destination="P8Y-wZ-oFS" id="0Kq-wV-ZzN"/>
-                        <outlet property="websiteUrlButton" destination="vsj-Pm-mMg" id="Ypl-zs-ipR"/>
+                        <outlet property="websiteUrlButton" destination="e0h-zd-EXL" id="fCl-Oe-qo6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t82-JZ-9au" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1072.8" y="100.29985007496252"/>
+        </scene>
+        <!--Job Description View Controller-->
+        <scene sceneID="JD1-aR-zwf">
+            <objects>
+                <viewController storyboardIdentifier="JobDescriptionViewController" id="woA-bK-8WI" customClass="JobDescriptionViewController" customModule="DesignPatterns" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HMd-fh-cgl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oWV-Zd-CAV">
+                                <rect key="frame" x="8" y="28" width="359" height="631"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="4OE-h6-Xjr" firstAttribute="bottom" secondItem="oWV-Zd-CAV" secondAttribute="bottom" constant="8" id="6m3-0h-yBF"/>
+                            <constraint firstItem="4OE-h6-Xjr" firstAttribute="trailing" secondItem="oWV-Zd-CAV" secondAttribute="trailing" constant="8" id="9NB-IB-das"/>
+                            <constraint firstItem="oWV-Zd-CAV" firstAttribute="top" secondItem="4OE-h6-Xjr" secondAttribute="top" constant="8" id="ASa-YB-hMB"/>
+                            <constraint firstItem="oWV-Zd-CAV" firstAttribute="leading" secondItem="4OE-h6-Xjr" secondAttribute="leading" constant="8" id="AxL-K1-G9f"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4OE-h6-Xjr"/>
+                    </view>
+                    <connections>
+                        <outlet property="descriptionTextView" destination="oWV-Zd-CAV" id="3Sv-IF-cam"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wDO-8I-cyX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1831" y="100"/>
         </scene>
     </scenes>
 </document>

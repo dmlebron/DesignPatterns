@@ -28,6 +28,9 @@
 		4654D57E22212B5100782AFA /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D57C22212B5100782AFA /* MainTableViewCell.swift */; };
 		4654D57F22212B5100782AFA /* MainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4654D57D22212B5100782AFA /* MainTableViewCell.xib */; };
 		4654D5812221302200782AFA /* MockApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D568222122FF00782AFA /* MockApiClient.swift */; };
+		4675E84222279A1100586622 /* Attr+Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E84122279A1100586622 /* Attr+Label.swift */; };
+		4675E84522279B7E00586622 /* JobDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E84422279B7E00586622 /* JobDescriptionViewController.swift */; };
+		4675E84722279EE900586622 /* JobDescriptionModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E84622279EE900586622 /* JobDescriptionModuleBuilder.swift */; };
 		469EEA59222392D6005E75A3 /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EEA58222392D6005E75A3 /* UserLocation.swift */; };
 		EEAED50822249AD600B9587B /* MainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAED50722249AD600B9587B /* MainInteractor.swift */; };
 		EEAED50A22249AE000B9587B /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAED50922249AE000B9587B /* MainPresenter.swift */; };
@@ -75,6 +78,9 @@
 		4654D5792221299C00782AFA /* App+Storyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+Storyboard.swift"; sourceTree = "<group>"; };
 		4654D57C22212B5100782AFA /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		4654D57D22212B5100782AFA /* MainTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainTableViewCell.xib; sourceTree = "<group>"; };
+		4675E84122279A1100586622 /* Attr+Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attr+Label.swift"; sourceTree = "<group>"; };
+		4675E84422279B7E00586622 /* JobDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDescriptionViewController.swift; sourceTree = "<group>"; };
+		4675E84622279EE900586622 /* JobDescriptionModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDescriptionModuleBuilder.swift; sourceTree = "<group>"; };
 		469EEA58222392D6005E75A3 /* UserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
 		EEAED50722249AD600B9587B /* MainInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInteractor.swift; sourceTree = "<group>"; };
 		EEAED50922249AE000B9587B /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
@@ -125,6 +131,7 @@
 		4654D5332220F07200782AFA /* DesignPatterns */ = {
 			isa = PBXGroup;
 			children = (
+				4675E84322279B6200586622 /* JobDescription */,
 				EEAED50622249AA600B9587B /* Detail */,
 				EEAED50522249A9C00B9587B /* Main */,
 				4654D53B2220F07300782AFA /* Assets.xcassets */,
@@ -135,7 +142,6 @@
 				4654D56C2221232300782AFA /* Mocks */,
 				4654D5632221056B00782AFA /* Models */,
 				4654D55E2220F37C00782AFA /* UI */,
-				4654D5552220F32D00782AFA /* ViewControllers */,
 			);
 			path = DesignPatterns;
 			sourceTree = "<group>";
@@ -149,13 +155,6 @@
 			path = DesignPatternsTests;
 			sourceTree = "<group>";
 		};
-		4654D5552220F32D00782AFA /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
 		4654D5582220F35B00782AFA /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,6 +163,7 @@
 				4654D55A2220F36400782AFA /* LocationService.swift */,
 				4654D56622210B2800782AFA /* Environment.swift */,
 				465010BE222236FE0062DF6D /* ImageCache.swift */,
+				4675E84122279A1100586622 /* Attr+Label.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -214,6 +214,15 @@
 				4654D57D22212B5100782AFA /* MainTableViewCell.xib */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		4675E84322279B6200586622 /* JobDescription */ = {
+			isa = PBXGroup;
+			children = (
+				4675E84422279B7E00586622 /* JobDescriptionViewController.swift */,
+				4675E84622279EE900586622 /* JobDescriptionModuleBuilder.swift */,
+			);
+			path = JobDescription;
 			sourceTree = "<group>";
 		};
 		EEAED50522249A9C00B9587B /* Main */ = {
@@ -347,6 +356,7 @@
 				4654D57A2221299C00782AFA /* App+Storyboard.swift in Sources */,
 				465010BF222236FE0062DF6D /* ImageCache.swift in Sources */,
 				4654D5782221294800782AFA /* DetailViewController.swift in Sources */,
+				4675E84522279B7E00586622 /* JobDescriptionViewController.swift in Sources */,
 				4654D5602220F38D00782AFA /* Protocols.swift in Sources */,
 				469EEA59222392D6005E75A3 /* UserLocation.swift in Sources */,
 				465010BD22221D7C0062DF6D /* URL+String.swift in Sources */,
@@ -361,8 +371,10 @@
 				4654D5812221302200782AFA /* MockApiClient.swift in Sources */,
 				EEAED51222249B2600B9587B /* MainRouter.swift in Sources */,
 				4654D5572220F35100782AFA /* MainViewController.swift in Sources */,
+				4675E84722279EE900586622 /* JobDescriptionModuleBuilder.swift in Sources */,
 				4654D5702221248F00782AFA /* MockLocationService.swift in Sources */,
 				4654D5722221273C00782AFA /* Color.swift in Sources */,
+				4675E84222279A1100586622 /* Attr+Label.swift in Sources */,
 				4654D55C2220F36400782AFA /* LocationService.swift in Sources */,
 				EEAED51622249B7A00B9587B /* MainModuleBuilder.swift in Sources */,
 				4654D55B2220F36400782AFA /* ApiClient.swift in Sources */,

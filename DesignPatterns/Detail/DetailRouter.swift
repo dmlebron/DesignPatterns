@@ -11,6 +11,7 @@ import UIKit
 protocol DetailRouterInput: AnyObject {
     static func present(job: Job, builder: DetailModuleBuilder, context: UINavigationController)
     func openUrl(_ url: URL?)
+    func navigateToJobDescriptionViewController(context: UINavigationController?, attributedDescription: NSAttributedString)
 }
 
 final class DetailRouter {}
@@ -25,5 +26,10 @@ extension DetailRouter: DetailRouterInput {
     func openUrl(_ url: URL?) {
         guard let url = url else { return }
         UIApplication.shared.open(url)
+    }
+    
+    func navigateToJobDescriptionViewController(context: UINavigationController?, attributedDescription: NSAttributedString) {
+        let viewController = JobDescriptionModuleBuilder().module(attributedDescription: attributedDescription)
+        context?.pushViewController(viewController, animated: true)
     }
 }

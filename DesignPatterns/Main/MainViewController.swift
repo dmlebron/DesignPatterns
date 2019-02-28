@@ -42,8 +42,7 @@ extension MainViewController {
     }
 }
 
-class MainViewController: UIViewController {
-
+final class MainViewController: UIViewController {
     @IBOutlet weak var topDividerView: UIView!
     @IBOutlet weak var searchText: UITextField!
     @IBOutlet weak var tableView: UITableView!
