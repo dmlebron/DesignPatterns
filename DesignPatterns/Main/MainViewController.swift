@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MainViewInput: AnyObject {
-    func changed(viewData: MainViewController.ViewData)
+    func changed(viewDataType: MainViewController.ViewDataType)
     func showAlert(error: Error)
 }
 
@@ -22,9 +22,15 @@ protocol MainViewOutput: AnyObject {
 
 // MARK: - DataDisplayable
 extension MainViewController {
-    enum ViewData {
-        case jobs(Jobs)
+    enum ViewDataType {
+        case tableViewData(TableViewViewData)
         case userLocation(UserLocation?)
+    }
+    
+    struct TableViewViewData {
+        let numberOfSections: Int
+        let numberOfRows: Int
+        let items: [IndexPath: Job]
     }
     
     private enum Constants {
@@ -50,12 +56,12 @@ final class MainViewController: UIViewController {
     @IBOutlet weak var locationView: UIView!
     @IBOutlet weak var currentLocationButton: UIButton!
     private var presenter: MainViewOutput!
-    private var viewData: ViewData?
-    private var jobs: Jobs = [] {
+    private var tableViewData = TableViewViewData(numberOfSections: 0, numberOfRows: 0, items: [:]) {
         didSet {
             tableView.reloadData()
         }
     }
+
     private var userLocation: UserLocation? {
         didSet {
             locationText.text = userLocation?.parsed ?? Constants.Text.noLocation
@@ -85,10 +91,10 @@ extension MainViewController: MainViewInput {
         self.presenter = presenter
     }
     
-    func changed(viewData: MainViewController.ViewData) {
-        switch viewData {
-        case .jobs(let jobs):
-            self.jobs = jobs
+    func changed(viewDataType: ViewDataType) {
+        switch viewDataType {
+        case .tableViewData(let data):
+            self.tableViewData = data
             
         case .userLocation(let userLocation):
             self.userLocation = userLocation
@@ -106,20 +112,20 @@ extension MainViewController: MainViewInput {
 // MARK: - UITableViewDataSource
 extension MainViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Constants.TableView.numberOfSections
+        return tableViewData.numberOfSections
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return jobs.count
+        return tableViewData.numberOfRows
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {
             return UITableViewCell()
         }
-        let job = jobs[indexPath.row]
-        cell.titleLabel.text = job.title
-        cell.companyNameLabel.text = job.companyName
+        let job = tableViewData.items[indexPath]
+        cell.titleLabel.text = job?.title
+        cell.companyNameLabel.text = job?.companyName
         return cell
     }
 }
@@ -128,7 +134,7 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let job = jobs[indexPath.row]
+        let job = tableViewData.items[indexPath]
         presenter.cellTapped(job: job, navigationController: navigationController)
     }
 }
