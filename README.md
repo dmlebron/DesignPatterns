@@ -3,7 +3,7 @@
 ## Todo
 
 - [x] add MVC
-- [x] add MVVM-INPUT-OUTPUT-DELEGATES
-- [ ] add VIPER-P-R-Builder
+- [x] add MVVM-Input-Output-Delegates
+- [x] add VIPER-Presenter-Router-Builder
 - [ ] add MVVM-Reactive
-- [ ] add VIPER-I-R NO Builder
+- [ ] add VIPER-Interactor-Router
