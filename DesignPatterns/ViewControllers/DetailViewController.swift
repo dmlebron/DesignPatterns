@@ -53,7 +53,7 @@ final class DetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel.viewDidAppear(isDescriptionLabelTruncated: descriptionLabel.isTruncated)
+        viewModel.shouldShowReadMoreButton(isDescriptionLabelTruncated: descriptionLabel.isTruncated)
     }
 }
 

@@ -10,7 +10,7 @@ import UIKit
 
 protocol DetailViewModelInput: AnyObject {
     func viewDidLoad()
-    func viewDidAppear(isDescriptionLabelTruncated: Bool)
+    func shouldShowReadMoreButton(isDescriptionLabelTruncated: Bool)
     func websiteUrlButtonTapped()
     func readMoreButtonTapped()
 }
@@ -81,7 +81,7 @@ extension DetailViewModel: DetailViewModelInput {
         prepareWebsiteUrl()
     }
     
-    func viewDidAppear(isDescriptionLabelTruncated: Bool) {
+    func shouldShowReadMoreButton(isDescriptionLabelTruncated: Bool) {
         if isDescriptionLabelTruncated {
             output?.showReadMoreButton()
         }
