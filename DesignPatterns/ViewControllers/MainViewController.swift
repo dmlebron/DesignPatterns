@@ -7,9 +7,9 @@
 
 import UIKit
 
-// MARK: - DataDisplayable
-extension MainViewController {
-    private enum Constants {
+// MARK: - Constants
+private extension MainViewController {
+    enum Constants {
         enum Text {
             static var title: String { return "Search Github Jobs" }
             static var noLocation: String { return "No Location" }
@@ -20,7 +20,7 @@ extension MainViewController {
     }
 }
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     private(set) var userLocation: UserLocation? {
         didSet {
             guard let userLocation = self.userLocation else {

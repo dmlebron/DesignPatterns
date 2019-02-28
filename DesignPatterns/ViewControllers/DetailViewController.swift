@@ -7,7 +7,17 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+// MARK: - Constants
+private extension DetailViewController {
+    enum Constants {
+        enum ReadMoreButton {
+            static var bottomLayerHeight: CGFloat { return 1 }
+            static var heightConstraint: CGFloat { return 30 }
+        }
+    }
+}
+
+final class DetailViewController: UIViewController {
     private var job: Job?
     
     @IBOutlet weak var nameLabel: UILabel!
@@ -30,11 +40,11 @@ class DetailViewController: UIViewController {
         super.viewDidAppear(animated)
         if descriptionLabel.isTruncated {
             UIView.animate(withDuration: 0.5) { [unowned self] in
-                self.readMoreButtonConstraint.constant = 30
+                self.readMoreButtonConstraint.constant = Constants.ReadMoreButton.heightConstraint
                 self.view.layoutIfNeeded()
                 let bottomLayer = CALayer()
                 bottomLayer.backgroundColor = UIColor.black.cgColor
-                bottomLayer.frame = CGRect(x: 0, y: 0, width: self.readMoreButton.frame.width, height: 1)
+                bottomLayer.frame = CGRect(x: 0, y: 0, width: self.readMoreButton.frame.width, height: Constants.ReadMoreButton.heightConstraint)
                 self.readMoreButton.layer.addSublayer(bottomLayer)
             }
         }
