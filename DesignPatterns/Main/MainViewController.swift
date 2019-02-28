@@ -33,11 +33,7 @@ extension MainViewController {
         let items: [IndexPath: Job]
     }
     
-    private enum Constants {
-        enum TableView {
-            static var numberOfSections: Int { return 1 }
-        }
-        
+    enum Constants {
         enum Text {
             static var title: String { return "Search Github Jobs" }
             static var noLocation: String { return "No Location" }
