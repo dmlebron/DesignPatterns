@@ -10,7 +10,9 @@ import UIKit
 
 protocol DetailViewModelInput: AnyObject {
     func viewDidLoad()
+    func viewDidAppear(isDescriptionLabelTruncated: Bool)
     func websiteUrlButtonTapped()
+    func readMoreButtonTapped()
 }
 
 protocol DetailViewModelOutput: AnyObject {
@@ -19,6 +21,8 @@ protocol DetailViewModelOutput: AnyObject {
     func set(companyLogo: UIImage?)
     func set(websiteUrlState: DetailViewController.WebsiteUrlState)
     func openUrl(_ url: URL)
+    func showReadMoreButton()
+    func pushViewController(_ viewcontroller: UIViewController)
 }
 
 extension DetailViewModel {
@@ -77,8 +81,22 @@ extension DetailViewModel: DetailViewModelInput {
         prepareWebsiteUrl()
     }
     
+    func viewDidAppear(isDescriptionLabelTruncated: Bool) {
+        if isDescriptionLabelTruncated {
+            output?.showReadMoreButton()
+        }
+    }
+    
     func websiteUrlButtonTapped() {
         guard let url = job.companyUrl else { return }
         output?.openUrl(url)
+    }
+    
+    func readMoreButtonTapped() {
+        guard let jobDescriptionViewController = UIStoryboard.detail.instantiateViewController(withIdentifier: JobDescriptionViewController.storyboardIdentifier) as? JobDescriptionViewController, let attributedDescriptionText = job.attributedDescriptionText else {
+            return
+        }
+        jobDescriptionViewController.set(attributedDescription: attributedDescriptionText)
+        output?.pushViewController(jobDescriptionViewController)
     }
 }
