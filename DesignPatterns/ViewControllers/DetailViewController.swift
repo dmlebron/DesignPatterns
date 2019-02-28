@@ -13,10 +13,12 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var topDividerView: UIView!
     @IBOutlet weak var websiteUrlButton: UIButton!
-    @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var topLabelsStackView: UIStackView!
     @IBOutlet weak var companyImageView: UIImageView!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var readMoreButtonConstraint: NSLayoutConstraint!
+    @IBOutlet weak var readMoreButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +26,18 @@ class DetailViewController: UIViewController {
         setupData()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        descriptionTextView.contentOffset = .zero
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if descriptionLabel.isTruncated {
+            UIView.animate(withDuration: 0.5) { [unowned self] in
+                self.readMoreButtonConstraint.constant = 30
+                self.view.layoutIfNeeded()
+                let bottomLayer = CALayer()
+                bottomLayer.backgroundColor = UIColor.black.cgColor
+                bottomLayer.frame = CGRect(x: 0, y: 0, width: self.readMoreButton.frame.width, height: 1)
+                self.readMoreButton.layer.addSublayer(bottomLayer)
+            }
+        }
     }
     
     func set(job: Job) {
@@ -41,6 +52,14 @@ private extension DetailViewController {
         UIApplication.shared.open(url)
     }
     
+    @objc func readMoreButtonTapped() {
+        guard let jobDescriptionViewController = UIStoryboard.detail.instantiateViewController(withIdentifier: JobDescriptionViewController.storyboardIdentifier) as? JobDescriptionViewController, let attributedDescriptionText = job?.attributedDescriptionText else {
+            return
+        }
+        jobDescriptionViewController.set(attributedDescription: attributedDescriptionText)
+        navigationController?.pushViewController(jobDescriptionViewController, animated: true)
+    }
+    
     func setupData() {
         nameLabel.text = job?.companyName
         websiteUrlButton.setTitle(job?.companyUrlString, for: .normal)
@@ -52,7 +71,7 @@ private extension DetailViewController {
         }
         
         if let attributedDesription = job?.attributedDescriptionText {
-            descriptionTextView.attributedText = attributedDesription
+            descriptionLabel.attributedText = attributedDesription
         }
         
         job?.imageUrl?.loadImage { [weak self] (image) in
@@ -67,9 +86,12 @@ extension DetailViewController: ViewCustomizing {
         nameLabel.textColor = CurrentEnvironment.color.darkGray
         topDividerView.backgroundColor = CurrentEnvironment.color.darkGray
         companyImageView.contentMode = .scaleAspectFit
+        readMoreButton.setTitleColor(CurrentEnvironment.color.darkGray, for: .normal)
+        readMoreButton.backgroundColor = CurrentEnvironment.color.softGray
     }
     
     func setupSelectors() {
         websiteUrlButton.addTarget(self, action: #selector(websiteUrlButtonTapped), for: .touchUpInside)
+        readMoreButton.addTarget(self, action: #selector(readMoreButtonTapped), for: .touchUpInside)
     }
 }
