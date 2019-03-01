@@ -68,7 +68,7 @@ private extension MainViewModel {
     func updateCurrentAddress() {
         CurrentEnvironment.locationService.currentAddress { [unowned self] (placemark) in
             if let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode {
-                self.userLocation = UserLocation(postalCode: postalCode, city: city, country: country)
+                self.userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country)
             }
         }
     }
@@ -78,7 +78,7 @@ private extension MainViewModel {
             guard let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode else {
                 return completion()
             }
-            self.userLocation = UserLocation(postalCode: postalCode, city: city, country: country)
+            self.userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country)
             completion()
         }
     }
