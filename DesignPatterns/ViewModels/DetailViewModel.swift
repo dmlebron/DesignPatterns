@@ -22,7 +22,7 @@ protocol DetailViewModelOutput: AnyObject {
     func set(websiteUrlState: DetailViewController.WebsiteUrlState)
     func openUrl(_ url: URL)
     func showReadMoreButton()
-    func pushViewController(_ viewcontroller: UIViewController)
+    func pushViewController(_ viewController: UIViewController)
 }
 
 extension DetailViewModel {

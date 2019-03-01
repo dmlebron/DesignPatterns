@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		461DC3B62228D94D004151B7 /* UserLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461DC3B52228D94D004151B7 /* UserLocationTests.swift */; };
+		461DC3B82228E2D5004151B7 /* MainViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461DC3B72228E2D5004151B7 /* MainViewModelTests.swift */; };
 		465010BD22221D7C0062DF6D /* URL+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010BC22221D7C0062DF6D /* URL+String.swift */; };
 		465010BF222236FE0062DF6D /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010BE222236FE0062DF6D /* ImageCache.swift */; };
 		465010C1222245510062DF6D /* App+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010C0222245510062DF6D /* App+UIImage.swift */; };
@@ -49,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		461DC3B52228D94D004151B7 /* UserLocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationTests.swift; sourceTree = "<group>"; };
+		461DC3B72228E2D5004151B7 /* MainViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelTests.swift; sourceTree = "<group>"; };
 		465010BC22221D7C0062DF6D /* URL+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+String.swift"; sourceTree = "<group>"; };
 		465010BE222236FE0062DF6D /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		465010C0222245510062DF6D /* App+UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+UIImage.swift"; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 		461DC3B32228D92A004151B7 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				461DC3B72228E2D5004151B7 /* MainViewModelTests.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				461DC3B82228E2D5004151B7 /* MainViewModelTests.swift in Sources */,
 				4654D54A2220F07300782AFA /* DesignPatternsTests.swift in Sources */,
 				461DC3B62228D94D004151B7 /* UserLocationTests.swift in Sources */,
 			);

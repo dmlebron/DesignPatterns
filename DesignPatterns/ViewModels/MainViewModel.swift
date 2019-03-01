@@ -22,7 +22,7 @@ protocol MainViewModelOutput: AnyObject {
     func reloadTableView()
     func userLocationChanged(_ userLocation: UserLocation?)
     func showAlert(error: Error)
-    func pushViewController(_ viewcontroller: UIViewController)
+    func pushViewController(_ viewController: UIViewController)
 }
 
 // MARK: - Constants

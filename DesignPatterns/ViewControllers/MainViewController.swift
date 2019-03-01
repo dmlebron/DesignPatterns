@@ -67,8 +67,8 @@ extension MainViewController: MainViewModelOutput {
         present(alertController, animated: true)
     }
     
-    func pushViewController(_ viewcontroller: UIViewController) {
-        navigationController?.pushViewController(viewcontroller, animated: true)
+    func pushViewController(_ viewController: UIViewController) {
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
