@@ -43,7 +43,7 @@ extension MainInteractor: MainInteractorInput {
     func updateCurrentAddress() {
         CurrentEnvironment.locationService.currentAddress { [unowned self] (placemark) in
             if let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode {
-                let userLocation = UserLocation(postalCode: postalCode, city: city, country: country)
+                let userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country)
                 self.presenter?.changed(userLocation: userLocation)
             }
         }
@@ -71,7 +71,7 @@ private extension MainInteractor {
             guard let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode else {
                 return completion(nil)
             }
-            let userLocation = UserLocation(postalCode: postalCode, city: city, country: country)
+            let userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country)
             completion(userLocation)
         }
     }
