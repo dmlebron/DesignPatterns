@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import MapKit
 @testable import DesignPatterns
 
 final class MainViewModelTests: XCTestCase {
@@ -32,8 +33,40 @@ final class MainViewModelTests: XCTestCase {
         viewModel.updateCurrentLocationTapped()
         XCTAssertTrue(mockLocationService.didCallCurrentAdrress)
     }
+    
+    func test_SearchTapped_ValidQuery_NilLocation() {
+        let mockJob = Job(title: "Google", companyUrlString: nil, companyLogo: nil, companyName: nil, type: nil, description: nil, location: nil)
+        let expectedResult = ApiClient.Result.success([mockJob])
+        mockApiClient.expectedResult = expectedResult
+        
+        let query = "ios"
+        viewModel.searchTapped(query: query, location: nil)
+        
+        XCTAssertTrue(mockViewController.didCallReloadTableView)
+        XCTAssertTrue(viewModel.numberOfRows() == 1)
+    }
+    
+    func test_SearchTapped_ValidQuery_ValidLocation() {
+        let mockJob = Job(title: "Google", companyUrlString: nil, companyLogo: nil, companyName: nil, type: nil, description: nil, location: nil)
+        let expectedResult = ApiClient.Result.success([mockJob])
+        mockApiClient.expectedResult = expectedResult
+        let coordinate = CLLocationCoordinate2D(latitude: 42.361145, longitude: -71.057083)
+
+        let userLocation = UserLocation
+        mockLocationService.expectedUserLocation = userLocation
+        
+        let query = "ios"
+        viewModel.searchTapped(query: query, location: "02130")
+        
+        XCTAssertTrue(mockLocationService.didCallAddressForPostalCode)
+        //TODO: Fix to mock user location
+//        XCTAssertNotNil(mockViewController.userLocation)
+        XCTAssertTrue(mockViewController.didCallReloadTableView)
+        XCTAssertTrue(viewModel.numberOfRows() == 1)
+    }
 }
 
+// MARK: - MainViewModelOutput
 class MockMainViewControllerOutput: MainViewModelOutput {
     
     var viewModel: MainViewModelInput?

@@ -12,8 +12,8 @@ import Contacts
 
 protocol LocationServiceType {
     func requestWhenInUseAuthorization()
-    func currentAddress(completion: @escaping (MKPlacemark?) -> ())
-    func addressFor(location: String, completion: @escaping (MKPlacemark?) -> ())
+    func currentAddress(completion: @escaping (UserLocation?) -> ())
+    func addressFor(location: String, completion: @escaping (UserLocation?) -> ())
 }
 
 final class LocationService: LocationServiceType {
@@ -25,27 +25,29 @@ final class LocationService: LocationServiceType {
         locationManager.startUpdatingLocation()
     }
     
-    func currentAddress(completion: @escaping (MKPlacemark?) -> ()) {
+    func currentAddress(completion: @escaping (UserLocation?) -> ()) {
         guard let location = locationManager.location else { return completion(nil) }
         
         geo.reverseGeocodeLocation(location) { (placemarks, error) in
-            guard let location = placemarks?.first?.location, let postalAddress = placemarks?.first?.postalAddress else {
+            guard let city = placemarks?.first?.locality,
+                let postalCode = placemarks?.first?.postalCode,
+                let country = placemarks?.first?.isoCountryCode,
+                let userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country) else {
                 return completion(nil)
             }
-            
-            let mkPlacemark = MKPlacemark(coordinate: location.coordinate, postalAddress: postalAddress)
-            completion(mkPlacemark)
+            completion(userLocation)
         }
     }
     
-    func addressFor(location: String, completion: @escaping (MKPlacemark?) -> ()) {
+    func addressFor(location: String, completion: @escaping (UserLocation?) -> ()) {
         geo.geocodeAddressString(location) { (placemarks, error) in
-            guard let location = placemarks?.first?.location, let postalAddress = placemarks?.first?.postalAddress else {
-                return completion(nil)
+            guard let city = placemarks?.first?.locality,
+                let postalCode = placemarks?.first?.postalCode,
+                let country = placemarks?.first?.isoCountryCode,
+                let userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country) else {
+                    return completion(nil)
             }
-            
-            let mkPlacemark = MKPlacemark(coordinate: location.coordinate, postalAddress: postalAddress)
-            completion(mkPlacemark)
+            completion(userLocation)
         }
     }
     
@@ -53,14 +55,3 @@ final class LocationService: LocationServiceType {
         locationManager.requestWhenInUseAuthorization()
     }
 }
-
-
-
-
-
-
-
-
-
-
-

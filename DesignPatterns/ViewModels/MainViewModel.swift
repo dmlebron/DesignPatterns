@@ -66,19 +66,14 @@ private extension MainViewModel {
     }
     
     func updateCurrentAddress() {
-        CurrentEnvironment.locationService.currentAddress { [unowned self] (placemark) in
-            if let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode {
-                self.userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country)
-            }
+        CurrentEnvironment.locationService.currentAddress { [unowned self] (userLocation) in
+            self.userLocation = userLocation
         }
     }
     
     func updateAddressFor(location: String, completion: @escaping () -> Void) {
-        CurrentEnvironment.locationService.addressFor(location: location) { [unowned self] (placemark) in
-            guard let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode else {
-                return completion()
-            }
-            self.userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country)
+        CurrentEnvironment.locationService.addressFor(location: location) { [unowned self] (userLocation) in
+            self.userLocation = userLocation
             completion()
         }
     }
@@ -93,6 +88,7 @@ extension MainViewModel: MainViewModelInput {
     func searchTapped(query: String, location: String?) {
         if let location = location {
             updateAddressFor(location: location) { [weak self] in
+                self?.output?.userLocationChanged(self?.userLocation)
                 self?.fetchJobs(query: query)
             }
         } else {
