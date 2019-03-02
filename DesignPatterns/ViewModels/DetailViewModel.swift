@@ -11,7 +11,7 @@ import UIKit
 protocol DetailViewModelInput: AnyObject {
     func viewDidLoad()
     func shouldShowReadMoreButton(isDescriptionLabelTruncated: Bool)
-    func websiteUrlButtonTapped()
+    func websiteButtonTapped()
     func readMoreButtonTapped()
 }
 
@@ -87,7 +87,7 @@ extension DetailViewModel: DetailViewModelInput {
         }
     }
     
-    func websiteUrlButtonTapped() {
+    func websiteButtonTapped() {
         guard let url = job.companyUrl else { return }
         output?.openUrl(url)
     }

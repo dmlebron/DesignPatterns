@@ -35,6 +35,16 @@ private extension MainViewModel {
 }
 
 final class MainViewModel {
+    enum Error: Swift.Error {
+        case invalidQuery
+
+        var localizedDescription: String {
+            switch self {
+            case .invalidQuery:
+                return "Invalid Query"
+            }
+        }
+    }
     private var userLocation: UserLocation? {
         didSet {
             output?.userLocationChanged(userLocation)
@@ -51,6 +61,11 @@ final class MainViewModel {
 // MARK: - Private Methods
 private extension MainViewModel {
     func fetchJobs(query: String) {
+        if query.isEmpty {
+            output?.showAlert(error: Error.invalidQuery)
+            return
+        }
+
         let route = userLocation != nil ? Route.parameters([.jobType: query, .location: userLocation!.city]) : Route.parameters([Parameter.jobType: query])
         guard let url = URL(string: route.completeUrl) else { return }
         CurrentEnvironment.apiClient.get(url: url) { [unowned self] result in
@@ -86,7 +101,7 @@ extension MainViewModel: MainViewModelInput {
     }
     
     func searchTapped(query: String, location: String?) {
-        if let location = location {
+        if let location = location, !location.isEmpty {
             updateAddressFor(location: location) { [weak self] in
                 self?.output?.userLocationChanged(self?.userLocation)
                 self?.fetchJobs(query: query)

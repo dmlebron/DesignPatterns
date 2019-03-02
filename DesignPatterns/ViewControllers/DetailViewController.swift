@@ -33,7 +33,7 @@ private extension DetailViewController {
 }
 
 final class DetailViewController: UIViewController {
-    private var viewModel: DetailViewModelInput!
+    private(set) var viewModel: DetailViewModelInput!
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var topDividerView: UIView!
@@ -59,8 +59,8 @@ final class DetailViewController: UIViewController {
 
 // MARK: - Private Methods
 private extension DetailViewController {
-    @objc func websiteUrlButtonTapped() {
-        viewModel.websiteUrlButtonTapped()
+    @objc func websiteButtonTapped() {
+        viewModel.websiteButtonTapped()
     }
     
     @objc func readMoreButtonTapped() {
@@ -118,7 +118,7 @@ extension DetailViewController: ViewCustomizing {
     }
     
     func setupSelectors() {
-        websiteUrlButton.addTarget(self, action: #selector(websiteUrlButtonTapped), for: .touchUpInside)
+        websiteUrlButton.addTarget(self, action: #selector(websiteButtonTapped), for: .touchUpInside)
         readMoreButton.addTarget(self, action: #selector(readMoreButtonTapped), for: .touchUpInside)
     }
 }

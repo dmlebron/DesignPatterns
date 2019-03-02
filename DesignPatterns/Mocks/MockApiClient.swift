@@ -9,10 +9,21 @@
 import Foundation
 
 class MockApiClient: ApiClientType {
+    enum Error: Swift.Error {
+        case response
+
+        var localizedDescription: String {
+            switch self {
+            case .response:
+                return "Invalid response format"
+            }
+        }
+    }
+
     typealias Result = ApiClient.Result
     typealias Completion = ApiClient.Completion
     var url: URL?
-    var expectedResult: ApiClient.Result?
+    private var expectedResult: ApiClient.Result?
     func get(url: URL, completion: @escaping Completion) {
         self.url = url
         if let expectedResult = expectedResult {
@@ -23,11 +34,11 @@ class MockApiClient: ApiClientType {
 
 // MARK: - Configuration Helper
 extension MockApiClient {
-    func configureSuccess(mockJobQty: Int) {
-        
+    func configureSuccess(mockJobs: Jobs) {
+        expectedResult = ApiClient.Result.success(mockJobs)
     }
     
     func configureFail(error: Error) {
-        
+        expectedResult = ApiClient.Result.failed(error)
     }
 }

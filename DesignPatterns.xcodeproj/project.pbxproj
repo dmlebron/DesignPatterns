@@ -35,6 +35,9 @@
 		4675E83E222794D900586622 /* Attr+Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E83D222794D900586622 /* Attr+Label.swift */; };
 		4675E840222796D200586622 /* JobDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E83F222796D200586622 /* JobDescriptionViewController.swift */; };
 		469EEA59222392D6005E75A3 /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EEA58222392D6005E75A3 /* UserLocation.swift */; };
+		EE38F7402229DAA700F07F66 /* MockJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE38F73F2229DAA700F07F66 /* MockJob.swift */; };
+		EE38F7422229DBE000F07F66 /* MockUserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE38F7412229DBE000F07F66 /* MockUserLocation.swift */; };
+		EE38F7452229E6BD00F07F66 /* DetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE38F7442229E6BD00F07F66 /* DetailViewModelTests.swift */; };
 		EEF6D2DD22247A6F004BE390 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF6D2DC22247A6E004BE390 /* DetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +84,9 @@
 		4675E83D222794D900586622 /* Attr+Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attr+Label.swift"; sourceTree = "<group>"; };
 		4675E83F222796D200586622 /* JobDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDescriptionViewController.swift; sourceTree = "<group>"; };
 		469EEA58222392D6005E75A3 /* UserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
+		EE38F73F2229DAA700F07F66 /* MockJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJob.swift; sourceTree = "<group>"; };
+		EE38F7412229DBE000F07F66 /* MockUserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserLocation.swift; sourceTree = "<group>"; };
+		EE38F7442229E6BD00F07F66 /* DetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModelTests.swift; sourceTree = "<group>"; };
 		EEF6D2DC22247A6E004BE390 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				461DC3B72228E2D5004151B7 /* MainViewModelTests.swift */,
+				EE38F7442229E6BD00F07F66 /* DetailViewModelTests.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -223,6 +230,8 @@
 			children = (
 				4654D568222122FF00782AFA /* MockApiClient.swift */,
 				4654D56E2221248000782AFA /* MockLocationService.swift */,
+				EE38F73F2229DAA700F07F66 /* MockJob.swift */,
+				EE38F7412229DBE000F07F66 /* MockUserLocation.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -350,6 +359,7 @@
 				4654D57E22212B5100782AFA /* MainTableViewCell.swift in Sources */,
 				4654D57A2221299C00782AFA /* App+Storyboard.swift in Sources */,
 				465010BF222236FE0062DF6D /* ImageCache.swift in Sources */,
+				EE38F7422229DBE000F07F66 /* MockUserLocation.swift in Sources */,
 				EEF6D2DD22247A6F004BE390 /* DetailViewModel.swift in Sources */,
 				4654D5782221294800782AFA /* DetailViewController.swift in Sources */,
 				4654D5602220F38D00782AFA /* Protocols.swift in Sources */,
@@ -358,6 +368,7 @@
 				4654D5652221057500782AFA /* Job.swift in Sources */,
 				4654D5352220F07200782AFA /* AppDelegate.swift in Sources */,
 				4654D56722210B2800782AFA /* Environment.swift in Sources */,
+				EE38F7402229DAA700F07F66 /* MockJob.swift in Sources */,
 				4675E840222796D200586622 /* JobDescriptionViewController.swift in Sources */,
 				466C010B2223A84900F07766 /* ModuleBuilder.swift in Sources */,
 				465010C1222245510062DF6D /* App+UIImage.swift in Sources */,
@@ -379,6 +390,7 @@
 				461DC3B82228E2D5004151B7 /* MainViewModelTests.swift in Sources */,
 				4654D54A2220F07300782AFA /* DesignPatternsTests.swift in Sources */,
 				461DC3B62228D94D004151B7 /* UserLocationTests.swift in Sources */,
+				EE38F7452229E6BD00F07F66 /* DetailViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

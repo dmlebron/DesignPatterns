@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+struct MockUserLocation {
+    static var boston: UserLocation {
+        return try! UserLocation(postalCode: "02130", city: "Boston", country: "MA")
+    }
+}

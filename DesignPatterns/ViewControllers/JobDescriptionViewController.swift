@@ -16,7 +16,7 @@ extension JobDescriptionViewController {
 
 final class JobDescriptionViewController: UIViewController {
     @IBOutlet weak var descriptionTextView: UITextView!
-    private var attributedDescription: NSAttributedString?
+    private(set) var attributedDescription: NSAttributedString?
     
     override func viewDidLoad() {
         super.viewDidLoad()
