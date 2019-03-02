@@ -16,7 +16,7 @@ protocol LocationServiceType {
     func addressFor(location: String, completion: @escaping (Location?) -> ())
 }
 
-final class LocationService: LocationServiceType {
+final class LocationService {
     private let locationManager = CLLocationManager()
     private let geo = CLGeocoder()
     private let region = CLRegion()
@@ -24,7 +24,10 @@ final class LocationService: LocationServiceType {
     init() {
         locationManager.startUpdatingLocation()
     }
-    
+}
+
+// MARK: - LocationServiceType
+extension LocationService: LocationServiceType {
     func currentAddress(completion: @escaping (Location?) -> ()) {
         guard let location = locationManager.location else { return completion(nil) }
         
@@ -33,7 +36,7 @@ final class LocationService: LocationServiceType {
                 let postalCode = placemarks?.first?.postalCode,
                 let country = placemarks?.first?.isoCountryCode,
                 let userLocation = try? Location(postalCode: postalCode, city: city, country: country) else {
-                return completion(nil)
+                    return completion(nil)
             }
             completion(userLocation)
         }

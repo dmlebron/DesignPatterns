@@ -12,9 +12,12 @@ protocol ImageCaching {
     func imageForKey(_ key: String) -> UIImage?
 }
 
-final class ImageCache: ImageCaching {
+final class ImageCache {
     private let cache = NSCache<NSString, UIImage>()
-    
+}
+
+// MARK: - ImageCaching
+extension ImageCache: ImageCaching {
     func setImage(_ image: UIImage, forKey key: String) {
         cache.setObject(image, forKey: key as NSString)
     }
@@ -23,4 +26,3 @@ final class ImageCache: ImageCaching {
         return cache.object(forKey: key as NSString)
     }
 }
-

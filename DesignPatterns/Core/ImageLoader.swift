@@ -11,14 +11,17 @@ protocol ImageLoading {
     func load(url: URL?, completion: @escaping ImageLoader.Completion)
 }
 
-final class ImageLoader: ImageLoading {
+final class ImageLoader {
     typealias Completion = (UIImage?) -> Void
     private let imageCache: ImageCaching
     
     init(imageCache: ImageCaching) {
         self.imageCache = imageCache
     }
-    
+}
+
+// MARK: - ImageLoading
+extension ImageLoader: ImageLoading {
     func load(url: URL?, completion: @escaping Completion) {
         guard let url = url else { return completion(nil) }
         
