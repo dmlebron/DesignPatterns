@@ -27,14 +27,24 @@ final class MainViewModelTests: XCTestCase {
         resetMockFlags()
     }
     
-    func test_ViewDidAppear_Calls_UpdateCurrentAddress() {
+    func test_ViewDidAppear_Calls_UpdateCurrentAddress_NotValidUserLocation() {
         viewModel.viewDidAppear()
         XCTAssertTrue(mockLocationService.didCallCurrentAdrress)
+        XCTAssertNotNil(viewModel.userLocation)
+    }
+    
+    func test_ViewDidAppear_Calls_UpdateCurrentAddress_ValidUserLocation() {
+        mockLocationService.configureCompletion(location: MockLocation.boston)
+        viewModel.viewDidAppear()
+        XCTAssertTrue(mockLocationService.didCallCurrentAdrress)
+        XCTAssertNotNil(viewModel.userLocation)
     }
     
     func test_UpdateCurrentLocationTapped_Calls_UpdateCurrentAddress() {
+        mockLocationService.configureCompletion(location: MockLocation.boston)
         viewModel.updateCurrentLocationTapped()
         XCTAssertTrue(mockLocationService.didCallCurrentAdrress)
+        XCTAssertNotNil(viewModel.userLocation)
     }
     
     func test_SearchTapped_ValidQuery_NilLocation() {
@@ -44,7 +54,7 @@ final class MainViewModelTests: XCTestCase {
         let query = "ios"
         viewModel.searchTapped(query: query, location: nil)
         XCTAssertFalse(mockLocationService.didCallAddressForPostalCode)
-        XCTAssertNil(mockViewController.userLocation)
+        XCTAssertNil(mockViewController.location)
         XCTAssertTrue(mockViewController.didCallReloadTableView)
         XCTAssertTrue(viewModel.numberOfRows() == 1)
     }
@@ -52,24 +62,25 @@ final class MainViewModelTests: XCTestCase {
     func test_SearchTapped_ValidQuery_ValidLocation() throws {
         let mockJob = MockJob.onlyTitleNameAndUrl
         mockApiClient.configureSuccess(mockJobs: [mockJob])
-        mockLocationService.expectedUserLocation = MockUserLocation.boston
+        mockLocationService.configureCompletion(location: MockLocation.boston)
         let query = "ios"
         let indexPath = IndexPath(row: 0, section: 0)
 
         viewModel.searchTapped(query: query, location: "02130")
 
         XCTAssertTrue(mockLocationService.didCallAddressForPostalCode)
-        XCTAssertNotNil(mockViewController.userLocation)
+        XCTAssertNotNil(mockViewController.location)
         XCTAssertTrue(mockViewController.didCallReloadTableView)
         XCTAssertTrue(viewModel.numberOfRows() == 1)
         XCTAssertTrue(viewModel.numberOfSections() == 1)
         XCTAssertTrue(viewModel.jobAtIndexPath(indexPath)?.companyName == mockJob.companyName)
+        XCTAssertNil(viewModel.userLocation)
     }
 
     func test_SearchTapped_EmptyQuery_ValidLocation() throws {
         let mockJob = MockJob.onlyTitleNameAndUrl
         mockApiClient.configureSuccess(mockJobs: [mockJob])
-        mockLocationService.expectedUserLocation = MockUserLocation.boston
+        mockLocationService.configureCompletion(location: MockLocation.boston)
         let query = ""
         let indexPath = IndexPath(row: 0, section: 0)
 
@@ -78,7 +89,7 @@ final class MainViewModelTests: XCTestCase {
         let viewModelError = mockViewController.error as? MainViewModel.Error
 
         XCTAssertTrue(mockLocationService.didCallAddressForPostalCode)
-        XCTAssertNotNil(mockViewController.userLocation)
+        XCTAssertNotNil(mockViewController.location)
         XCTAssertFalse(mockViewController.didCallReloadTableView)
         XCTAssertTrue(viewModel.numberOfRows() == 0)
         XCTAssertTrue(viewModel.numberOfSections() == 1)
@@ -89,7 +100,7 @@ final class MainViewModelTests: XCTestCase {
     func test_SearchTapped_ValidQuery_ValidLocation_ApiClientError() throws {
         let error = MockApiClient.Error.response
         mockApiClient.configureFail(error: error)
-        mockLocationService.expectedUserLocation = MockUserLocation.boston
+        mockLocationService.configureCompletion(location: MockLocation.boston)
         let query = "ios"
         let indexPath = IndexPath(row: 0, section: 0)
 
@@ -98,7 +109,7 @@ final class MainViewModelTests: XCTestCase {
         let apiClientError = mockViewController.error as? MockApiClient.Error
 
         XCTAssertTrue(mockLocationService.didCallAddressForPostalCode)
-        XCTAssertNotNil(mockViewController.userLocation)
+        XCTAssertNotNil(mockViewController.location)
         XCTAssertFalse(mockViewController.didCallReloadTableView)
         XCTAssertTrue(apiClientError?.localizedDescription == MockApiClient.Error.response.localizedDescription)
         XCTAssertTrue(viewModel.numberOfRows() == 0)
@@ -109,7 +120,7 @@ final class MainViewModelTests: XCTestCase {
     func test_CellTapped_ValidIndexPath() {
         let mockJob = MockJob.onlyTitleNameAndUrl
         mockApiClient.configureSuccess(mockJobs: [mockJob])
-        mockLocationService.expectedUserLocation = MockUserLocation.boston
+        mockLocationService.configureCompletion(location: MockLocation.boston)
         let query = "ios"
         let indexPath = IndexPath(row: 0, section: 0)
 
@@ -125,7 +136,7 @@ final class MainViewModelTests: XCTestCase {
     func test_CellTapped_NotValidIndexPath() {
         let mockJob = MockJob.onlyTitleNameAndUrl
         mockApiClient.configureSuccess(mockJobs: [mockJob])
-        mockLocationService.expectedUserLocation = MockUserLocation.boston
+        mockLocationService.configureCompletion(location: MockLocation.boston)
         let query = "ios"
         let indexPath = IndexPath(row: 1, section: 0)
 
@@ -134,6 +145,8 @@ final class MainViewModelTests: XCTestCase {
 
         XCTAssertNil(mockViewController.viewControllerToPush)
     }
+    
+    // TODO: Add test to handle fetch jobs for different location settings
 }
 
 // MARK: - Helpers
@@ -143,7 +156,7 @@ private extension MainViewModelTests {
         mockViewController.didCallReloadTableView = false
         mockLocationService.didCallCurrentAdrress = false
         mockViewController.viewControllerToPush = nil
-        mockViewController.userLocation = nil
+        mockViewController.location = nil
     }
 }
 
@@ -160,9 +173,9 @@ class MockMainViewControllerOutput: MainViewModelOutput {
         didCallReloadTableView = true
     }
     
-    var userLocation: UserLocation?
-    func userLocationChanged(_ userLocation: UserLocation?) {
-        self.userLocation = userLocation
+    var location: Location?
+    func locationChanged(_ location: Location?) {
+        self.location = location
     }
     
     var error: Error?

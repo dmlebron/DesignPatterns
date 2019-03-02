@@ -1,5 +1,5 @@
 //
-//  MockUserLocation.swift
+//  MockLocation.swift
 //  DesignPatterns
 //
 //  Created by David Martinez-Lebron on 3/1/19.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct MockUserLocation {
-    static var boston: UserLocation {
-        return try! UserLocation(postalCode: "02130", city: "Boston", country: "MA")
+struct MockLocation {
+    static var boston: Location {
+        return try! Location(postalCode: "02130", city: "Boston", country: "MA")
     }
 }

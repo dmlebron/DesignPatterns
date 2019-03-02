@@ -12,8 +12,8 @@ import Contacts
 
 protocol LocationServiceType {
     func requestWhenInUseAuthorization()
-    func currentAddress(completion: @escaping (UserLocation?) -> ())
-    func addressFor(location: String, completion: @escaping (UserLocation?) -> ())
+    func currentAddress(completion: @escaping (Location?) -> ())
+    func addressFor(location: String, completion: @escaping (Location?) -> ())
 }
 
 final class LocationService: LocationServiceType {
@@ -25,26 +25,26 @@ final class LocationService: LocationServiceType {
         locationManager.startUpdatingLocation()
     }
     
-    func currentAddress(completion: @escaping (UserLocation?) -> ()) {
+    func currentAddress(completion: @escaping (Location?) -> ()) {
         guard let location = locationManager.location else { return completion(nil) }
         
         geo.reverseGeocodeLocation(location) { (placemarks, error) in
             guard let city = placemarks?.first?.locality,
                 let postalCode = placemarks?.first?.postalCode,
                 let country = placemarks?.first?.isoCountryCode,
-                let userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country) else {
+                let userLocation = try? Location(postalCode: postalCode, city: city, country: country) else {
                 return completion(nil)
             }
             completion(userLocation)
         }
     }
     
-    func addressFor(location: String, completion: @escaping (UserLocation?) -> ()) {
+    func addressFor(location: String, completion: @escaping (Location?) -> ()) {
         geo.geocodeAddressString(location) { (placemarks, error) in
             guard let city = placemarks?.first?.locality,
                 let postalCode = placemarks?.first?.postalCode,
                 let country = placemarks?.first?.isoCountryCode,
-                let userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country) else {
+                let userLocation = try? Location(postalCode: postalCode, city: city, country: country) else {
                     return completion(nil)
             }
             completion(userLocation)

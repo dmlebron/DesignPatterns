@@ -14,6 +14,7 @@ class DetailViewModelTests: XCTestCase {
     var mockViewController: MockDetailViewControllerOutput!
     var mockLocationService: MockLocationService!
     var mockApiClient: MockApiClient!
+    var mockImageLoader: MockImageLoader!
     var job: Job!
 
     override func setUp() {
@@ -22,17 +23,27 @@ class DetailViewModelTests: XCTestCase {
         mockViewController = MockDetailViewControllerOutput()
         viewModel = DetailViewModel(output: mockViewController, job: job)
         mockLocationService = CurrentEnvironment.locationService as? MockLocationService
+        mockImageLoader = CurrentEnvironment.imageLoader as? MockImageLoader
     }
 
     override func tearDown() {
         resetMockFlags()
     }
 
-    func test_ViewDidLoad() {
+    func test_ViewDidLoad_AllData() {
+        mockImageLoader.configureCompletion(image: UIImage())
         viewModel.viewDidLoad()
-
-//        XCTAssertNotNil(mockViewController.companyLogo)
+        
+        XCTAssertNotNil(mockViewController.companyLogo)
         XCTAssertNotNil(mockViewController.websiteUrlState)
+        XCTAssertNotNil(mockViewController.viewData)
+    }
+    
+    func test_ViewDidLoad_NoWebsite() {
+        viewModel = DetailViewModel(output: mockViewController, job: MockJob.onlyTitleLocationAndNameLocation)
+        viewModel.viewDidLoad()
+        XCTAssertTrue(mockViewController.websiteUrlState?.isEnabled == false)
+        XCTAssertTrue(mockViewController.websiteUrlState?.title == DetailViewModel.Constants.noUrlString)
         XCTAssertNotNil(mockViewController.viewData)
     }
 

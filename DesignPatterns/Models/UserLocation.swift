@@ -7,19 +7,16 @@
 
 import Foundation
 
-struct UserLocation {
+struct Location {
     
     enum Error: Swift.Error {
         case invalidPostalCodeLength
-        case invalidPostalCodeFormat
         case invalidCountryLength
         
         var localizedDescription: String {
             switch self {
             case .invalidPostalCodeLength:
-                return "Postal code should have 5 characters (i.e. 04341)"
-            case .invalidPostalCodeFormat:
-                return "Postal code should only contain numeric characters (i.e. 04341)"
+                return "Postal code should have 2 characters or more"
             case .invalidCountryLength:
                 return "Country should be have 2 characters (i.e. MA)"
             }
@@ -42,16 +39,12 @@ struct UserLocation {
     }
 }
 
-private extension UserLocation {
+private extension Location {
     func validate() throws {
-        if postalCode.count != 5 {
+        if postalCode.count < 2 {
             throw Error.invalidPostalCodeLength
         }
-        
-        guard let _ = Int(postalCode) else {
-            throw Error.invalidPostalCodeFormat
-        }
-        
+
         if country.count != 2 {
             throw Error.invalidCountryLength
         }

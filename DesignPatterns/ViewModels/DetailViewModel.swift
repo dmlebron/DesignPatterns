@@ -67,7 +67,7 @@ private extension DetailViewModel {
     }
     
     func loadCompanyLogo() {
-        job.imageUrl?.loadImage { [unowned self] (image) in
+        CurrentEnvironment.imageLoader.load(url: job.imageUrl)  { [unowned self] (image) in
             self.output?.set(companyLogo: image)
         }
     }

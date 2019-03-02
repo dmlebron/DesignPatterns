@@ -10,27 +10,23 @@ import XCTest
 @testable import DesignPatterns
 
 final class UserLocationTests: XCTestCase {
-    var userLocation: UserLocation!
+    var location: Location!
     
     func test_Init_NoThrow_CorrectFormat() throws {
-        XCTAssertNoThrow(try UserLocation(postalCode: "02130", city: "boston", country: "MA"))
+        XCTAssertNoThrow(try Location(postalCode: "02130", city: "boston", country: "MA"))
     }
     
     func test_Init_Throws_IncorrectCountryLength() throws {
-        XCTAssertThrowsError(try UserLocation(postalCode: "02130", city: "boston", country: "South Carolina"))
+        XCTAssertThrowsError(try Location(postalCode: "02130", city: "boston", country: "South Carolina"))
     }
     
     func test_Init_Throws_IncorrectPostalCodeLength() throws {
-        XCTAssertThrowsError(try UserLocation(postalCode: "0213", city: "boston", country: "MA"))
-    }
-    
-    func test_Init_Throws_IncorrectPostalCodeFormat() throws {
-        XCTAssertThrowsError(try UserLocation(postalCode: "0213a", city: "boston", country: "MA"))
+        XCTAssertThrowsError(try Location(postalCode: "0", city: "boston", country: "MA"))
     }
     
     func test_Parsed_NoThrow_CorrectFormat() throws {
-        userLocation = try UserLocation(postalCode: "02130", city: "boston", country: "ma")
-        let parsed = userLocation.parsed
+        location = try Location(postalCode: "02130", city: "boston", country: "ma")
+        let parsed = location.parsed
         XCTAssertTrue(parsed == "Boston, MA 02130")
     }
 }

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		461DC3B62228D94D004151B7 /* UserLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461DC3B52228D94D004151B7 /* UserLocationTests.swift */; };
 		461DC3B82228E2D5004151B7 /* MainViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461DC3B72228E2D5004151B7 /* MainViewModelTests.swift */; };
-		465010BD22221D7C0062DF6D /* URL+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010BC22221D7C0062DF6D /* URL+String.swift */; };
 		465010BF222236FE0062DF6D /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010BE222236FE0062DF6D /* ImageCache.swift */; };
 		465010C1222245510062DF6D /* App+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010C0222245510062DF6D /* App+UIImage.swift */; };
 		4654D5352220F07200782AFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5342220F07200782AFA /* AppDelegate.swift */; };
@@ -30,6 +29,8 @@
 		4654D57E22212B5100782AFA /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D57C22212B5100782AFA /* MainTableViewCell.swift */; };
 		4654D57F22212B5100782AFA /* MainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4654D57D22212B5100782AFA /* MainTableViewCell.xib */; };
 		4654D5812221302200782AFA /* MockApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D568222122FF00782AFA /* MockApiClient.swift */; };
+		46672BDA222AE38700A3DD55 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46672BD9222AE38700A3DD55 /* ImageLoader.swift */; };
+		46672BDC222AE69200A3DD55 /* MockImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46672BDB222AE69200A3DD55 /* MockImageLoader.swift */; };
 		466C0109222399CE00F07766 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466C0108222399CE00F07766 /* MainViewModel.swift */; };
 		466C010B2223A84900F07766 /* ModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466C010A2223A84900F07766 /* ModuleBuilder.swift */; };
 		4675E83E222794D900586622 /* Attr+Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E83D222794D900586622 /* Attr+Label.swift */; };
@@ -54,7 +55,6 @@
 /* Begin PBXFileReference section */
 		461DC3B52228D94D004151B7 /* UserLocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationTests.swift; sourceTree = "<group>"; };
 		461DC3B72228E2D5004151B7 /* MainViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelTests.swift; sourceTree = "<group>"; };
-		465010BC22221D7C0062DF6D /* URL+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+String.swift"; sourceTree = "<group>"; };
 		465010BE222236FE0062DF6D /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		465010C0222245510062DF6D /* App+UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+UIImage.swift"; sourceTree = "<group>"; };
 		4654D5312220F07200782AFA /* DesignPatterns.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesignPatterns.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +79,8 @@
 		4654D5792221299C00782AFA /* App+Storyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+Storyboard.swift"; sourceTree = "<group>"; };
 		4654D57C22212B5100782AFA /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		4654D57D22212B5100782AFA /* MainTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainTableViewCell.xib; sourceTree = "<group>"; };
+		46672BD9222AE38700A3DD55 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		46672BDB222AE69200A3DD55 /* MockImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageLoader.swift; sourceTree = "<group>"; };
 		466C0108222399CE00F07766 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		466C010A2223A84900F07766 /* ModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBuilder.swift; sourceTree = "<group>"; };
 		4675E83D222794D900586622 /* Attr+Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attr+Label.swift"; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				4654D56622210B2800782AFA /* Environment.swift */,
 				465010BE222236FE0062DF6D /* ImageCache.swift */,
 				466C010A2223A84900F07766 /* ModuleBuilder.swift */,
+				46672BD9222AE38700A3DD55 /* ImageLoader.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -200,7 +203,6 @@
 				4654D55F2220F38D00782AFA /* Protocols.swift */,
 				4654D5712221273C00782AFA /* Color.swift */,
 				4654D5792221299C00782AFA /* App+Storyboard.swift */,
-				465010BC22221D7C0062DF6D /* URL+String.swift */,
 				465010C0222245510062DF6D /* App+UIImage.swift */,
 				4675E83D222794D900586622 /* Attr+Label.swift */,
 			);
@@ -232,6 +234,7 @@
 				4654D56E2221248000782AFA /* MockLocationService.swift */,
 				EE38F73F2229DAA700F07F66 /* MockJob.swift */,
 				EE38F7412229DBE000F07F66 /* MockUserLocation.swift */,
+				46672BDB222AE69200A3DD55 /* MockImageLoader.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -364,15 +367,16 @@
 				4654D5782221294800782AFA /* DetailViewController.swift in Sources */,
 				4654D5602220F38D00782AFA /* Protocols.swift in Sources */,
 				469EEA59222392D6005E75A3 /* UserLocation.swift in Sources */,
-				465010BD22221D7C0062DF6D /* URL+String.swift in Sources */,
 				4654D5652221057500782AFA /* Job.swift in Sources */,
 				4654D5352220F07200782AFA /* AppDelegate.swift in Sources */,
+				46672BDC222AE69200A3DD55 /* MockImageLoader.swift in Sources */,
 				4654D56722210B2800782AFA /* Environment.swift in Sources */,
 				EE38F7402229DAA700F07F66 /* MockJob.swift in Sources */,
 				4675E840222796D200586622 /* JobDescriptionViewController.swift in Sources */,
 				466C010B2223A84900F07766 /* ModuleBuilder.swift in Sources */,
 				465010C1222245510062DF6D /* App+UIImage.swift in Sources */,
 				4654D5812221302200782AFA /* MockApiClient.swift in Sources */,
+				46672BDA222AE38700A3DD55 /* ImageLoader.swift in Sources */,
 				4654D5572220F35100782AFA /* MainViewController.swift in Sources */,
 				4675E83E222794D900586622 /* Attr+Label.swift in Sources */,
 				4654D5702221248F00782AFA /* MockLocationService.swift in Sources */,

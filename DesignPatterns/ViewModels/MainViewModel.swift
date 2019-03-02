@@ -20,7 +20,7 @@ protocol MainViewModelInput: AnyObject {
 protocol MainViewModelOutput: AnyObject {
     func set(viewModel: MainViewModelInput)
     func reloadTableView()
-    func userLocationChanged(_ userLocation: UserLocation?)
+    func locationChanged(_ location: Location?)
     func showAlert(error: Error)
     func pushViewController(_ viewController: UIViewController)
 }
@@ -45,11 +45,8 @@ final class MainViewModel {
             }
         }
     }
-    private var userLocation: UserLocation? {
-        didSet {
-            output?.userLocationChanged(userLocation)
-        }
-    }
+    
+    private(set) var userLocation: Location?
     private(set) var jobs: Jobs = []
     private weak var output: MainViewModelOutput?
     
@@ -60,13 +57,13 @@ final class MainViewModel {
 
 // MARK: - Private Methods
 private extension MainViewModel {
-    func fetchJobs(query: String) {
+    func fetchJobs(query: String, city: String? = nil) {
         if query.isEmpty {
             output?.showAlert(error: Error.invalidQuery)
             return
         }
 
-        let route = userLocation != nil ? Route.parameters([.jobType: query, .location: userLocation!.city]) : Route.parameters([Parameter.jobType: query])
+        let route = city != nil ? Route.parameters([.jobType: query, .location: city!]) : Route.parameters([Parameter.jobType: query])
         guard let url = URL(string: route.completeUrl) else { return }
         CurrentEnvironment.apiClient.get(url: url) { [unowned self] result in
             switch result {
@@ -81,15 +78,16 @@ private extension MainViewModel {
     }
     
     func updateCurrentAddress() {
-        CurrentEnvironment.locationService.currentAddress { [unowned self] (userLocation) in
-            self.userLocation = userLocation
+        CurrentEnvironment.locationService.currentAddress { [unowned self] (location) in
+            self.userLocation = location
+            self.output?.locationChanged(location)
         }
     }
     
-    func updateAddressFor(location: String, completion: @escaping () -> Void) {
-        CurrentEnvironment.locationService.addressFor(location: location) { [unowned self] (userLocation) in
-            self.userLocation = userLocation
-            completion()
+    func searchAddress(location: String, completion: @escaping (Location?) -> Void) {
+        CurrentEnvironment.locationService.addressFor(location: location) { [unowned self] (location) in
+           self.output?.locationChanged(location)
+            completion(location)
         }
     }
 }
@@ -102,9 +100,8 @@ extension MainViewModel: MainViewModelInput {
     
     func searchTapped(query: String, location: String?) {
         if let location = location, !location.isEmpty {
-            updateAddressFor(location: location) { [weak self] in
-                self?.output?.userLocationChanged(self?.userLocation)
-                self?.fetchJobs(query: query)
+            searchAddress(location: location) { [weak self] (location) in
+                self?.fetchJobs(query: query, city: location?.city)
             }
         } else {
             self.fetchJobs(query: query)

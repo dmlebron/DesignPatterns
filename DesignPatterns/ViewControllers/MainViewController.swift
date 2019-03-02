@@ -56,8 +56,8 @@ extension MainViewController: MainViewModelOutput {
         tableView.reloadData()
     }
     
-    func userLocationChanged(_ userLocation: UserLocation?) {
-        locationText.text = userLocation?.parsed ?? Constants.Text.noLocation
+    func locationChanged(_ location: Location?) {
+        locationText.text = location?.parsed ?? Constants.Text.noLocation
     }
     
     func showAlert(error: Error) {
