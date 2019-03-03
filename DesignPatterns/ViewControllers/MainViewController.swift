@@ -52,7 +52,7 @@ final class MainViewController: UIViewController {
 private extension MainViewController {
     func search() {
         guard let query = searchText.text, !query.isEmpty else { return }
-        if let location = locationText.text {
+        if let location = locationText.text, !location.isEmpty {
             updateAddressFor(location: location) { [weak self] (location) in
                 self?.fetchJobs(query: query, city: location?.city)
             }
