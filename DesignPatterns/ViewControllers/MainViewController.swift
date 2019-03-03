@@ -21,7 +21,7 @@ private extension MainViewController {
 }
 
 final class MainViewController: UIViewController {
-    private(set) var userLocation: UserLocation? {
+    private(set) var userLocation: Location? {
         didSet {
             guard let userLocation = self.userLocation else {
                 locationText.text = Constants.Text.noLocation
@@ -53,8 +53,8 @@ private extension MainViewController {
     func search() {
         guard let query = searchText.text, !query.isEmpty else { return }
         if let location = locationText.text {
-            updateAddressFor(location: location) { [weak self] in
-                self?.fetchJobs(query: query)
+            updateAddressFor(location: location) { [weak self] (location) in
+                self?.fetchJobs(query: query, city: location?.city)
             }
         } else {
             self.fetchJobs(query: query)
@@ -62,8 +62,8 @@ private extension MainViewController {
         searchText.resignFirstResponder()
     }
     
-    func fetchJobs(query: String) {
-        let route = userLocation != nil ? Route.parameters([.jobType: query, .location: userLocation!.city]) : Route.parameters([Parameter.jobType: query])
+    func fetchJobs(query: String, city: String? = nil) {
+        let route = city != nil ? Route.parameters([.jobType: query, .location: city!]) : Route.parameters([Parameter.jobType: query])
         guard let url = URL(string: route.completeUrl) else { return }
         CurrentEnvironment.apiClient.get(url: url) { [unowned self] result in
             switch result {
@@ -78,20 +78,17 @@ private extension MainViewController {
     }
     
     @objc func updateCurrentAddress() {
-        CurrentEnvironment.locationService.currentAddress { [unowned self] (placemark) in
-            if let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode {
-                self.userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country)
+        CurrentEnvironment.locationService.currentAddress { [unowned self] (location) in
+            if let location = location {
+                self.userLocation = location
             }
         }
     }
     
-    func updateAddressFor(location: String, completion: @escaping () -> Void) {
-        CurrentEnvironment.locationService.addressFor(location: location) { [unowned self] (placemark) in
-            guard let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode else {
-                return completion()
-            }
-            self.userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country)
-            completion()
+    func updateAddressFor(location: String, completion: @escaping (Location?) -> Void) {
+        CurrentEnvironment.locationService.addressFor(location: location) { (userLocation) in
+            guard let userLocation = userLocation else { return completion(nil) }
+            completion(userLocation)
         }
     }
     

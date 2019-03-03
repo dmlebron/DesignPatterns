@@ -84,7 +84,7 @@ private extension DetailViewController {
             descriptionLabel.attributedText = attributedDesription
         }
         
-        job?.imageUrl?.loadImage { [weak self] (image) in
+        CurrentEnvironment.imageLoader.load(url: job?.imageUrl) { [weak self] (image) in
             self?.companyImageView.image = image
         }
     }

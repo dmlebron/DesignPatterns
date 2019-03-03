@@ -13,30 +13,32 @@ struct Environment {
     let apiClient: ApiClientType
     let locationService: LocationServiceType
     let color: Color
-    let imageCache: ImageCache
+    let imageLoader: ImageLoading
     
     init(apiURLSring: String,
          apiClient: ApiClientType,
          locationService: LocationServiceType,
          color: Color,
-         imageCache: ImageCache = ImageCache()) {
+         imageLoader: ImageLoading = ImageLoader(imageCache: ImageCache())) {
         
         self.apiURLSring = apiURLSring
         self.apiClient = apiClient
         self.locationService = locationService
         self.color = color
-        self.imageCache = imageCache
+        self.imageLoader = imageLoader
     }
     
     static let development = Environment(apiURLSring: "https://jobs.github.com/positions.json",
                                          apiClient: ApiClient(),
                                          locationService: LocationService(),
-                                         color: Color())
+                                         color: Color(),
+                                         imageLoader: ImageLoader(imageCache: ImageCache()))
 }
 
 extension Environment {
     static let mock = Environment(apiURLSring: "https://jobs.github.com/positions.json",
                                   apiClient: MockApiClient(),
                                   locationService: MockLocationService(),
-                                  color: Color())
+                                  color: Color(),
+                                  imageLoader: MockImageLoader())
 }
