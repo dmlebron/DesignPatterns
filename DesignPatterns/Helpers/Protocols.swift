@@ -55,3 +55,10 @@ extension CellRegistration {
 protocol DataDisplayable {
     associatedtype ViewData
 }
+
+// MARK: - Cachable
+protocol Cachable {
+    var cachingKey: CachingKey { get }
+}
+
+typealias CachingKey = String
