@@ -1,5 +1,5 @@
 //
-//  UserLocationTests.swift
+//  LocationTests.swift
 //  DesignPatternsTests
 //
 //  Created by david martinez on 2/28/19.
