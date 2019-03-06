@@ -16,6 +16,7 @@ private extension MainViewController {
             static var errorTitle: String { return "Error" }
             static var okButtonTitle: String { return "OK" }
             static var placeholderTitle: String { return "Input Search" }
+            static var placeholderZipcode: String { return "Enter Zipcode" }
         }
     }
 }
@@ -57,7 +58,7 @@ extension MainViewController: MainViewModelOutput {
     }
     
     func locationChanged(_ location: Location?) {
-        locationText.text = location?.parsed ?? Constants.Text.noLocation
+        locationText.text = location?.parsed
     }
     
     func showAlert(error: Error) {
@@ -105,7 +106,7 @@ extension MainViewController: UITableViewDelegate {
 extension MainViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let query = searchText.text {
-            viewModel.searchTapped(query: query, location: locationText.text)
+            viewModel.searchTapped(query: query, zipcode: locationText.text)
         }
         view.endEditing(true)
         return false
@@ -126,7 +127,7 @@ extension MainViewController: ViewCustomizing {
         searchText.attributedPlaceholder = searchPlaceholder
         searchText.clearButtonMode = .whileEditing
         locationText.textColor = CurrentEnvironment.color.white
-        let locationPlaceholder = NSAttributedString(string: "Location", attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
+        let locationPlaceholder = NSAttributedString(string: Constants.Text.placeholderZipcode, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         locationText.attributedPlaceholder = locationPlaceholder
         locationText.clearButtonMode = .whileEditing
         view.backgroundColor = CurrentEnvironment.color.darkGray

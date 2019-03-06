@@ -13,7 +13,7 @@ import Contacts
 protocol LocationServiceType {
     func requestWhenInUseAuthorization()
     func currentAddress(completion: @escaping (Location?) -> ())
-    func addressFor(location: String, completion: @escaping (Location?) -> ())
+    func addressFor(zipcode: String, completion: @escaping (Location?) -> ())
 }
 
 final class LocationService {
@@ -42,8 +42,8 @@ extension LocationService: LocationServiceType {
         }
     }
     
-    func addressFor(location: String, completion: @escaping (Location?) -> ()) {
-        geo.geocodeAddressString(location) { (placemarks, error) in
+    func addressFor(zipcode: String, completion: @escaping (Location?) -> ()) {
+        geo.geocodeAddressString(zipcode) { (placemarks, error) in
             guard let city = placemarks?.first?.locality,
                 let postalCode = placemarks?.first?.postalCode,
                 let country = placemarks?.first?.isoCountryCode,

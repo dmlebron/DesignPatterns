@@ -9,7 +9,7 @@ import UIKit
 
 protocol MainViewModelInput: AnyObject {
     func viewDidAppear()
-    func searchTapped(query: String, location: String?)
+    func searchTapped(query: String, zipcode: String?)
     func cellTappedAtIndexPath(_ indexPath: IndexPath)
     func updateCurrentLocationTapped()
     func numberOfSections() -> Int
@@ -84,8 +84,8 @@ private extension MainViewModel {
         }
     }
     
-    func searchAddress(location: String, completion: @escaping (Location?) -> Void) {
-        CurrentEnvironment.locationService.addressFor(location: location) { [unowned self] (location) in
+    func searchAddress(zipcode: String, completion: @escaping (Location?) -> Void) {
+        CurrentEnvironment.locationService.addressFor(zipcode: zipcode) { [unowned self] (location) in
            self.output?.locationChanged(location)
             completion(location)
         }
@@ -98,9 +98,9 @@ extension MainViewModel: MainViewModelInput {
         updateCurrentAddress()
     }
     
-    func searchTapped(query: String, location: String?) {
-        if let location = location, !location.isEmpty {
-            searchAddress(location: location) { [weak self] (location) in
+    func searchTapped(query: String, zipcode: String?) {
+        if let zipcode = zipcode, !zipcode.isEmpty {
+            searchAddress(zipcode: zipcode) { [weak self] (location) in
                 self?.fetchJobs(query: query, city: location?.city)
             }
         } else {
