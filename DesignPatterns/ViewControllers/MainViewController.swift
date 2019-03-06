@@ -16,6 +16,7 @@ private extension MainViewController {
             static var errorTitle: String { return "Error" }
             static var okButtonTitle: String { return "OK" }
             static var placeholderTitle: String { return "Input Search" }
+            static var placeholderZipcode: String { return "Enter Zipcode" }
         }
     }
 }
@@ -52,8 +53,8 @@ final class MainViewController: UIViewController {
 private extension MainViewController {
     func search() {
         guard let query = searchText.text, !query.isEmpty else { return }
-        if let location = locationText.text, !location.isEmpty {
-            updateAddressFor(location: location) { [weak self] (location) in
+        if let zipcode = locationText.text, !zipcode.isEmpty {
+            updateAddressFor(zipcode: zipcode) { [weak self] (location) in
                 self?.fetchJobs(query: query, city: location?.city)
             }
         } else {
@@ -85,8 +86,8 @@ private extension MainViewController {
         }
     }
     
-    func updateAddressFor(location: String, completion: @escaping (Location?) -> Void) {
-        CurrentEnvironment.locationService.addressFor(location: location) { (userLocation) in
+    func updateAddressFor(zipcode: String, completion: @escaping (Location?) -> Void) {
+        CurrentEnvironment.locationService.addressFor(zipcode: zipcode) { (userLocation) in
             guard let userLocation = userLocation else { return completion(nil) }
             completion(userLocation)
         }
@@ -151,7 +152,7 @@ extension MainViewController: ViewCustomizing {
         searchText.attributedPlaceholder = searchPlaceholder
         searchText.clearButtonMode = .whileEditing
         locationText.textColor = CurrentEnvironment.color.white
-        let locationPlaceholder = NSAttributedString(string: "Location", attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
+        let locationPlaceholder = NSAttributedString(string: Constants.Text.placeholderZipcode, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         locationText.attributedPlaceholder = locationPlaceholder
         locationText.clearButtonMode = .whileEditing
         view.backgroundColor = CurrentEnvironment.color.darkGray
