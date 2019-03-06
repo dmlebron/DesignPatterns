@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		461DC3B62228D94D004151B7 /* UserLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461DC3B52228D94D004151B7 /* UserLocationTests.swift */; };
+		461DC3B62228D94D004151B7 /* LocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461DC3B52228D94D004151B7 /* LocationTests.swift */; };
 		464067C9222F55630015BFE5 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464067C8222F55630015BFE5 /* ImageLoader.swift */; };
 		464067CB222F55950015BFE5 /* MockImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464067CA222F55950015BFE5 /* MockImageLoader.swift */; };
 		464067CD222F55A30015BFE5 /* MockJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464067CC222F55A30015BFE5 /* MockJob.swift */; };
@@ -16,7 +16,6 @@
 		465010C1222245510062DF6D /* App+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010C0222245510062DF6D /* App+UIImage.swift */; };
 		4654D5352220F07200782AFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5342220F07200782AFA /* AppDelegate.swift */; };
 		4654D53C2220F07300782AFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4654D53B2220F07300782AFA /* Assets.xcassets */; };
-		4654D54A2220F07300782AFA /* DesignPatternsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5492220F07300782AFA /* DesignPatternsTests.swift */; };
 		4654D5572220F35100782AFA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5562220F35100782AFA /* MainViewController.swift */; };
 		4654D55B2220F36400782AFA /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5592220F36400782AFA /* ApiClient.swift */; };
 		4654D55C2220F36400782AFA /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D55A2220F36400782AFA /* LocationService.swift */; };
@@ -57,7 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		461DC3B52228D94D004151B7 /* UserLocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationTests.swift; sourceTree = "<group>"; };
+		461DC3B52228D94D004151B7 /* LocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTests.swift; sourceTree = "<group>"; };
 		464067C8222F55630015BFE5 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		464067CA222F55950015BFE5 /* MockImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageLoader.swift; sourceTree = "<group>"; };
 		464067CC222F55A30015BFE5 /* MockJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJob.swift; sourceTree = "<group>"; };
@@ -69,7 +68,6 @@
 		4654D53B2220F07300782AFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4654D5402220F07300782AFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4654D5452220F07300782AFA /* DesignPatternsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignPatternsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4654D5492220F07300782AFA /* DesignPatternsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignPatternsTests.swift; sourceTree = "<group>"; };
 		4654D54B2220F07300782AFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4654D5562220F35100782AFA /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		4654D5592220F36400782AFA /* ApiClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
@@ -128,7 +126,7 @@
 		461DC3B42228D930004151B7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				461DC3B52228D94D004151B7 /* UserLocationTests.swift */,
+				461DC3B52228D94D004151B7 /* LocationTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -174,7 +172,6 @@
 			children = (
 				461DC3B42228D930004151B7 /* Models */,
 				461DC3B32228D92A004151B7 /* ViewModels */,
-				4654D5492220F07300782AFA /* DesignPatternsTests.swift */,
 				4654D54B2220F07300782AFA /* Info.plist */,
 			);
 			path = DesignPatternsTests;
@@ -417,8 +414,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4654D54A2220F07300782AFA /* DesignPatternsTests.swift in Sources */,
-				461DC3B62228D94D004151B7 /* UserLocationTests.swift in Sources */,
+				461DC3B62228D94D004151B7 /* LocationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
