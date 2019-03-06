@@ -40,6 +40,7 @@ extension MainViewController {
             static var errorTitle: String { return "Error" }
             static var okButtonTitle: String { return "OK" }
             static var placeholderTitle: String { return "Input Search" }
+            static var placeholderZipcode: String { return "Enter Zipcode" }
         }
     }
 }
@@ -154,7 +155,7 @@ extension MainViewController: ViewCustomizing {
         searchText.attributedPlaceholder = searchPlaceholder
         searchText.clearButtonMode = .whileEditing
         locationText.textColor = CurrentEnvironment.color.white
-        let locationPlaceholder = NSAttributedString(string: "Enter Zipcode", attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
+        let locationPlaceholder = NSAttributedString(string: Constants.Text.placeholderZipcode, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         locationText.attributedPlaceholder = locationPlaceholder
         locationText.clearButtonMode = .whileEditing
         view.backgroundColor = CurrentEnvironment.color.darkGray
