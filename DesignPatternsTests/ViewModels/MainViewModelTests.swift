@@ -52,7 +52,7 @@ final class MainViewModelTests: XCTestCase {
         mockApiClient.configureSuccess(mockJobs: [mockJob])
         
         let query = "ios"
-        viewModel.searchTapped(query: query, location: nil)
+        viewModel.searchTapped(query: query, zipcode: nil)
         XCTAssertFalse(mockLocationService.didCallAddressForPostalCode)
         XCTAssertNil(mockViewController.location)
         XCTAssertTrue(mockViewController.didCallReloadTableView)
@@ -66,7 +66,7 @@ final class MainViewModelTests: XCTestCase {
         let query = "ios"
         let indexPath = IndexPath(row: 0, section: 0)
 
-        viewModel.searchTapped(query: query, location: "02130")
+        viewModel.searchTapped(query: query, zipcode: "02130")
 
         XCTAssertTrue(mockLocationService.didCallAddressForPostalCode)
         XCTAssertNotNil(mockViewController.location)
@@ -84,7 +84,7 @@ final class MainViewModelTests: XCTestCase {
         let query = ""
         let indexPath = IndexPath(row: 0, section: 0)
 
-        viewModel.searchTapped(query: query, location: "02130")
+        viewModel.searchTapped(query: query, zipcode: "02130")
 
         let viewModelError = mockViewController.error as? MainViewModel.Error
 
@@ -104,7 +104,7 @@ final class MainViewModelTests: XCTestCase {
         let query = "ios"
         let indexPath = IndexPath(row: 0, section: 0)
 
-        viewModel.searchTapped(query: query, location: "02130")
+        viewModel.searchTapped(query: query, zipcode: "02130")
 
         let apiClientError = mockViewController.error as? MockApiClient.Error
 
@@ -124,7 +124,7 @@ final class MainViewModelTests: XCTestCase {
         let query = "ios"
         let indexPath = IndexPath(row: 0, section: 0)
 
-        viewModel.searchTapped(query: query, location: "02130")
+        viewModel.searchTapped(query: query, zipcode: "02130")
         viewModel.cellTappedAtIndexPath(indexPath)
 
         let detailViewController = mockViewController.viewControllerToPush as? DetailViewController
@@ -140,7 +140,7 @@ final class MainViewModelTests: XCTestCase {
         let query = "ios"
         let indexPath = IndexPath(row: 1, section: 0)
 
-        viewModel.searchTapped(query: query, location: "02130")
+        viewModel.searchTapped(query: query, zipcode: "02130")
         viewModel.cellTappedAtIndexPath(indexPath)
 
         XCTAssertNil(mockViewController.viewControllerToPush)
