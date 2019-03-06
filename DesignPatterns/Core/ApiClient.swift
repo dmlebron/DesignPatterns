@@ -34,7 +34,17 @@ protocol ApiClientType {
     func get(url: URL, completion: @escaping ApiClient.Completion)
 }
 
-struct ApiClient: ApiClientType {
+final class ApiClient {
+    typealias Completion = (Result) -> Void
+    
+    enum Result {
+        case success(Jobs)
+        case failed(Error)
+    }
+}
+
+// MARK: - ApiClientType
+extension ApiClient: ApiClientType {
     func get(url: URL, completion: @escaping Completion) {
         
         let request = URLRequest(url: url)
@@ -52,15 +62,6 @@ struct ApiClient: ApiClientType {
                     completion(.failed(error))
                 }
             }
-        }.resume()
-    }
-}
-
-// MARK: -
-extension ApiClient {
-    typealias Completion = (Result) -> Void
-    enum Result {
-        case success(Jobs)
-        case failed(Error)
+            }.resume()
     }
 }

@@ -10,22 +10,29 @@ import Foundation
 import MapKit
 
 class MockLocationService: LocationServiceType {
+    private var expectedUserLocation: Location?
+    
     var didCallRequestWhenInUseAuthorization = false
     func requestWhenInUseAuthorization() {
         didCallRequestWhenInUseAuthorization = true
     }
     
     var didCallCurrentAdrress = false
-    var expectedCurrentAddressPlaceMark: MKPlacemark?
-    func currentAddress(completion: @escaping (MKPlacemark?) -> ()) {
+    func currentAddress(completion: @escaping (Location?) -> ()) {
         didCallCurrentAdrress = true
-        completion(expectedCurrentAddressPlaceMark)
+        completion(expectedUserLocation)
     }
     
     var didCallAddressForPostalCode = false
-    var expectedAddressForPostalCodePlaceMark: MKPlacemark?
-    func addressFor(location: String, completion: @escaping (MKPlacemark?) -> ()) {
+    func addressFor(zipcode: String, completion: @escaping (Location?) -> ()) {
         didCallAddressForPostalCode = true
-        completion(expectedAddressForPostalCodePlaceMark)
+        completion(expectedUserLocation)
+    }
+}
+
+// MARK: - Configuration Helper
+extension MockLocationService {
+    func configureCompletion(location: Location) {
+        expectedUserLocation = location
     }
 }

@@ -40,7 +40,7 @@ extension MainPresenter: MainViewOutput {
     }
     
     func searchTapped(query: String, location: String?) {
-        interactor.fetchJobs(query: query, location: location)
+        interactor.searchTapped(query: query, zipcode: location)
     }
     
     func updateCurrentLocationTapped() {
@@ -55,8 +55,8 @@ extension MainPresenter: MainViewOutput {
 
 // MARK: - MainInteractorOutput
 extension MainPresenter: MainInteractorOutput {
-    func changed(userLocation: UserLocation?) {
-        view?.changed(viewDataType: ViewDataType.userLocation(userLocation))
+    func changed(location: Location?) {
+        view?.changed(viewDataType: ViewDataType.location(location))
     }
     
     func changed(jobs: Jobs) {

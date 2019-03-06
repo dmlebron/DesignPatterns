@@ -54,6 +54,10 @@ extension DetailPresenter: DetailInteractorOutput {
     func changed(job: Job) {
         prepareViewModel(job: job)
     }
+    
+    func loaded(companyLogo: UIImage?) {
+        view?.set(companyLogo: companyLogo)
+    }
 }
 
 // MARK: - Private Methods
@@ -71,9 +75,5 @@ private extension DetailPresenter {
                                 url: job.companyUrl,
                                 isWebsiteButtonEnabled: isWebsiteButtonEnabled)
         view?.changed(viewData: viewData)
-
-        job.imageUrl?.loadImage { [weak self] (image) in
-            self?.view?.set(companyLogo: image)
-        }
     }
 }

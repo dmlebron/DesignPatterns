@@ -10,12 +10,12 @@ import Foundation
 
 protocol MainInteractorInput: AnyObject {
     func set(presenter: MainInteractorOutput)
-    func fetchJobs(query: String, location: String?)
+    func searchTapped(query: String, zipcode: String?)
     func updateCurrentAddress()
 }
 
 protocol MainInteractorOutput: AnyObject {
-    func changed(userLocation: UserLocation?)
+    func changed(location: Location?)
     func changed(jobs: Jobs)
     func failed(error: Error)
 }
@@ -30,10 +30,10 @@ extension MainInteractor: MainInteractorInput {
         self.presenter = presenter
     }
     
-    func fetchJobs(query: String, location: String?) {
-        if let location = location {
-            updateAddressFor(location: location) { [weak self] (userLocation) in
-                self?.fetchJobs(query: query, userLocation: userLocation)
+    func searchTapped(query: String, zipcode: String?) {
+        if let zipcode = zipcode {
+            searchAddress(zipcode: zipcode) { [weak self] (location) in
+                self?.fetchJobs(query: query, city: location?.city)
             }
         } else {
             self.fetchJobs(query: query)
@@ -41,19 +41,16 @@ extension MainInteractor: MainInteractorInput {
     }
     
     func updateCurrentAddress() {
-        CurrentEnvironment.locationService.currentAddress { [unowned self] (placemark) in
-            if let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode {
-                let userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country)
-                self.presenter?.changed(userLocation: userLocation)
-            }
+        CurrentEnvironment.locationService.currentAddress { [unowned self] (location) in
+            self.presenter?.changed(location: location)
         }
     }
 }
 
 // MARK: - Private Methods
 private extension MainInteractor {
-    func fetchJobs(query: String, userLocation: UserLocation? = nil) {
-        let route = userLocation != nil ? Route.parameters([.jobType: query, .location: userLocation!.city]) : Route.parameters([Parameter.jobType: query])
+    func fetchJobs(query: String, city: String? = nil) {
+        let route = city != nil ? Route.parameters([.jobType: query, .location: city!]) : Route.parameters([Parameter.jobType: query])
         guard let url = URL(string: route.completeUrl) else { return }
         CurrentEnvironment.apiClient.get(url: url) { [unowned self] result in
             switch result {
@@ -66,13 +63,9 @@ private extension MainInteractor {
         }
     }
     
-    func updateAddressFor(location: String, completion: @escaping (UserLocation?) -> Void) {
-        CurrentEnvironment.locationService.addressFor(location: location) { (placemark) in
-            guard let city = placemark?.locality, let postalCode = placemark?.postalCode, let country = placemark?.isoCountryCode else {
-                return completion(nil)
-            }
-            let userLocation = try? UserLocation(postalCode: postalCode, city: city, country: country)
-            completion(userLocation)
+    func searchAddress(zipcode: String, completion: @escaping (Location?) -> Void) {
+        CurrentEnvironment.locationService.addressFor(zipcode: zipcode) { (searchLocation) in
+            completion(searchLocation)
         }
     }
 }

@@ -15,6 +15,7 @@ protocol DetailInteractorInput: AnyObject {
 
 protocol DetailInteractorOutput: AnyObject {
     func changed(job: Job)
+    func loaded(companyLogo: UIImage?)
 }
 
 final class DetailInteractor {
@@ -34,5 +35,8 @@ extension DetailInteractor: DetailInteractorInput {
     
     func fetchJob() {
         presenter?.changed(job: job)
+        CurrentEnvironment.imageLoader.load(url: job.imageUrl) { [weak self] (image) in
+            self?.presenter?.loaded(companyLogo: image)
+        }
     }
 }

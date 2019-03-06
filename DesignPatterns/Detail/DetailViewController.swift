@@ -61,8 +61,8 @@ final class DetailViewController: UIViewController {
         presenter.viewDidLoad()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         if descriptionLabel.isTruncated {
             showReadMoreButton()
         }
@@ -105,14 +105,8 @@ private extension DetailViewController {
     }
     
     func showReadMoreButton() {
-        UIView.animate(withDuration: 0.5) { [unowned self] in
-            self.readMoreButtonConstraint.constant = Constants.ReadMoreButton.heightConstraint
-            self.view.layoutIfNeeded()
-            let bottomLayer = CALayer()
-            bottomLayer.backgroundColor = UIColor.black.cgColor
-            bottomLayer.frame = CGRect(x: 0, y: 0, width: self.readMoreButton.frame.width, height: Constants.ReadMoreButton.bottomLayerHeight)
-            self.readMoreButton.layer.addSublayer(bottomLayer)
-        }
+        self.readMoreButtonConstraint.constant = Constants.ReadMoreButton.heightConstraint
+        self.view.layoutIfNeeded()
     }
 }
 
@@ -122,6 +116,8 @@ extension DetailViewController: ViewCustomizing {
         nameLabel.textColor = CurrentEnvironment.color.darkGray
         topDividerView.backgroundColor = CurrentEnvironment.color.darkGray
         companyImageView.contentMode = .scaleAspectFit
+        readMoreButton.setTitleColor(CurrentEnvironment.color.darkGray, for: .normal)
+        readMoreButton.backgroundColor = CurrentEnvironment.color.softGray
     }
     
     func setupSelectors() {

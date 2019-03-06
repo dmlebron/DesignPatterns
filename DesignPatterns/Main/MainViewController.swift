@@ -24,7 +24,7 @@ protocol MainViewOutput: AnyObject {
 extension MainViewController {
     enum ViewDataType {
         case tableViewData(TableViewViewData)
-        case userLocation(UserLocation?)
+        case location(Location?)
     }
     
     struct TableViewViewData {
@@ -57,12 +57,6 @@ final class MainViewController: UIViewController {
             tableView.reloadData()
         }
     }
-
-    private var userLocation: UserLocation? {
-        didSet {
-            locationText.text = userLocation?.parsed ?? Constants.Text.noLocation
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,8 +86,8 @@ extension MainViewController: MainViewInput {
         case .tableViewData(let data):
             self.tableViewData = data
             
-        case .userLocation(let userLocation):
-            self.userLocation = userLocation
+        case .location(let location):
+            locationText.text = location?.parsed
         }
     }
     
@@ -160,7 +154,7 @@ extension MainViewController: ViewCustomizing {
         searchText.attributedPlaceholder = searchPlaceholder
         searchText.clearButtonMode = .whileEditing
         locationText.textColor = CurrentEnvironment.color.white
-        let locationPlaceholder = NSAttributedString(string: "Location", attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
+        let locationPlaceholder = NSAttributedString(string: "Enter Zipcode", attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         locationText.attributedPlaceholder = locationPlaceholder
         locationText.clearButtonMode = .whileEditing
         view.backgroundColor = CurrentEnvironment.color.darkGray
