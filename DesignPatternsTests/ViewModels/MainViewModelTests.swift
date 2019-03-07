@@ -25,9 +25,12 @@ final class MainViewModelTests: XCTestCase {
 
     override func tearDown() {
         resetMockFlags()
+        mockApiClient.reset()
+        mockLocationService.reset()
     }
     
     func test_ViewDidAppear_Calls_UpdateCurrentAddress_NotValidUserLocation() {
+        mockLocationService.configureCompletion(location: MockLocation.boston)
         viewModel.viewDidAppear()
         XCTAssertTrue(mockLocationService.didCallCurrentAdrress)
         XCTAssertNotNil(viewModel.userLocation)

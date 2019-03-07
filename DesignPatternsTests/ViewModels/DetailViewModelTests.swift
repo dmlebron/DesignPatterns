@@ -23,11 +23,14 @@ class DetailViewModelTests: XCTestCase {
         mockViewController = MockDetailViewControllerOutput()
         viewModel = DetailViewModel(output: mockViewController, job: job)
         mockLocationService = CurrentEnvironment.locationService as? MockLocationService
+        mockApiClient = CurrentEnvironment.apiClient as? MockApiClient
         mockImageLoader = CurrentEnvironment.imageLoader as? MockImageLoader
     }
 
     override func tearDown() {
         resetMockFlags()
+        mockApiClient.reset()
+        mockLocationService.reset()
     }
 
     func test_ViewDidLoad_AllData() {
