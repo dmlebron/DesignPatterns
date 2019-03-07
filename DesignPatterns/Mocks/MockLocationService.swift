@@ -35,4 +35,11 @@ extension MockLocationService {
     func configureCompletion(location: Location) {
         expectedUserLocation = location
     }
+    
+    func reset() {
+        expectedUserLocation = nil
+        didCallAddressForPostalCode = false
+        didCallRequestWhenInUseAuthorization = false
+        didCallCurrentAdrress = false
+    }
 }
