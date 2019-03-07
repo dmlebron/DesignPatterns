@@ -7,10 +7,19 @@
 //
 
 import XCTest
+@testable import DesignPatterns
 
 class MainModuleBuilderTests: XCTestCase {
-
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func test_Module() {
+        let module = MainModuleBuilder.init().module
+        let view = module as? MainViewController
+        let presenter = view?.presenter as? MainPresenter
+        let interactor = presenter?.interactor as? MainInteractor
+        let router = presenter?.router as? MainRouter
+        
+        XCTAssertNotNil(view)
+        XCTAssertNotNil(presenter)
+        XCTAssertNotNil(interactor)
+        XCTAssertNotNil(router)
     }
 }

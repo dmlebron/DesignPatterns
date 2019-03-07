@@ -22,7 +22,7 @@ protocol MainInteractorOutput: AnyObject {
 }
 
 final class MainInteractor {
-    private weak var presenter: MainInteractorOutput?
+    private(set) weak var presenter: MainInteractorOutput?
 }
 
 // MARK: - MainInteractorInput

@@ -19,8 +19,8 @@ private extension MainPresenter {
 
 final class MainPresenter {
     private typealias ViewDataType = MainViewController.ViewDataType
-    private let interactor: MainInteractorInput
-    private let router: MainRouterInput
+    let interactor: MainInteractorInput
+    let router: MainRouterInput
     private var userLocation: Location?
     private weak var view: MainViewInput?
     

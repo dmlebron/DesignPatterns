@@ -52,7 +52,7 @@ final class MainViewController: UIViewController {
     @IBOutlet weak var locationText: UITextField!
     @IBOutlet weak var locationView: UIView!
     @IBOutlet weak var currentLocationButton: UIButton!
-    private var presenter: MainViewOutput!
+    private(set) var presenter: MainViewOutput!
     private var tableViewData = TableViewViewData(numberOfSections: 0, numberOfRows: 0, items: [:]) {
         didSet {
             tableView.reloadData()
