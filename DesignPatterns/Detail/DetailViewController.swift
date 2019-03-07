@@ -42,7 +42,7 @@ private extension DetailViewController {
 }
 
 final class DetailViewController: UIViewController {
-    private var presenter: DetailViewOutput!
+    private(set) var presenter: DetailViewOutput!
     private var viewData: ViewData?
     
     @IBOutlet weak var nameLabel: UILabel!

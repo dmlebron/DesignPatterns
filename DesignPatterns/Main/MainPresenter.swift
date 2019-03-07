@@ -21,6 +21,7 @@ final class MainPresenter {
     private typealias ViewDataType = MainViewController.ViewDataType
     private let interactor: MainInteractorInput
     private let router: MainRouterInput
+    private var userLocation: Location?
     private weak var view: MainViewInput?
     
     init(interactor: MainInteractorInput, router: MainRouterInput) {
@@ -49,7 +50,7 @@ extension MainPresenter: MainViewOutput {
     
     func cellTapped(job: Job?, navigationController: UINavigationController?) {
         guard let navigationController = navigationController, let job = job else { return }
-        router.navigateToDetailViewController(context: navigationController, job: job)
+        router.navigateToDetailViewController(job: job, userLocation: userLocation, context: navigationController)
     }
 }
 
@@ -57,6 +58,11 @@ extension MainPresenter: MainViewOutput {
 extension MainPresenter: MainInteractorOutput {
     func changed(location: Location?) {
         view?.changed(viewDataType: ViewDataType.location(location))
+    }
+    
+    func changed(userLocation: Location?) {
+        self.userLocation = userLocation
+        changed(location: self.userLocation)
     }
     
     func changed(jobs: Jobs) {

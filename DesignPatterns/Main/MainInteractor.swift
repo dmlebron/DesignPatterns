@@ -16,12 +16,13 @@ protocol MainInteractorInput: AnyObject {
 
 protocol MainInteractorOutput: AnyObject {
     func changed(location: Location?)
+    func changed(userLocation: Location?)
     func changed(jobs: Jobs)
     func failed(error: Error)
 }
 
 final class MainInteractor {
-   private weak var presenter: MainInteractorOutput?
+    private weak var presenter: MainInteractorOutput?
 }
 
 // MARK: - MainInteractorInput
@@ -42,7 +43,7 @@ extension MainInteractor: MainInteractorInput {
     
     func updateCurrentAddress() {
         CurrentEnvironment.locationService.currentAddress { [unowned self] (location) in
-            self.presenter?.changed(location: location)
+            self.presenter?.changed(userLocation: location)
         }
     }
 }

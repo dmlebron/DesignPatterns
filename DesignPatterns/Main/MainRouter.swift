@@ -10,7 +10,7 @@ import UIKit
 
 protocol MainRouterInput: AnyObject {
     static func navigationControllerForMainModuleSetup(builder: MainModuleBuilder) -> UINavigationController
-    func navigateToDetailViewController(context: UINavigationController, job: Job)
+    func navigateToDetailViewController(job: Job, userLocation: Location?, context: UINavigationController)
 }
 
 final class MainRouter: MainRouterInput {
@@ -20,8 +20,8 @@ final class MainRouter: MainRouterInput {
         return context
     }
     
-    func navigateToDetailViewController(context: UINavigationController, job: Job) {
+    func navigateToDetailViewController(job: Job, userLocation: Location?, context: UINavigationController) {
         let builder = DetailModuleBuilder()
-        DetailRouter.present(job: job, builder: builder, context: context)
+        DetailRouter.present(job: job, userLocation: userLocation, builder: builder, context: context)
     }
 }

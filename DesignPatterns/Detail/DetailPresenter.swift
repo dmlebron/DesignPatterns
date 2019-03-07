@@ -19,8 +19,8 @@ private extension DetailPresenter {
 
 final class DetailPresenter {
     typealias ViewData = DetailViewController.ViewData
-    private let router: DetailRouterInput
-    private let interactor: DetailInteractorInput
+    let router: DetailRouterInput
+    let interactor: DetailInteractorInput
     private var job: Job?
     weak var view: DetailViewInput?
     

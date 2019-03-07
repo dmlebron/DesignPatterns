@@ -21,9 +21,11 @@ protocol DetailInteractorOutput: AnyObject {
 final class DetailInteractor {
     private weak var presenter: DetailInteractorOutput?
     private let job: Job
+    let userLocation: Location?
     
-    init(job: Job) {
+    init(job: Job, userLocation: Location?) {
         self.job = job
+        self.userLocation = userLocation
     }
 }
 

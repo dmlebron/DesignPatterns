@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DetailRouterInput: AnyObject {
-    static func present(job: Job, builder: DetailModuleBuilder, context: UINavigationController)
+    static func present(job: Job, userLocation: Location?, builder: DetailModuleBuilder, context: UINavigationController)
     func openUrl(_ url: URL?)
     func navigateToJobDescriptionViewController(context: UINavigationController?, attributedDescription: NSAttributedString)
 }
@@ -18,8 +18,8 @@ final class DetailRouter {}
 
 // MARK: - DetailRouterInput
 extension DetailRouter: DetailRouterInput {
-    static func present(job: Job, builder: DetailModuleBuilder, context: UINavigationController) {
-        let module = builder.module(job: job)
+    static func present(job: Job, userLocation: Location?, builder: DetailModuleBuilder, context: UINavigationController) {
+        let module = builder.module(job: job, userLocation: userLocation)
         context.pushViewController(module, animated: true)
     }
 
