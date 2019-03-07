@@ -41,4 +41,9 @@ extension MockApiClient {
     func configureFail(error: Error) {
         expectedResult = ApiClient.Result.failed(error)
     }
+    
+    func reset() {
+        url = nil
+        expectedResult = nil
+    }
 }
