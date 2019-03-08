@@ -29,7 +29,7 @@ class MainPresenterTests: XCTestCase {
         XCTAssertTrue(mockInteractor.didCallUpdateCurrentAddress)
     }
 
-    func test_SearchTapped_Calls_InteractorSearchTapped_NoLocation() {
+    func test_SearchTapped_Calls_SearchTapped_NoLocation() {
         let query = "ios"
         presenter.searchTapped(query: query, address: nil)
 
@@ -37,13 +37,80 @@ class MainPresenterTests: XCTestCase {
         XCTAssertTrue(mockInteractor.didCallSearchTapped?.query == query)
     }
 
-    func test_SearchTapped_Calls_InteractorSearchTapped_WithLocation() {
+    func test_SearchTapped_Calls_SearchTapped_WithLocation() {
         let query = "ios"
         let location = MockLocation.boston
         presenter.searchTapped(query: query, address: location.city)
 
         XCTAssertTrue(mockInteractor.didCallSearchTapped?.address == location.city)
         XCTAssertTrue(mockInteractor.didCallSearchTapped?.query == query)
+    }
+
+    func test_UpdateCurrentAddress_Calls_UpdateCurrentAddress() {
+        presenter.updateCurrentLocationTapped()
+        XCTAssertTrue(mockInteractor.didCallUpdateCurrentAddress)
+    }
+
+    func test_CellTapped_Calls_NavigateToDetail_NoUserLocation() {
+        let job = MockJob.onlyTitleLocationAndNameLocation
+        let nav = UINavigationController()
+        presenter.cellTapped(job: job, navigationController: nav)
+
+        XCTAssertTrue(mockRouter.didCallNavigateToDetail?.job.title == job.title)
+        XCTAssertNil(mockRouter.didCallNavigateToDetail?.userLocation)
+    }
+
+    func test_CellTapped_Calls_NavigateToDetail_WithUserLocation() {
+        let job = MockJob.onlyTitleLocationAndNameLocation
+        let userLocation = MockLocation.boston
+        let nav = UINavigationController()
+        presenter.changed(userLocation: userLocation)
+        presenter.cellTapped(job: job, navigationController: nav)
+
+        XCTAssertTrue(mockRouter.didCallNavigateToDetail?.job.title == job.title)
+        XCTAssertTrue(mockRouter.didCallNavigateToDetail?.userLocation?.city == userLocation.city)
+    }
+
+    func test_ChangedLocation_Calls_ChangeDataTypeLocation() {
+        let mockLocation = MockLocation.boston
+        presenter.changed(userLocation: mockLocation)
+
+        switch mockView.didCallChangedViewDataType! {
+        case .location(let location):
+            XCTAssertTrue(location?.city == mockLocation.city)
+        default: XCTFail()
+        }
+    }
+
+    func test_ChangedUserLocation_Calls_ChangeDataTypeLocation_And_UpdateUserLocation() {
+        let mockLocation = MockLocation.boston
+        presenter.changed(userLocation: mockLocation)
+
+        switch mockView.didCallChangedViewDataType! {
+        case .location(let location):
+            XCTAssertTrue(location?.city == mockLocation.city)
+            XCTAssertTrue(presenter.userLocation?.city == mockLocation.city)
+        default: XCTFail()
+        }
+    }
+
+    func test_ChangedJobs_Calls_ChangeDataTypeTableViewData() {
+        let mockJobs = [MockJob.allFields, MockJob.onlyTitleLocationAndNameLocation, MockJob.onlyTitleNameAndUrl]
+        presenter.changed(jobs: mockJobs)
+
+        switch mockView.didCallChangedViewDataType! {
+        case .tableViewData(let viewData):
+            XCTAssertTrue(viewData.numberOfRows == mockJobs.count)
+            XCTAssertTrue(viewData.items[IndexPath(row: 0, section: 0)]?.title == mockJobs.first?.title)
+        default: XCTFail()
+        }
+    }
+
+    func test_Failed_Calls_ShowAlert() {
+        let error = MockApiClient.Error.response
+        presenter.failed(error: error)
+        let responseError = mockView.didCallShowAlertError  as? MockApiClient.Error
+        XCTAssertTrue(responseError?.localizedDescription == error.localizedDescription)
     }
 }
 

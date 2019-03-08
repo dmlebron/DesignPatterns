@@ -21,7 +21,7 @@ final class MainPresenter {
     private typealias ViewDataType = MainViewController.ViewDataType
     let interactor: MainInteractorInput
     let router: MainRouterInput
-    private var userLocation: Location?
+    private(set) var userLocation: Location?
     private weak var view: MainViewInput?
     
     init(interactor: MainInteractorInput, router: MainRouterInput) {
