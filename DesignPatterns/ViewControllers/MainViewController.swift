@@ -53,8 +53,8 @@ final class MainViewController: UIViewController {
 private extension MainViewController {
     func search() {
         guard let query = searchText.text, !query.isEmpty else { return }
-        if let zipcode = locationText.text, !zipcode.isEmpty {
-            updateAddressFor(zipcode: zipcode) { [weak self] (location) in
+        if let address = locationText.text, !address.isEmpty {
+            updateAddressFor(address: address) { [weak self] (location) in
                 self?.fetchJobs(query: query, city: location?.city)
             }
         } else {
@@ -86,8 +86,8 @@ private extension MainViewController {
         }
     }
     
-    func updateAddressFor(zipcode: String, completion: @escaping (Location?) -> Void) {
-        CurrentEnvironment.locationService.addressFor(zipcode: zipcode) { (userLocation) in
+    func updateAddressFor(address: String, completion: @escaping (Location?) -> Void) {
+        CurrentEnvironment.locationService.locationFor(address: address) { (userLocation) in
             guard let userLocation = userLocation else { return completion(nil) }
             completion(userLocation)
         }
