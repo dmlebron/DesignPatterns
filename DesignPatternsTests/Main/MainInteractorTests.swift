@@ -11,7 +11,7 @@ import XCTest
 
 class MainInteractorTests: XCTestCase {
     var interactor: MainInteractor!
-    var mockPresenter: MockPresenter!
+    var mockPresenter: MockMainPresenter!
     var mockApiClient: MockApiClient!
     var mockLocationService: MockLocationService!
     
@@ -19,7 +19,7 @@ class MainInteractorTests: XCTestCase {
         CurrentEnvironment = Environment.mock
         mockApiClient = CurrentEnvironment.apiClient as? MockApiClient
         mockLocationService = CurrentEnvironment.locationService as? MockLocationService
-        mockPresenter = MockPresenter()
+        mockPresenter = MockMainPresenter()
         interactor = MainInteractor()
         interactor.set(presenter: mockPresenter)
     }
@@ -71,7 +71,8 @@ class MainInteractorTests: XCTestCase {
     }
 }
 
-class MockPresenter: MainInteractorOutput {
+// MARK: - Mock MainPresenter
+class MockMainPresenter: MainInteractorOutput {
     var didCallLocationChanged: Location?
     func changed(location: Location?) {
         didCallLocationChanged = location
