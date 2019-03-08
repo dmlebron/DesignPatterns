@@ -8,6 +8,7 @@
 
 import UIKit
 
+//MARK: - To be Conformed by DetailRouter
 protocol DetailRouterInput: AnyObject {
     static func present(job: Job, userLocation: Location?, builder: DetailModuleBuilder, context: UINavigationController)
     func openUrl(_ url: URL?)

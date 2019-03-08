@@ -8,6 +8,7 @@
 
 import UIKit
 
+//MARK: - To be Conformed by MainRouter
 protocol MainRouterInput: AnyObject {
     static func navigationControllerForMainModuleSetup(builder: MainModuleBuilder) -> UINavigationController
     func navigateToDetailViewController(job: Job, userLocation: Location?, context: UINavigationController)

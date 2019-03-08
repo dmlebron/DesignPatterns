@@ -8,12 +8,14 @@
 
 import Foundation
 
+//MARK: - To be Conformed by MainInteractor
 protocol MainInteractorInput: AnyObject {
     func set(presenter: MainInteractorOutput)
     func searchTapped(query: String, zipcode: String?)
     func updateCurrentAddress()
 }
 
+//MARK: - To be Conformed by MainPresenter
 protocol MainInteractorOutput: AnyObject {
     func changed(location: Location?)
     func changed(userLocation: Location?)

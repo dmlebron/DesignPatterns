@@ -8,11 +8,13 @@
 
 import UIKit
 
+//MARK: - To be Conformed by DetailInteractor
 protocol DetailInteractorInput: AnyObject {
     func set(presenter: DetailInteractorOutput)
     func fetchJob()
 }
 
+//MARK: - To be Conformed by DetailPresenter
 protocol DetailInteractorOutput: AnyObject {
     func changed(job: Job)
     func loaded(companyLogo: UIImage?)

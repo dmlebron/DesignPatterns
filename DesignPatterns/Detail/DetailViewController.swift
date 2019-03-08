@@ -7,11 +7,13 @@
 
 import UIKit
 
+//MARK: - To be Conformed by DetailViewController
 protocol DetailViewInput: AnyObject {
     func changed(viewData: DetailViewController.ViewData)
     func set(companyLogo: UIImage?)
 }
 
+//MARK: - To be Conformed by DetailPresenter
 protocol DetailViewOutput: AnyObject {
     func set(view: DetailViewInput)
     func viewDidLoad()

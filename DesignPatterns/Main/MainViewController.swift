@@ -7,11 +7,13 @@
 
 import UIKit
 
+//MARK: - To be Conformed by MainViewController
 protocol MainViewInput: AnyObject {
     func changed(viewDataType: MainViewController.ViewDataType)
     func showAlert(error: Error)
 }
 
+//MARK: - To be Conformed by MainPresenter
 protocol MainViewOutput: AnyObject {
     func set(view: MainViewInput)
     func viewDidAppear()
@@ -20,7 +22,7 @@ protocol MainViewOutput: AnyObject {
     func cellTapped(job: Job?, navigationController: UINavigationController?)
 }
 
-// MARK: - DataDisplayable
+// MARK: - Objects
 extension MainViewController {
     enum ViewDataType {
         case tableViewData(TableViewViewData)
