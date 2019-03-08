@@ -28,7 +28,6 @@ class DetailViewModelTests: XCTestCase {
     }
 
     override func tearDown() {
-        resetMockFlags()
         mockApiClient.reset()
         mockLocationService.reset()
     }
@@ -69,19 +68,8 @@ class DetailViewModelTests: XCTestCase {
     func test_ReadMoreButtonTapped_Valid() {
         viewModel.readMoreButtonTapped()
 
-        let descriptionViewController = mockViewController.viewControllerToShow as? JobDescriptionViewController
+        let descriptionViewController = mockViewController.didCallPushViewController as? JobDescriptionViewController
         XCTAssertNotNil(descriptionViewController)
-    }
-}
-
-private extension DetailViewModelTests {
-    func resetMockFlags() {
-        mockViewController.companyLogo = nil
-        mockViewController.url = nil
-        mockViewController.websiteUrlState = nil
-        mockViewController.didCallShowReadMoreButton = false
-        mockViewController.viewControllerToShow = nil
-        mockViewController.viewControllerToShow = nil
     }
 }
 
@@ -116,8 +104,8 @@ class MockDetailViewControllerOutput: DetailViewModelOutput {
         didCallShowReadMoreButton = true
     }
 
-    var viewControllerToShow: UIViewController?
+    var didCallPushViewController: UIViewController?
     func pushViewController(_ viewController: UIViewController) {
-        viewControllerToShow = viewController
+        didCallPushViewController = viewController
     }
 }
