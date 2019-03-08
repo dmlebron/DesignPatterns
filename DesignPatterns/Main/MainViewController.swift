@@ -17,7 +17,7 @@ protocol MainViewInput: AnyObject {
 protocol MainViewOutput: AnyObject {
     func set(view: MainViewInput)
     func viewDidAppear()
-    func searchTapped(query: String, location: String?)
+    func searchTapped(query: String, address: String?)
     func updateCurrentLocationTapped()
     func cellTapped(job: Job?, navigationController: UINavigationController?)
 }
@@ -136,7 +136,7 @@ extension MainViewController: UITableViewDelegate {
 extension MainViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let query = searchText.text {
-            presenter.searchTapped(query: query, location: locationText.text)
+            presenter.searchTapped(query: query, address: locationText.text)
         }
         view.endEditing(true)
         return false

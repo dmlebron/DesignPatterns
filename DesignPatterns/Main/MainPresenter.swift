@@ -40,8 +40,8 @@ extension MainPresenter: MainViewOutput {
         interactor.updateCurrentAddress()
     }
     
-    func searchTapped(query: String, location: String?) {
-        interactor.searchTapped(query: query, zipcode: location)
+    func searchTapped(query: String, address: String?) {
+        interactor.searchTapped(query: query, address: address)
     }
     
     func updateCurrentLocationTapped() {

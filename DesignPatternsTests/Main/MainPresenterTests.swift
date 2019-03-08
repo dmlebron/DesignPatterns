@@ -16,7 +16,34 @@ class MainPresenterTests: XCTestCase {
     var mockRouter: MockMainRouter!
 
     override func setUp() {
+        CurrentEnvironment = Environment.mock
+        mockInteractor = MockMainInteractor()
+        mockRouter = MockMainRouter()
+        mockView = MockMainView()
         presenter = MainPresenter(interactor: mockInteractor, router: mockRouter)
+        presenter.set(view: mockView)
+    }
+
+    func test_ViewDidAppear_Calls_UpdateCurrentAddress() {
+        presenter.viewDidAppear()
+        XCTAssertTrue(mockInteractor.didCallUpdateCurrentAddress)
+    }
+
+    func test_SearchTapped_Calls_InteractorSearchTapped_NoLocation() {
+        let query = "ios"
+        presenter.searchTapped(query: query, address: nil)
+
+        XCTAssertNil(mockInteractor.didCallSearchTapped?.address)
+        XCTAssertTrue(mockInteractor.didCallSearchTapped?.query == query)
+    }
+
+    func test_SearchTapped_Calls_InteractorSearchTapped_WithLocation() {
+        let query = "ios"
+        let location = MockLocation.boston
+        presenter.searchTapped(query: query, address: location.city)
+
+        XCTAssertTrue(mockInteractor.didCallSearchTapped?.address == location.city)
+        XCTAssertTrue(mockInteractor.didCallSearchTapped?.query == query)
     }
 }
 
@@ -27,11 +54,9 @@ class MockMainInteractor: MainInteractorInput {
         didCallSetPresenter = presenter
     }
 
-    var didCallSearchTappedQuery: String?
-    var didCallSearchTappedZipcode: String?
-    func searchTapped(query: String, zipcode: String?) {
-        didCallSearchTappedQuery = query
-        didCallSearchTappedZipcode = zipcode
+    var didCallSearchTapped: (query: String, address: String?)?
+    func searchTapped(query: String, address: String?) {
+        didCallSearchTapped = (query: query, address: address)
     }
 
     var didCallUpdateCurrentAddress = false
@@ -61,8 +86,6 @@ class MockMainRouter: MainRouterInput {
 
     var didCallNavigateToDetail: (job: Job, userLocation: Location?, context: UINavigationController)?
     func navigateToDetailViewController(job: Job, userLocation: Location?, context: UINavigationController) {
-        didCallNavigateToDetail?.job = job
-        didCallNavigateToDetail?.userLocation = userLocation
-        didCallNavigateToDetail?.context = context
+        didCallNavigateToDetail = (job: job, userLocation: userLocation, context: context)
     }
 }

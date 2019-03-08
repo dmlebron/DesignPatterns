@@ -11,7 +11,7 @@ import Foundation
 //MARK: - To be Conformed by MainInteractor
 protocol MainInteractorInput: AnyObject {
     func set(presenter: MainInteractorOutput)
-    func searchTapped(query: String, zipcode: String?)
+    func searchTapped(query: String, address: String?)
     func updateCurrentAddress()
 }
 
@@ -33,9 +33,9 @@ extension MainInteractor: MainInteractorInput {
         self.presenter = presenter
     }
     
-    func searchTapped(query: String, zipcode: String?) {
-        if let zipcode = zipcode {
-            searchAddress(zipcode: zipcode) { [weak self] (location) in
+    func searchTapped(query: String, address: String?) {
+        if let address = address {
+            searchAddress(address: address) { [weak self] (location) in
                 self?.fetchJobs(query: query, city: location?.city)
             }
         } else {
@@ -66,8 +66,8 @@ private extension MainInteractor {
         }
     }
     
-    func searchAddress(zipcode: String, completion: @escaping (Location?) -> Void) {
-        CurrentEnvironment.locationService.addressFor(zipcode: zipcode) { (searchLocation) in
+    func searchAddress(address: String, completion: @escaping (Location?) -> Void) {
+        CurrentEnvironment.locationService.locationFor(address: address) { (searchLocation) in
             completion(searchLocation)
         }
     }
