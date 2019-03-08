@@ -41,10 +41,24 @@ class MainInteractorTests: XCTestCase {
     
     func test_SearchTapped_Calls_ApiClient_NoZipcode() {
         let query = "ios"
+        mockApiClient.configureSuccess(mockJobs: [MockJob.allFields])
         interactor.searchTapped(query: query, zipcode: nil)
         
         XCTAssertNotNil(mockApiClient.url)
         XCTAssertFalse(mockLocationService.didCallAddressForPostalCode)
+        XCTAssertNil(mockPresenter?.didCallFailed)
+        XCTAssertNotNil(mockPresenter.didCallChangedJobs)
+    }
+
+    func test_SearchTapped_Calls_ApiClient_NoZipcode_Failed() {
+        let query = "ios"
+        mockApiClient.configureFail(error: MockApiClient.Error.response)
+        interactor.searchTapped(query: query, zipcode: nil)
+
+        XCTAssertNotNil(mockApiClient.url)
+        XCTAssertFalse(mockLocationService.didCallAddressForPostalCode)
+        XCTAssertNotNil(mockPresenter?.didCallFailed)
+        XCTAssertNil(mockPresenter.didCallChangedJobs)
     }
     
     func test_SearchTapped_Calls_ApiClient_And_LocationService() {
