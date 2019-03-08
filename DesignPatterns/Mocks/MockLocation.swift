@@ -9,6 +9,10 @@ import Foundation
 
 struct MockLocation {
     static var boston: Location {
-        return try! Location(postalCode: "02130", city: "Boston", country: "MA")
+        return try! Location(city: "Boston", country: "MA", postalCode: "02130")
+    }
+
+    static var bostonNoZipcode: Location {
+        return try! Location(city: "Boston", country: "MA")
     }
 }
