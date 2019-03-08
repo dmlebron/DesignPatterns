@@ -55,8 +55,8 @@ final class MainViewModelTests: XCTestCase {
         mockApiClient.configureSuccess(mockJobs: [mockJob])
         
         let query = "ios"
-        viewModel.searchTapped(query: query, zipcode: nil)
-        XCTAssertFalse(mockLocationService.didCallAddressForPostalCode)
+        viewModel.searchTapped(query: query, address: nil)
+        XCTAssertFalse(mockLocationService.didCallLocationForAddress)
         XCTAssertNil(mockViewController.location)
         XCTAssertTrue(mockViewController.didCallReloadTableView)
         XCTAssertTrue(viewModel.numberOfRows() == 1)
@@ -69,9 +69,9 @@ final class MainViewModelTests: XCTestCase {
         let query = "ios"
         let indexPath = IndexPath(row: 0, section: 0)
 
-        viewModel.searchTapped(query: query, zipcode: "02130")
+        viewModel.searchTapped(query: query, address: "02130")
 
-        XCTAssertTrue(mockLocationService.didCallAddressForPostalCode)
+        XCTAssertTrue(mockLocationService.didCallLocationForAddress)
         XCTAssertNotNil(mockViewController.location)
         XCTAssertTrue(mockViewController.didCallReloadTableView)
         XCTAssertTrue(viewModel.numberOfRows() == 1)
@@ -87,11 +87,11 @@ final class MainViewModelTests: XCTestCase {
         let query = ""
         let indexPath = IndexPath(row: 0, section: 0)
 
-        viewModel.searchTapped(query: query, zipcode: "02130")
+        viewModel.searchTapped(query: query, address: "02130")
 
         let viewModelError = mockViewController.error as? MainViewModel.Error
 
-        XCTAssertTrue(mockLocationService.didCallAddressForPostalCode)
+        XCTAssertTrue(mockLocationService.didCallLocationForAddress)
         XCTAssertNotNil(mockViewController.location)
         XCTAssertFalse(mockViewController.didCallReloadTableView)
         XCTAssertTrue(viewModel.numberOfRows() == 0)
@@ -107,11 +107,11 @@ final class MainViewModelTests: XCTestCase {
         let query = "ios"
         let indexPath = IndexPath(row: 0, section: 0)
 
-        viewModel.searchTapped(query: query, zipcode: "02130")
+        viewModel.searchTapped(query: query, address: "02130")
 
         let apiClientError = mockViewController.error as? MockApiClient.Error
 
-        XCTAssertTrue(mockLocationService.didCallAddressForPostalCode)
+        XCTAssertTrue(mockLocationService.didCallLocationForAddress)
         XCTAssertNotNil(mockViewController.location)
         XCTAssertFalse(mockViewController.didCallReloadTableView)
         XCTAssertTrue(apiClientError?.localizedDescription == MockApiClient.Error.response.localizedDescription)
@@ -127,7 +127,7 @@ final class MainViewModelTests: XCTestCase {
         let query = "ios"
         let indexPath = IndexPath(row: 0, section: 0)
 
-        viewModel.searchTapped(query: query, zipcode: "02130")
+        viewModel.searchTapped(query: query, address: "02130")
         viewModel.cellTappedAtIndexPath(indexPath)
 
         let detailViewController = mockViewController.viewControllerToPush as? DetailViewController
@@ -143,7 +143,7 @@ final class MainViewModelTests: XCTestCase {
         let query = "ios"
         let indexPath = IndexPath(row: 1, section: 0)
 
-        viewModel.searchTapped(query: query, zipcode: "02130")
+        viewModel.searchTapped(query: query, address: "02130")
         viewModel.cellTappedAtIndexPath(indexPath)
 
         XCTAssertNil(mockViewController.viewControllerToPush)
@@ -155,7 +155,7 @@ final class MainViewModelTests: XCTestCase {
 // MARK: - Helpers
 private extension MainViewModelTests {
     func resetMockFlags() {
-        mockLocationService.didCallAddressForPostalCode = false
+        mockLocationService.didCallLocationForAddress = false
         mockViewController.didCallReloadTableView = false
         mockLocationService.didCallCurrentAdrress = false
         mockViewController.viewControllerToPush = nil

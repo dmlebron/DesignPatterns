@@ -106,7 +106,7 @@ extension MainViewController: UITableViewDelegate {
 extension MainViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let query = searchText.text {
-            viewModel.searchTapped(query: query, zipcode: locationText.text)
+            viewModel.searchTapped(query: query, address: locationText.text)
         }
         view.endEditing(true)
         return false
