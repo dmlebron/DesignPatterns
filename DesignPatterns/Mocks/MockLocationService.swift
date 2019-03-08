@@ -23,9 +23,9 @@ class MockLocationService: LocationServiceType {
         completion(expectedUserLocation)
     }
     
-    var didCallAddressForPostalCode = false
-    func addressFor(zipcode: String, completion: @escaping (Location?) -> ()) {
-        didCallAddressForPostalCode = true
+    var didCallLocationForAddress = false
+    func locationFor(address: String, completion: @escaping (Location?) -> ()) {
+        didCallLocationForAddress = true
         completion(expectedUserLocation)
     }
 }
@@ -38,7 +38,7 @@ extension MockLocationService {
     
     func reset() {
         expectedUserLocation = nil
-        didCallAddressForPostalCode = false
+        didCallLocationForAddress = false
         didCallRequestWhenInUseAuthorization = false
         didCallCurrentAdrress = false
     }

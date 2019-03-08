@@ -23,25 +23,25 @@ struct Location {
         }
     }
     
-    let postalCode: String
     let city: String
     let country: String
+    let postalCode: String?
     
-    init(postalCode: String, city: String, country: String) throws {
-        self.postalCode = postalCode
+    init(city: String, country: String, postalCode: String? = nil) throws {
         self.city = city.capitalized
         self.country = country.uppercased()
+        self.postalCode = postalCode
         try validate()
     }
     
     var parsed: String {
-        return "\(city), \(country) \(postalCode)"
+        return "\(city), \(country) \(postalCode ?? "No Postal Code")"
     }
 }
 
 private extension Location {
     func validate() throws {
-        if postalCode.count < 2 {
+        if let postalCode = postalCode, postalCode.count < 2 {
             throw Error.invalidPostalCodeLength
         }
 
