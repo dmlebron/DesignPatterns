@@ -44,6 +44,34 @@ class DetailPresenterTests: XCTestCase {
         XCTAssertTrue(mockRouter.didCallNavigateToJobDescription?.attrString == mockAttrString)
         XCTAssertTrue(mockRouter.didCallNavigateToJobDescription?.context == mockContext)
     }
+    
+    func test_ChangedJob_Calls_ChangedViewData_AllFields() {
+        let mockJob = MockJob.allFields
+        presenter.changed(job: mockJob)
+        
+        XCTAssertTrue(mockView.didCallChangedViewData?.name == mockJob.companyName)
+        XCTAssertTrue(mockView.didCallChangedViewData?.location == mockJob.location)
+        XCTAssertTrue(mockView.didCallChangedViewData?.urlString == mockJob.companyUrlString)
+        XCTAssertTrue(mockView.didCallChangedViewData?.isWebsiteButtonEnabled == true)
+    }
+    
+    func test_ChangedJob_Calls_ChangedViewData_OnlyTitleLocaationAndName() {
+        let mockJob = MockJob.onlyTitleLocationAndName
+        presenter.changed(job: mockJob)
+        
+        XCTAssertTrue(mockView.didCallChangedViewData?.name == mockJob.companyName)
+        XCTAssertTrue(mockView.didCallChangedViewData?.location == mockJob.location)
+        XCTAssertTrue(mockView.didCallChangedViewData?.urlString == DetailPresenter.Constants.noUrlString)
+        XCTAssertTrue(mockView.didCallChangedViewData?.isWebsiteButtonEnabled == false)
+        XCTAssertTrue(mockView.didCallChangedViewData?.description == DetailPresenter.Constants.noDescriptionAttributedString)
+    }
+    
+    func test_LoadedCompanyLogo_Calls_SetCompanyLogo() {
+        let mockImage = UIImage(named: "location")
+        presenter.loaded(companyLogo: mockImage)
+        
+        XCTAssertTrue(mockView.didCallSetCompanyLogo == mockImage)
+    }
 }
 
 // MARK: - Mock DetailInteractor

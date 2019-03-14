@@ -52,7 +52,7 @@ class MainPresenterTests: XCTestCase {
     }
 
     func test_CellTapped_Calls_NavigateToDetail_NoUserLocation() {
-        let job = MockJob.onlyTitleLocationAndNameLocation
+        let job = MockJob.onlyTitleLocationAndName
         let nav = UINavigationController()
         presenter.cellTapped(job: job, navigationController: nav)
 
@@ -61,7 +61,7 @@ class MainPresenterTests: XCTestCase {
     }
 
     func test_CellTapped_Calls_NavigateToDetail_WithUserLocation() {
-        let job = MockJob.onlyTitleLocationAndNameLocation
+        let job = MockJob.onlyTitleLocationAndName
         let userLocation = MockLocation.boston
         let nav = UINavigationController()
         presenter.changed(userLocation: userLocation)
@@ -95,7 +95,7 @@ class MainPresenterTests: XCTestCase {
     }
 
     func test_ChangedJobs_Calls_ChangeDataTypeTableViewData() {
-        let mockJobs = [MockJob.allFields, MockJob.onlyTitleLocationAndNameLocation, MockJob.onlyTitleNameAndUrl]
+        let mockJobs = [MockJob.allFields, MockJob.onlyTitleLocationAndName, MockJob.onlyTitleNameAndUrl]
         presenter.changed(jobs: mockJobs)
 
         switch mockView.didCallChangedViewDataType! {

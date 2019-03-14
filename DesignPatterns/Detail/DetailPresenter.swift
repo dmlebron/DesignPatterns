@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Constants
-private extension DetailPresenter {
+extension DetailPresenter {
     enum Constants {
         static var noUrlString: String { return "No URL" }
         static var noLocationString: String { return "No Location Data" }
