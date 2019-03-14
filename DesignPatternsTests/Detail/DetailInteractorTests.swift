@@ -7,10 +7,49 @@
 //
 
 import XCTest
+@testable import DesignPatterns
 
 class DetailInteractorTests: XCTestCase {
-
+    var interactor: DetailInteractor!
+    var mockPresenter: MockDetailPresenter!
+    var mockJob: Job!
+    var mockImageLoader: MockImageLoader!
+    var mockLocationService: MockLocationService!
+    
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        CurrentEnvironment = Environment.mock
+        mockImageLoader = CurrentEnvironment.imageLoader as? MockImageLoader
+        mockLocationService = CurrentEnvironment.locationService as? MockLocationService
+        mockJob = MockJob.allFields
+        mockPresenter = MockDetailPresenter()
+        interactor = DetailInteractor(job: mockJob, userLocation: nil)
+        interactor.set(presenter: mockPresenter)
+    }
+    
+    func test_FetchJob_Calls_Changed_And_Loaded() {
+        interactor.fetchJob()
+        
+        XCTAssertTrue(mockPresenter.didCallChangedJob?.title == mockJob.title)
+    }
+    
+    func test_FetchJob_Calls_Loaded() {
+        let mockImage = UIImage(named: "location")!
+        mockImageLoader.configureCompletion(image: mockImage)
+        interactor.fetchJob()
+
+        XCTAssertTrue(mockPresenter.didCallLoadedCompanyLogo == mockImage)
+    }
+}
+
+// MARK: - Mock DetailPresenter
+class MockDetailPresenter: DetailInteractorOutput {
+    var didCallChangedJob: Job?
+    func changed(job: Job) {
+        didCallChangedJob = job
+    }
+    
+    var didCallLoadedCompanyLogo: UIImage?
+    func loaded(companyLogo: UIImage?) {
+        didCallLoadedCompanyLogo = companyLogo
     }
 }

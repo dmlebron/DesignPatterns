@@ -16,12 +16,12 @@ class MainRouterTests: XCTestCase {
         router = MainRouter()
     }
     
-    func test_NavigateToDetailViewController_WithUserLocation() {
-        let mockJob = MockJob.allFields
-        let mockLocation = MockLocation.boston
-        let context = UINavigationController()
-        let builder = DetailModuleBuilder()
-        
-        router.navigateToDetailViewController(job: <#T##Job#>, userLocation: <#T##Location?#>, context: <#T##UINavigationController#>)
-    }
+//    func test_NavigateToDetailViewController_WithUserLocation() {
+//        let mockJob = MockJob.allFields
+//        let mockLocation = MockLocation.boston
+//        let context = UINavigationController()
+//        let builder = DetailModuleBuilder()
+//        
+//        router.navigateToDetailViewController(job: mockJob, userLocation: mockLocation, context: context)
+//    }
 }
