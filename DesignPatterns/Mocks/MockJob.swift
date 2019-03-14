@@ -18,7 +18,7 @@ struct MockJob {
                    location: nil)
     }
 
-    static var onlyTitleLocationAndNameLocation: Job {
+    static var onlyTitleLocationAndName: Job {
         return Job(title: "BackEnd Engineer",
                    companyUrlString: nil,
                    companyLogo: nil,

@@ -42,7 +42,7 @@ class DetailViewModelTests: XCTestCase {
     }
     
     func test_ViewDidLoad_NoWebsite() {
-        viewModel = DetailViewModel(output: mockViewController, job: MockJob.onlyTitleLocationAndNameLocation)
+        viewModel = DetailViewModel(output: mockViewController, job: MockJob.onlyTitleLocationAndName)
         viewModel.viewDidLoad()
         XCTAssertTrue(mockViewController.websiteUrlState?.isEnabled == false)
         XCTAssertTrue(mockViewController.websiteUrlState?.title == DetailViewModel.Constants.noUrlString)
