@@ -50,8 +50,3 @@ extension CellRegistration {
         return UINib(nibName: name, bundle: nil)
     }
 }
-
-// MARK - DataDisplayable
-protocol DataDisplayable {
-    associatedtype ViewData
-}
