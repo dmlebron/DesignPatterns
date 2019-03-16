@@ -24,8 +24,6 @@ extension MainTableViewCell: ViewCustomizing {
         titleLabel.textColor = CurrentEnvironment.color.darkGray
         companyNameLabel.textColor = CurrentEnvironment.color.darkGray
     }
-    
-    
 }
 
 // MARK: - CellRegistration
