@@ -51,7 +51,9 @@ extension CellRegistration {
     }
 }
 
-// MARK - DataDisplayable
-protocol DataDisplayable {
+// MARK: - CellDisplaying
+protocol CellDisplaying {
     associatedtype ViewData
+    
+    func setup(viewData: ViewData)
 }

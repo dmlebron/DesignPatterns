@@ -7,7 +7,6 @@
 
 import UIKit
 
-// MARK: - DataDisplayable
 private extension MainViewController {
     enum Constants {
         enum Text {

@@ -20,7 +20,7 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet private weak var titleLabel: UILabel!
 }
 
-extension MainTableViewCell {
+extension MainTableViewCell: CellDisplaying {
     func setup(viewData: ViewData) {
         titleLabel.textColor = viewData.titleLabelColor
         companyNameLabel.textColor = viewData.companyLabelColor
