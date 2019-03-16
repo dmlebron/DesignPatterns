@@ -8,6 +8,7 @@
 import UIKit
 
 protocol MainViewModelInput: AnyObject {
+    var color: Color { get }
     func viewDidAppear()
     func searchTapped(query: String, address: String?)
     func cellTappedAtIndexPath(_ indexPath: IndexPath)
@@ -46,12 +47,20 @@ final class MainViewModel {
         }
     }
     
+    private let _color: Color
+    private let locationService: LocationServiceType
+    private let apiClient: ApiClientType
+    private let imageLoader: ImageLoading
     private(set) var userLocation: Location?
     private(set) var jobs: Jobs = []
     private weak var output: MainViewModelOutput?
     
-    init(output: MainViewModelOutput?) {
+    init(output: MainViewModelOutput?, locationService: LocationServiceType, apiClient: ApiClientType, color: Color, imageLoader: ImageLoading) {
         self.output = output
+        self.locationService = locationService
+        self.apiClient = apiClient
+        self._color = color
+        self.imageLoader = imageLoader
     }
 }
 
@@ -65,7 +74,7 @@ private extension MainViewModel {
 
         let route = city != nil ? Route.parameters([.jobType: query, .location: city!]) : Route.parameters([Parameter.jobType: query])
         guard let url = URL(string: route.completeUrl) else { return }
-        CurrentEnvironment.apiClient.get(url: url) { [unowned self] result in
+        apiClient.get(url: url) { [unowned self] result in
             switch result {
             case .success(let jobs):
                 self.jobs = jobs
@@ -78,14 +87,14 @@ private extension MainViewModel {
     }
     
     func updateCurrentAddress() {
-        CurrentEnvironment.locationService.currentAddress { [unowned self] (location) in
+        locationService.currentAddress { [unowned self] (location) in
             self.userLocation = location
             self.output?.locationChanged(location)
         }
     }
     
     func searchAddress(address: String, completion: @escaping (Location?) -> Void) {
-        CurrentEnvironment.locationService.locationFor(address: address) { [unowned self] (location) in
+        locationService.locationFor(address: address) { [unowned self] (location) in
            self.output?.locationChanged(location)
             completion(location)
         }
@@ -94,6 +103,10 @@ private extension MainViewModel {
 
 // MARK: - MainViewModelInput
 extension MainViewModel: MainViewModelInput {
+    var color: Color {
+        return _color
+    }
+    
     func viewDidAppear() {
         updateCurrentAddress()
     }
@@ -110,7 +123,7 @@ extension MainViewModel: MainViewModelInput {
     
     func cellTappedAtIndexPath(_ indexPath: IndexPath) {
         guard let job = jobAtIndexPath(indexPath) else { return }
-        let detailViewController = ModuleBuilder().detail(job: job)
+        let detailViewController = ModuleBuilder().detail(job: job, imageLoader: imageLoader, color: color)
         output?.pushViewController(detailViewController)
     }
     

@@ -8,16 +8,16 @@
 import UIKit
 
 struct ModuleBuilder {
-    func main() -> UIViewController {
+    func main(locationService: LocationServiceType, apiClient: ApiClientType, color: Color, imageLoader: ImageLoading) -> UIViewController {
         let mainViewController = UIStoryboard.main.instantiateInitialViewController() as! MainViewController
-        let mainViewModel = MainViewModel(output: mainViewController)
+        let mainViewModel = MainViewModel(output: mainViewController, locationService: locationService, apiClient: apiClient, color: color, imageLoader: imageLoader)
         mainViewController.set(viewModel: mainViewModel)
         return mainViewController
     }
     
-    func detail(job: Job) -> UIViewController {
+    func detail(job: Job, imageLoader: ImageLoading, color: Color) -> UIViewController {
         let detailViewController = UIStoryboard.detail.instantiateInitialViewController() as! DetailViewController
-        let detailViewModel = DetailViewModel(output: detailViewController, job: job)
+        let detailViewModel = DetailViewModel(output: detailViewController, job: job, imageLoader: imageLoader, color: color)
         detailViewController.set(viewModel: detailViewModel)
         return detailViewController
     }

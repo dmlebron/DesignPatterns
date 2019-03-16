@@ -88,6 +88,7 @@ extension MainViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {
             return UITableViewCell()
         }
+        cell.color = viewModel.color
         cell.titleLabel.text = job.title
         cell.companyNameLabel.text = job.companyName
         return cell
@@ -117,21 +118,21 @@ extension MainViewController: UITextFieldDelegate {
 extension MainViewController: ViewCustomizing {
     func setupUI() {
         navigationItem.title = Constants.Text.title
-        tableView.backgroundColor = CurrentEnvironment.color.white
+        tableView.backgroundColor = viewModel.color.white
         tableView.tableFooterView = UIView()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 80
         topDividerView.backgroundColor = UIColor.black
-        searchText.textColor = CurrentEnvironment.color.white
+        searchText.textColor = viewModel.color.white
         let searchPlaceholder = NSAttributedString(string: Constants.Text.placeholderTitle, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         searchText.attributedPlaceholder = searchPlaceholder
         searchText.clearButtonMode = .whileEditing
-        locationText.textColor = CurrentEnvironment.color.white
+        locationText.textColor = viewModel.color.white
         let locationPlaceholder = NSAttributedString(string: Constants.Text.placeholderZipcode, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         locationText.attributedPlaceholder = locationPlaceholder
         locationText.clearButtonMode = .whileEditing
-        view.backgroundColor = CurrentEnvironment.color.darkGray
-        locationView.backgroundColor = CurrentEnvironment.color.darkGray
+        view.backgroundColor = viewModel.color.darkGray
+        locationView.backgroundColor = viewModel.color.darkGray
         currentLocationButton.setImage(UIImage.location, for: .normal)
         currentLocationButton.imageView?.contentMode = .scaleAspectFit
     }

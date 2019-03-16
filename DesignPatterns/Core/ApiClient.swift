@@ -9,7 +9,7 @@ import UIKit
 
 enum Route {
     private var baseUrl: String {
-        return CurrentEnvironment.apiURLSring
+        return "https://jobs.github.com/positions.json"
     }
     case parameters([Parameter: String])
     

@@ -106,11 +106,11 @@ extension DetailViewController: DetailViewModelOutput {
 // MARK: - ViewCustomizing
 extension DetailViewController: ViewCustomizing {
     func setupUI() {
-        nameLabel.textColor = CurrentEnvironment.color.darkGray
-        topDividerView.backgroundColor = CurrentEnvironment.color.darkGray
+        nameLabel.textColor = viewModel.color.darkGray
+        topDividerView.backgroundColor = viewModel.color.darkGray
         companyImageView.contentMode = .scaleAspectFit
-        readMoreButton.setTitleColor(CurrentEnvironment.color.darkGray, for: .normal)
-        readMoreButton.backgroundColor = CurrentEnvironment.color.softGray
+        readMoreButton.setTitleColor(viewModel.color.darkGray, for: .normal)
+        readMoreButton.backgroundColor = viewModel.color.softGray
     }
     
     func setupSelectors() {

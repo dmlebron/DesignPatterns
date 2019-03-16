@@ -9,6 +9,7 @@
 import UIKit
 
 protocol DetailViewModelInput: AnyObject {
+    var color: Color { get }
     func viewDidLoad()
     func shouldShowReadMoreButton(isDescriptionLabelTruncated: Bool)
     func websiteButtonTapped()
@@ -34,12 +35,16 @@ extension DetailViewModel {
 }
 
 final class DetailViewModel {
+    private let _color: Color
+    private let imageLoader: ImageLoading
     private let job: Job
     weak var output: DetailViewModelOutput?
     
-    init(output: DetailViewModelOutput, job: Job) {
+    init(output: DetailViewModelOutput, job: Job, imageLoader: ImageLoading, color: Color) {
         self.output = output
         self.job = job
+        self.imageLoader = imageLoader
+        self._color = color
     }
 }
 
@@ -67,7 +72,7 @@ private extension DetailViewModel {
     }
     
     func loadCompanyLogo() {
-        CurrentEnvironment.imageLoader.load(url: job.imageUrl)  { [unowned self] (image) in
+        imageLoader.load(url: job.imageUrl)  { [unowned self] (image) in
             self.output?.set(companyLogo: image)
         }
     }
@@ -75,6 +80,10 @@ private extension DetailViewModel {
 
 // MARK: - DetailViewModelInput
 extension DetailViewModel: DetailViewModelInput {
+    var color: Color {
+        return _color
+    }
+    
     func viewDidLoad() {
         loadCompanyLogo()
         prepareViewData()

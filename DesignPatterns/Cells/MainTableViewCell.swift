@@ -11,21 +11,19 @@ import UIKit
 class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var companyNameLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        customize()
+    var color: Color! {
+        didSet {
+            customize()
+        }
     }
 }
 
 // MARK: - ViewCustomizing
 extension MainTableViewCell: ViewCustomizing {
     func setupUI() {
-        titleLabel.textColor = CurrentEnvironment.color.darkGray
-        companyNameLabel.textColor = CurrentEnvironment.color.darkGray
+        titleLabel.textColor = color.darkGray
+        companyNameLabel.textColor = color.darkGray
     }
-    
-    
 }
 
 // MARK: - CellRegistration
