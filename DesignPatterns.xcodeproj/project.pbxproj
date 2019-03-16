@@ -212,6 +212,7 @@
 		4654D5582220F35B00782AFA /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				4654D55F2220F38D00782AFA /* Protocols.swift */,
 				4654D5342220F07200782AFA /* AppDelegate.swift */,
 				4654D5592220F36400782AFA /* ApiClient.swift */,
 				4654D55A2220F36400782AFA /* LocationService.swift */,
@@ -226,7 +227,6 @@
 		4654D55D2220F36D00782AFA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				4654D55F2220F38D00782AFA /* Protocols.swift */,
 				4654D5712221273C00782AFA /* Color.swift */,
 				4654D5792221299C00782AFA /* App+Storyboard.swift */,
 				465010C0222245510062DF6D /* App+UIImage.swift */,
