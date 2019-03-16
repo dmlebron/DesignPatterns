@@ -88,9 +88,10 @@ extension MainViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {
             return UITableViewCell()
         }
-        cell.color = viewModel.color
-        cell.titleLabel.text = job.title
-        cell.companyNameLabel.text = job.companyName
+        
+        let cellViewData = MainTableViewCell.ViewData(titleLabelColor: viewModel.color.darkGray, companyLabelColor: viewModel.color.darkGray, title: job.title, companyName: job.companyName)
+        
+        cell.setup(viewData: cellViewData)
         return cell
     }
 }

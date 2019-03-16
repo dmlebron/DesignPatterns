@@ -9,20 +9,23 @@
 import UIKit
 
 class MainTableViewCell: UITableViewCell {
-    @IBOutlet weak var companyNameLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
-    var color: Color! {
-        didSet {
-            customize()
-        }
+    struct ViewData {
+        let titleLabelColor: UIColor
+        let companyLabelColor: UIColor
+        let title: String
+        let companyName: String?
     }
+    
+    @IBOutlet private weak var companyNameLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
 }
 
-// MARK: - ViewCustomizing
-extension MainTableViewCell: ViewCustomizing {
-    func setupUI() {
-        titleLabel.textColor = color.darkGray
-        companyNameLabel.textColor = color.darkGray
+extension MainTableViewCell {
+    func setup(viewData: ViewData) {
+        titleLabel.textColor = viewData.titleLabelColor
+        companyNameLabel.textColor = viewData.companyLabelColor
+        titleLabel.text = viewData.title
+        companyNameLabel.text = viewData.companyName
     }
 }
 
