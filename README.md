@@ -1,5 +1,8 @@
 # DesignPatterns
 
+## Pull Request Process
+*Placeholder*
+
 ## Todo
 
 - [x] add MVC
