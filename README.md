@@ -7,3 +7,4 @@
 - [x] add VIPER-Presenter-Router-Builder
 - [ ] add MVVM-Reactive
 - [ ] add VIPER-Interactor-Router
+- [ ] Define Pull Request Process (to add new flavors)
