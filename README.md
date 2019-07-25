@@ -9,7 +9,7 @@ All the bussiness logic happens on the `ViewModel`. Therefore the `View` layer w
 
 ## Input & Output Conformance:
 
-The `ViewModel` conforms to the `ViewModelInput` and `View` conforms to `ViewModelOutput`. 
+The `ViewModel` conforms to `ViewModelInput` and `View` conforms to `ViewModelOutput`. 
 
 ## Ownership:
 
