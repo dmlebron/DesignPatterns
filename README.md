@@ -1,4 +1,4 @@
-# Model View View-Model - Flavor A
+# Model View View-Model - Flavor A - No Environment
 
 ## Introduction: 
 
