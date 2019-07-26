@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 private extension MainViewController {
     enum Constants {
@@ -27,7 +28,9 @@ final class MainViewController: UIViewController {
     @IBOutlet weak var locationText: UITextField!
     @IBOutlet weak var locationView: UIView!
     @IBOutlet weak var currentLocationButton: UIButton!
-    private var viewModel: MainViewModelInput!
+    private var cancellable: [Cancellable] = []
+    private var viewModel: MainViewModel!
+    private let color = Color()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,12 +47,20 @@ private extension MainViewController {
     @objc func updateCurrentLocationTapped() {
         viewModel.updateCurrentLocationTapped()
     }
+    
+    func setupViewModel() {
+        let t = viewModel.output.jobsPublisher.sink { [weak self] jobs in
+            print(jobs)
+        }
+        cancellable.append(t)
+    }
 }
 
 // MARK: - MainViewModelOutput
-extension MainViewController: MainViewModelOutput {
-    func set(viewModel: MainViewModelInput) {
+extension MainViewController {
+    func set(viewModel: MainViewModel) {
         self.viewModel = viewModel
+        setupViewModel()
     }
     
     func reloadTableView() {
@@ -88,7 +99,7 @@ extension MainViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let cellViewData = MainTableViewCell.ViewData(titleLabelColor: viewModel.color.darkGray, companyLabelColor: viewModel.color.darkGray, title: job.title, companyName: job.companyName)
+        let cellViewData = MainTableViewCell.ViewData(titleLabelColor: color.darkGray, companyLabelColor: color.darkGray, title: job.title, companyName: job.companyName)
         
         cell.setup(viewData: cellViewData)
         return cell
@@ -118,21 +129,21 @@ extension MainViewController: UITextFieldDelegate {
 extension MainViewController: ViewCustomizing {
     func setupUI() {
         navigationItem.title = Constants.Text.title
-        tableView.backgroundColor = viewModel.color.white
+        tableView.backgroundColor = color.white
         tableView.tableFooterView = UIView()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 80
         topDividerView.backgroundColor = UIColor.black
-        searchText.textColor = viewModel.color.white
+        searchText.textColor = color.white
         let searchPlaceholder = NSAttributedString(string: Constants.Text.placeholderTitle, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         searchText.attributedPlaceholder = searchPlaceholder
         searchText.clearButtonMode = .whileEditing
-        locationText.textColor = viewModel.color.white
+        locationText.textColor = color.white
         let locationPlaceholder = NSAttributedString(string: Constants.Text.placeholderZipcode, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         locationText.attributedPlaceholder = locationPlaceholder
         locationText.clearButtonMode = .whileEditing
-        view.backgroundColor = viewModel.color.darkGray
-        locationView.backgroundColor = viewModel.color.darkGray
+        view.backgroundColor = color.darkGray
+        locationView.backgroundColor = color.darkGray
         currentLocationButton.setImage(UIImage.location, for: .normal)
         currentLocationButton.imageView?.contentMode = .scaleAspectFit
     }

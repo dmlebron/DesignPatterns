@@ -6,9 +6,9 @@
 //
 
 import UIKit
+import Combine
 
 protocol MainViewModelInput: AnyObject {
-    var color: Color { get }
     func viewDidAppear()
     func searchTapped(query: String, address: String?)
     func cellTappedAtIndexPath(_ indexPath: IndexPath)
@@ -19,11 +19,13 @@ protocol MainViewModelInput: AnyObject {
 }
 
 protocol MainViewModelOutput: AnyObject {
-    func set(viewModel: MainViewModelInput)
-    func reloadTableView()
-    func locationChanged(_ location: Location?)
-    func showAlert(error: Error)
-    func pushViewController(_ viewController: UIViewController)
+    var jobsPublisher: AnyPublisher<Jobs, Never> { get }
+    var locationPublisher: AnyPublisher<Location, Never> { get }
+//    func set(viewModel: MainViewModelInput)
+//    func reloadTableView()
+//    func locationChanged(_ location: Location?)
+//    func showAlert(error: Error)
+//    func pushViewController(_ viewController: UIViewController)
 }
 
 // MARK: - Constants
@@ -47,28 +49,40 @@ final class MainViewModel {
         }
     }
     
-    private let _color: Color
+    private let color: Color
     private let locationService: LocationServiceType
     private let apiClient: ApiClientType
     private let imageLoader: ImageLoading
     private(set) var userLocation: Location?
-    private(set) var jobs: Jobs = []
-    private weak var output: MainViewModelOutput?
+//    private(set) var jobs: Jobs = []
+    var output: MainViewModelOutput {
+        return self
+    }
     
-    init(output: MainViewModelOutput?, locationService: LocationServiceType, apiClient: ApiClientType, color: Color, imageLoader: ImageLoading) {
-        self.output = output
+    init(locationService: LocationServiceType, apiClient: ApiClientType, color: Color, imageLoader: ImageLoading) {
         self.locationService = locationService
         self.apiClient = apiClient
-        self._color = color
+        self.color = color
         self.imageLoader = imageLoader
+        jobsPublisher = jobs.eraseToAnyPublisher()
     }
+    
+    private let jobs = PassthroughSubject<Jobs, Never>()
+    let jobsPublisher: AnyPublisher<Jobs, Never>
+    
+    private let location = PassthroughSubject<Location, Never>()
+    let locationPublisher = AnyPublisher<Location, Never>()
+}
+
+extension MainViewModel: MainViewModelOutput {
+    
 }
 
 // MARK: - Private Methods
 private extension MainViewModel {
     func fetchJobs(query: String, city: String? = nil) {
         if query.isEmpty {
-            output?.showAlert(error: Error.invalidQuery)
+//            output?.showAlert(error: Error.invalidQuery)
             return
         }
 
@@ -77,11 +91,13 @@ private extension MainViewModel {
         apiClient.get(url: url) { [unowned self] result in
             switch result {
             case .success(let jobs):
-                self.jobs = jobs
-                self.output?.reloadTableView()
+                self.jobs.send(jobs)
+                break
+//                self.output?.reloadTableView()
                 
             case .failed(let error):
-                self.output?.showAlert(error: error)
+                break
+//                self.output?.showAlert(error: error)
             }
         }
     }
@@ -89,13 +105,13 @@ private extension MainViewModel {
     func updateCurrentAddress() {
         locationService.currentAddress { [unowned self] (location) in
             self.userLocation = location
-            self.output?.locationChanged(location)
+//            self.output?.locationChanged(location)
         }
     }
     
     func searchAddress(address: String, completion: @escaping (Location?) -> Void) {
         locationService.locationFor(address: address) { [unowned self] (location) in
-           self.output?.locationChanged(location)
+//           self.output?.locationChanged(location)
             completion(location)
         }
     }
@@ -103,10 +119,6 @@ private extension MainViewModel {
 
 // MARK: - MainViewModelInput
 extension MainViewModel: MainViewModelInput {
-    var color: Color {
-        return _color
-    }
-    
     func viewDidAppear() {
         updateCurrentAddress()
     }
@@ -124,7 +136,7 @@ extension MainViewModel: MainViewModelInput {
     func cellTappedAtIndexPath(_ indexPath: IndexPath) {
         guard let job = jobAtIndexPath(indexPath) else { return }
         let detailViewController = ModuleBuilder().detail(job: job, imageLoader: imageLoader, color: color)
-        output?.pushViewController(detailViewController)
+//        output?.pushViewController(detailViewController)
     }
     
     func updateCurrentLocationTapped() {
@@ -132,17 +144,17 @@ extension MainViewModel: MainViewModelInput {
     }
     
     func numberOfSections() -> Int {
-        return Constants.TableView.numberOfSections
+        return 0//Constants.TableView.numberOfSections
     }
     
     func numberOfRows() -> Int {
-        return jobs.count
+        return 0//jobs.count
     }
     
     func jobAtIndexPath(_ indexPath: IndexPath) -> Job? {
-        guard jobs.count > indexPath.row else {
+//        guard jobs.count > indexPath.row else {
             return nil
-        }
-        return jobs[indexPath.row]
+//        }
+//        return jobs[indexPath.row]
     }
 }
