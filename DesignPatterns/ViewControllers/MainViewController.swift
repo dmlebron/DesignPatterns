@@ -21,16 +21,26 @@ private extension MainViewController {
     }
 }
 
+typealias TableViewViewData = MainViewController.TableViewViewData
+
 final class MainViewController: UIViewController {
+    
+    struct TableViewViewData: Equatable {
+        let numberOfSections: Int
+        let numberOfRows: Int
+        let items: Jobs
+    }
+    
     @IBOutlet weak var topDividerView: UIView!
     @IBOutlet weak var searchText: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var locationText: UITextField!
     @IBOutlet weak var locationView: UIView!
     @IBOutlet weak var currentLocationButton: UIButton!
-    private var cancellable: [Cancellable] = []
-    private var viewModel: MainViewModel!
+    private var cancellables: [AnyCancellable] = []
+    private var viewModel: MainViewModelType!
     private let color = Color()
+    private var tableViewData: TableViewViewData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,37 +48,47 @@ final class MainViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        viewModel.viewDidAppear()
+        viewModel.input.viewDidAppear()
     }
 }
 
 // MARK: - Private Methods
 private extension MainViewController {
     @objc func updateCurrentLocationTapped() {
-        viewModel.updateCurrentLocationTapped()
+        viewModel.input.updateCurrentLocationTapped()
     }
     
-    func setupViewModel() {
-        let t = viewModel.output.jobsPublisher.sink { [weak self] jobs in
-            print(jobs)
-        }
-        cancellable.append(t)
+    func bindViewModel() {
+        viewModel.output.tableViewDataPublisher
+            .sink { [weak self] data in
+                self?.tableViewData = data
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+        
+        viewModel.output.locationPublisher
+            .sink { [weak self] location in
+                self?.locationChanged(location)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.output.detailViewControllerPublisher
+            .sink { [weak self] in
+                self?.pushViewController($0)
+            }
+            .store(in: &cancellables)
+    }
+    
+    func locationChanged(_ location: Location?) {
+        locationText.text = location?.parsed
     }
 }
 
 // MARK: - MainViewModelOutput
 extension MainViewController {
-    func set(viewModel: MainViewModel) {
+    func bind(viewModel: MainViewModelType) {
         self.viewModel = viewModel
-        setupViewModel()
-    }
-    
-    func reloadTableView() {
-        tableView.reloadData()
-    }
-    
-    func locationChanged(_ location: Location?) {
-        locationText.text = location?.parsed
+        bindViewModel()
     }
     
     func showAlert(error: Error) {
@@ -86,19 +106,18 @@ extension MainViewController {
 // MARK: - UITableViewDataSource
 extension MainViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.numberOfSections()
+        return tableViewData?.numberOfSections ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRows()
+        return tableViewData?.items.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let job = viewModel.jobAtIndexPath(indexPath),
-            let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {
+        guard let job = tableViewData?.items[indexPath.row] else {
             return UITableViewCell()
         }
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as! MainTableViewCell
         let cellViewData = MainTableViewCell.ViewData(titleLabelColor: color.darkGray, companyLabelColor: color.darkGray, title: job.title, companyName: job.companyName)
         
         cell.setup(viewData: cellViewData)
@@ -110,7 +129,8 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        viewModel.cellTappedAtIndexPath(indexPath)
+        guard let job = tableViewData?.items[indexPath.row] else { return }
+        viewModel.input.cellTapped(job: job)
     }
 }
 
@@ -118,7 +138,7 @@ extension MainViewController: UITableViewDelegate {
 extension MainViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let query = searchText.text {
-            viewModel.searchTapped(query: query, address: locationText.text)
+            viewModel.input.searchTapped(query: query, address: locationText.text)
         }
         view.endEditing(true)
         return false

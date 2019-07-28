@@ -52,3 +52,7 @@ struct Job: Decodable {
         }
     }
 }
+
+extension Job: Equatable {
+    // no op
+}

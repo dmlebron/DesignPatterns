@@ -11,7 +11,7 @@ struct ModuleBuilder {
     func main(locationService: LocationServiceType, apiClient: ApiClientType, color: Color, imageLoader: ImageLoading) -> UIViewController {
         let mainViewController = UIStoryboard.main.instantiateInitialViewController() as! MainViewController
         let mainViewModel = MainViewModel(locationService: locationService, apiClient: apiClient, color: color, imageLoader: imageLoader)
-        mainViewController.set(viewModel: mainViewModel)
+        mainViewController.bind(viewModel: mainViewModel)
         return mainViewController
     }
     

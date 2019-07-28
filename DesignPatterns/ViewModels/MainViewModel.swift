@@ -11,21 +11,21 @@ import Combine
 protocol MainViewModelInput: AnyObject {
     func viewDidAppear()
     func searchTapped(query: String, address: String?)
-    func cellTappedAtIndexPath(_ indexPath: IndexPath)
+    func cellTapped(job: Job)
     func updateCurrentLocationTapped()
-    func numberOfSections() -> Int
-    func numberOfRows() -> Int
-    func jobAtIndexPath(_ indexPath: IndexPath) -> Job?
 }
 
 protocol MainViewModelOutput: AnyObject {
-    var jobsPublisher: AnyPublisher<Jobs, Never> { get }
-    var locationPublisher: AnyPublisher<Location, Never> { get }
-//    func set(viewModel: MainViewModelInput)
-//    func reloadTableView()
-//    func locationChanged(_ location: Location?)
+    var locationPublisher: AnyPublisher<Location?, Never> { get }
+    var tableViewDataPublisher: AnyPublisher<TableViewViewData, Never> { get }
+    var detailViewControllerPublisher: AnyPublisher<UIViewController, Never> { get }
 //    func showAlert(error: Error)
 //    func pushViewController(_ viewController: UIViewController)
+}
+
+protocol MainViewModelType {
+    var input: MainViewModelInput { get }
+    var output: MainViewModelOutput { get }
 }
 
 // MARK: - Constants
@@ -54,28 +54,41 @@ final class MainViewModel {
     private let apiClient: ApiClientType
     private let imageLoader: ImageLoading
     private(set) var userLocation: Location?
-//    private(set) var jobs: Jobs = []
-    var output: MainViewModelOutput {
-        return self
-    }
     
     init(locationService: LocationServiceType, apiClient: ApiClientType, color: Color, imageLoader: ImageLoading) {
         self.locationService = locationService
         self.apiClient = apiClient
         self.color = color
         self.imageLoader = imageLoader
-        jobsPublisher = jobs.eraseToAnyPublisher()
+        
+        locationPublisher = location
+            .removeDuplicates()
+            .eraseToAnyPublisher()
+        
+        tableViewDataPublisher = jobs
+            .map { TableViewViewData(numberOfSections: Constants.TableView.numberOfSections, numberOfRows: $0.count, items: $0) }
+            .removeDuplicates()
+            .eraseToAnyPublisher()
+        
+        detailViewControllerPublisher = detailViewController
+            .eraseToAnyPublisher()
     }
     
     private let jobs = PassthroughSubject<Jobs, Never>()
-    let jobsPublisher: AnyPublisher<Jobs, Never>
+//    let jobsPublisher: AnyPublisher<Jobs, Never>
     
-    private let location = PassthroughSubject<Location, Never>()
-    let locationPublisher = AnyPublisher<Location, Never>()
+    private let location = PassthroughSubject<Location?, Never>()
+    let locationPublisher: AnyPublisher<Location?, Never>
+    
+    let tableViewDataPublisher: AnyPublisher<TableViewViewData, Never>
+    
+    private let detailViewController =  PassthroughSubject<UIViewController, Never>()
+    let detailViewControllerPublisher: AnyPublisher<UIViewController, Never>
 }
 
-extension MainViewModel: MainViewModelOutput {
-    
+extension MainViewModel: MainViewModelType {
+    var input: MainViewModelInput { return self }
+    var output: MainViewModelOutput { return self }
 }
 
 // MARK: - Private Methods
@@ -93,7 +106,6 @@ private extension MainViewModel {
             case .success(let jobs):
                 self.jobs.send(jobs)
                 break
-//                self.output?.reloadTableView()
                 
             case .failed(let error):
                 break
@@ -103,18 +115,23 @@ private extension MainViewModel {
     }
     
     func updateCurrentAddress() {
-        locationService.currentAddress { [unowned self] (location) in
-            self.userLocation = location
-//            self.output?.locationChanged(location)
+        locationService.currentAddress { [weak self] (location) in
+            self?.location.send(location)
         }
     }
     
     func searchAddress(address: String, completion: @escaping (Location?) -> Void) {
-        locationService.locationFor(address: address) { [unowned self] (location) in
-//           self.output?.locationChanged(location)
+        locationService.locationFor(address: address) { [weak self] (location) in
+            // TODO: Update. This can be improve!
+            self?.location.send(location)
             completion(location)
         }
     }
+}
+
+// MARK: - MainViewModelOutput
+extension MainViewModel: MainViewModelOutput {
+    
 }
 
 // MARK: - MainViewModelInput
@@ -133,10 +150,9 @@ extension MainViewModel: MainViewModelInput {
         }
     }
     
-    func cellTappedAtIndexPath(_ indexPath: IndexPath) {
-        guard let job = jobAtIndexPath(indexPath) else { return }
+    func cellTapped(job: Job) {
         let detailViewController = ModuleBuilder().detail(job: job, imageLoader: imageLoader, color: color)
-//        output?.pushViewController(detailViewController)
+        self.detailViewController.send(detailViewController)
     }
     
     func updateCurrentLocationTapped() {
@@ -144,11 +160,11 @@ extension MainViewModel: MainViewModelInput {
     }
     
     func numberOfSections() -> Int {
-        return 0//Constants.TableView.numberOfSections
+        return Constants.TableView.numberOfSections
     }
     
     func numberOfRows() -> Int {
-        return 0//jobs.count
+        return 0//jobs.
     }
     
     func jobAtIndexPath(_ indexPath: IndexPath) -> Job? {

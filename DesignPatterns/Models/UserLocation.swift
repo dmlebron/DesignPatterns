@@ -8,7 +8,6 @@
 import Foundation
 
 struct Location {
-    
     enum Error: Swift.Error {
         case invalidPostalCodeLength
         case invalidCountryLength
@@ -49,4 +48,8 @@ private extension Location {
             throw Error.invalidCountryLength
         }
     }
+}
+
+extension Location: Equatable {
+    //no op
 }
