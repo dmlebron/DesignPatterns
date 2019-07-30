@@ -101,17 +101,32 @@ private extension MainViewModel {
 
         let route = city != nil ? Route.parameters([.jobType: query, .location: city!]) : Route.parameters([Parameter.jobType: query])
         guard let url = URL(string: route.completeUrl) else { return }
-        apiClient.get(url: url) { [unowned self] result in
-            switch result {
-            case .success(let jobs):
+        
+        let cancellable = apiClient.get(url: url)
+            .sink(receiveCompletion: { (result) in
+                switch result {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error)
+                }
+            }) { jobs in
                 self.jobs.send(jobs)
-                break
-                
-            case .failed(let error):
-                break
-//                self.output?.showAlert(error: error)
-            }
         }
+        
+//        cancellable.cancel()
+        
+//        apiClient.get(url: url) { [unowned self] result in
+//            switch result {
+//            case .success(let jobs):
+//                self.jobs.send(jobs)
+//                break
+//
+//            case .failed(let error):
+//                break
+////                self.output?.showAlert(error: error)
+//            }
+//        }
     }
     
     func updateCurrentAddress() {

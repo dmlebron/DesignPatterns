@@ -7,8 +7,13 @@
 //
 
 import Foundation
+import Combine
 
 class MockApiClient: ApiClientType {
+//    func get(url: URL) -> AnyPublisher<Jobs, Error> {
+//        return Just(Error.response).eraseToAnyPublisher()
+//    }
+    
     enum Error: Swift.Error {
         case response
 

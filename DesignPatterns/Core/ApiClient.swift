@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 enum Route {
     private var baseUrl: String {
@@ -32,6 +33,7 @@ enum Parameter: String {
 
 protocol ApiClientType {
     func get(url: URL, completion: @escaping ApiClient.Completion)
+    func get(url: URL) -> AnyPublisher<Jobs, Error>
 }
 
 final class ApiClient {
@@ -62,6 +64,17 @@ extension ApiClient: ApiClientType {
                     completion(.failed(error))
                 }
             }
-            }.resume()
+        }.resume()
+    }
+    
+    func get(url: URL) -> AnyPublisher<Jobs, Error> {
+        
+        let request = URLRequest(url: url)
+        
+        return URLSession.shared.dataTaskPublisher(for: request)
+            .map { $0.data }
+            .decode(type: Jobs.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
     }
 }
