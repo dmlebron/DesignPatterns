@@ -65,6 +65,7 @@ final class MainViewModel {
             .removeDuplicates()
             .eraseToAnyPublisher()
         
+        // TODO: How to add error query and how to update the location and after perform request?
         tableViewDataPublisher = jobs
             .map { TableViewViewData(numberOfSections: Constants.TableView.numberOfSections, numberOfRows: $0.count, items: $0) }
             .removeDuplicates()
