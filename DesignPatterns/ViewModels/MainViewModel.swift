@@ -54,6 +54,7 @@ final class MainViewModel {
     private let apiClient: ApiClientType
     private let imageLoader: ImageLoading
     private(set) var userLocation: Location?
+    private var cancellables: [AnyCancellable] = []
     
     init(locationService: LocationServiceType, apiClient: ApiClientType, color: Color, imageLoader: ImageLoading) {
         self.locationService = locationService
@@ -65,7 +66,7 @@ final class MainViewModel {
             .removeDuplicates()
             .eraseToAnyPublisher()
         
-        // TODO: How to add error query and how to update the location and after perform request?
+        // TODO: How to add error query and how to update the location and perform a request after?
         tableViewDataPublisher = jobs
             .map { TableViewViewData(numberOfSections: Constants.TableView.numberOfSections, numberOfRows: $0.count, items: $0) }
             .removeDuplicates()
@@ -103,17 +104,18 @@ private extension MainViewModel {
         let route = city != nil ? Route.parameters([.jobType: query, .location: city!]) : Route.parameters([Parameter.jobType: query])
         guard let url = URL(string: route.completeUrl) else { return }
         
-        let cancellable = apiClient.get(url: url)
+        apiClient.get(url: url)
             .sink(receiveCompletion: { (result) in
                 switch result {
                 case .finished:
                     break
+                    
                 case .failure(let error):
                     print(error)
                 }
             }) { jobs in
                 self.jobs.send(jobs)
-        }
+        }.store(in: &cancellables)
         
 //        cancellable.cancel()
         
