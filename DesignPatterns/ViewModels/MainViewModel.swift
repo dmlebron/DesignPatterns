@@ -54,7 +54,7 @@ final class MainViewModel {
     private let apiClient: ApiClientType
     private let imageLoader: ImageLoading
     private(set) var userLocation: Location?
-    private var cancellables: [AnyCancellable] = []
+    private var subscriptions: [AnyCancellable] = []
     
     init(locationService: LocationServiceType, apiClient: ApiClientType, color: Color, imageLoader: ImageLoading) {
         self.locationService = locationService
@@ -74,6 +74,14 @@ final class MainViewModel {
         
         detailViewControllerPublisher = detailViewController
             .eraseToAnyPublisher()
+        
+        addressPub.combineLatest(queryPub)
+            .print()
+            .sink(receiveValue: { tuple in
+                self.searchAddress(address: tuple.0)
+                self.fetchJobs(query: tuple.1)
+            })
+            .store(in: &subscriptions)
     }
     
     private let jobs = PassthroughSubject<Jobs, Never>()
@@ -86,6 +94,10 @@ final class MainViewModel {
     
     private let detailViewController =  PassthroughSubject<UIViewController, Never>()
     let detailViewControllerPublisher: AnyPublisher<UIViewController, Never>
+    
+    private var queryPub = PassthroughSubject<String, Never>()
+    private var addressPub = PassthroughSubject<String, Never>()
+//    private lazy var searchPublisher =
 }
 
 extension MainViewModel: MainViewModelType {
@@ -115,7 +127,7 @@ private extension MainViewModel {
                 }
             }) { jobs in
                 self.jobs.send(jobs)
-        }.store(in: &cancellables)
+        }.store(in: &subscriptions)
         
 //        cancellable.cancel()
         
@@ -145,6 +157,12 @@ private extension MainViewModel {
             completion(location)
         }
     }
+    
+    func searchAddress(address: String) {
+        locationService.locationFor(address: address) { [weak self] (location) in
+            self?.location.send(location)
+        }
+    }
 }
 
 // MARK: - MainViewModelOutput
@@ -158,14 +176,17 @@ extension MainViewModel: MainViewModelInput {
         updateCurrentAddress()
     }
     
+
     func searchTapped(query: String, address: String?) {
         if let address = address, !address.isEmpty {
-            searchAddress(address: address) { [weak self] (location) in
-                self?.fetchJobs(query: query, city: location?.city)
+            addressPub.send(address)
+//            searchAddress(address: address) { [weak self] (location) in
+//                self?.fetchJobs(query: query, city: location?.city)
             }
-        } else {
-            self.fetchJobs(query: query)
-        }
+//        } else {
+//            self.fetchJobs(query: query)
+//        }
+            queryPub.send(query)
     }
     
     func cellTapped(job: Job) {
