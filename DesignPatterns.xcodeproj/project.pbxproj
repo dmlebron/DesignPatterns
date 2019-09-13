@@ -34,6 +34,7 @@
 		4675E83A22278FCD00586622 /* JobDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E83922278FCD00586622 /* JobDescriptionViewController.swift */; };
 		4675E83C2227911800586622 /* Attr+Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E83B2227911800586622 /* Attr+Label.swift */; };
 		469EEA59222392D6005E75A3 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EEA58222392D6005E75A3 /* Location.swift */; };
+		46F94D44232B5A17007FBADB /* NSRange+TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F94D43232B5A17007FBADB /* NSRange+TextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		4675E83922278FCD00586622 /* JobDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDescriptionViewController.swift; sourceTree = "<group>"; };
 		4675E83B2227911800586622 /* Attr+Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attr+Label.swift"; sourceTree = "<group>"; };
 		469EEA58222392D6005E75A3 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		46F94D43232B5A17007FBADB /* NSRange+TextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSRange+TextField.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 				4654D5792221299C00782AFA /* App+Storyboard.swift */,
 				465010C0222245510062DF6D /* App+UIImage.swift */,
 				4675E83B2227911800586622 /* Attr+Label.swift */,
+				46F94D43232B5A17007FBADB /* NSRange+TextField.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				46672BE2222B4C7200A3DD55 /* MockLocation.swift in Sources */,
 				4654D5782221294800782AFA /* DetailViewController.swift in Sources */,
 				4654D5602220F38D00782AFA /* Protocols.swift in Sources */,
+				46F94D44232B5A17007FBADB /* NSRange+TextField.swift in Sources */,
 				4675E83A22278FCD00586622 /* JobDescriptionViewController.swift in Sources */,
 				4675E83C2227911800586622 /* Attr+Label.swift in Sources */,
 				469EEA59222392D6005E75A3 /* Location.swift in Sources */,

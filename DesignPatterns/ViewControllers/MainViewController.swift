@@ -53,12 +53,10 @@ final class MainViewController: UIViewController {
 private extension MainViewController {
     func search() {
         guard let query = searchText.text, !query.isEmpty else { return }
-        if let address = locationText.text, !address.isEmpty {
-            updateAddressFor(address: address) { [weak self] (location) in
-                self?.fetchJobs(query: query, city: location?.city)
-            }
+        if let zipcode = locationText.text, !zipcode.isEmpty {
+            fetchJobs(query: query, city: zipcode)
         } else {
-            self.fetchJobs(query: query)
+            fetchJobs(query: query)
         }
         searchText.resignFirstResponder()
     }
@@ -132,6 +130,22 @@ extension MainViewController: UITableViewDelegate {
 
 // MARK: - UITextFieldDelegate
 extension MainViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if range.isBackspacing {
+            return true
+        }
+        
+        // TODO: Should this onoly accepts zipcode?
+        // we can show a carousel with possible locations based on the input zipcode
+        if textField == locationText {
+            guard !string.trimmingCharacters(in: .letters).isEmpty else {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         search()
         return false
