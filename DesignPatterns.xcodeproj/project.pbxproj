@@ -32,6 +32,7 @@
 		466C010B2223A84900F07766 /* ModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466C010A2223A84900F07766 /* ModuleBuilder.swift */; };
 		4675E83E222794D900586622 /* Attr+Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E83D222794D900586622 /* Attr+Label.swift */; };
 		4675E840222796D200586622 /* JobDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E83F222796D200586622 /* JobDescriptionViewController.swift */; };
+		469BA6F3232B58E700A3B7A5 /* NSRange+TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469BA6F2232B58E700A3B7A5 /* NSRange+TextField.swift */; };
 		469EEA59222392D6005E75A3 /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EEA58222392D6005E75A3 /* UserLocation.swift */; };
 		EE38F7402229DAA700F07F66 /* MockJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE38F73F2229DAA700F07F66 /* MockJob.swift */; };
 		EE38F7422229DBE000F07F66 /* MockUserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE38F7412229DBE000F07F66 /* MockUserLocation.swift */; };
@@ -81,6 +82,7 @@
 		466C010A2223A84900F07766 /* ModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBuilder.swift; sourceTree = "<group>"; };
 		4675E83D222794D900586622 /* Attr+Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attr+Label.swift"; sourceTree = "<group>"; };
 		4675E83F222796D200586622 /* JobDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDescriptionViewController.swift; sourceTree = "<group>"; };
+		469BA6F2232B58E700A3B7A5 /* NSRange+TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRange+TextField.swift"; sourceTree = "<group>"; };
 		469EEA58222392D6005E75A3 /* UserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
 		EE38F73F2229DAA700F07F66 /* MockJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJob.swift; sourceTree = "<group>"; };
 		EE38F7412229DBE000F07F66 /* MockUserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserLocation.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				4654D5792221299C00782AFA /* App+Storyboard.swift */,
 				465010C0222245510062DF6D /* App+UIImage.swift */,
 				4675E83D222794D900586622 /* Attr+Label.swift */,
+				469BA6F2232B58E700A3B7A5 /* NSRange+TextField.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				4675E83E222794D900586622 /* Attr+Label.swift in Sources */,
 				4654D5702221248F00782AFA /* MockLocationService.swift in Sources */,
 				4654D5722221273C00782AFA /* Color.swift in Sources */,
+				469BA6F3232B58E700A3B7A5 /* NSRange+TextField.swift in Sources */,
 				4654D55C2220F36400782AFA /* LocationService.swift in Sources */,
 				4654D55B2220F36400782AFA /* ApiClient.swift in Sources */,
 				466C0109222399CE00F07766 /* MainViewModel.swift in Sources */,
