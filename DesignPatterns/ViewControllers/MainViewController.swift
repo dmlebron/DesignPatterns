@@ -174,11 +174,11 @@ extension MainViewController: ViewCustomizing {
         tableView.estimatedRowHeight = Constants.estimatedRowHeight
         
         topDividerView.backgroundColor = UIColor.black
-        searchText.textColor = color.white
         
         let searchPlaceholder = NSAttributedString(string: Constants.Text.placeholderTitle, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         searchText.attributedPlaceholder = searchPlaceholder
         searchText.clearButtonMode = .whileEditing
+        searchText.textColor = color.white
         
         let locationPlaceholder = NSAttributedString(string: Constants.Text.placeholderZipcode, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         locationText.attributedPlaceholder = locationPlaceholder
