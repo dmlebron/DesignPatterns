@@ -18,6 +18,8 @@ private extension MainViewController {
             static var placeholderTitle: String { return "Input Search" }
             static var placeholderZipcode: String { return "Enter Zipcode" }
         }
+        
+        static let estimatedRowHeight: CGFloat = 80
     }
 }
 
@@ -165,23 +167,30 @@ extension MainViewController: UITextFieldDelegate {
 extension MainViewController: ViewCustomizing {
     func setupUI() {
         navigationItem.title = Constants.Text.title
+        
         tableView.backgroundColor = color.white
         tableView.tableFooterView = UIView()
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 80
+        tableView.estimatedRowHeight = Constants.estimatedRowHeight
+        
         topDividerView.backgroundColor = UIColor.black
         searchText.textColor = color.white
+        
         let searchPlaceholder = NSAttributedString(string: Constants.Text.placeholderTitle, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         searchText.attributedPlaceholder = searchPlaceholder
         searchText.clearButtonMode = .whileEditing
-        locationText.textColor = color.white
+        
         let locationPlaceholder = NSAttributedString(string: Constants.Text.placeholderZipcode, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         locationText.attributedPlaceholder = locationPlaceholder
         locationText.clearButtonMode = .whileEditing
-        view.backgroundColor = color.darkGray
+        locationText.textColor = color.white
+        
         locationView.backgroundColor = color.darkGray
+        
         currentLocationButton.setImage(UIImage.location, for: .normal)
         currentLocationButton.imageView?.contentMode = .scaleAspectFit
+        
+        view.backgroundColor = color.darkGray
     }
     
     func additionalSetup() {
