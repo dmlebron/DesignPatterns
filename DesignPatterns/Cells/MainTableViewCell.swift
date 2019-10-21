@@ -9,6 +9,7 @@
 import UIKit
 
 class MainTableViewCell: UITableViewCell {
+    private let color = Color()
     @IBOutlet weak var companyNameLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -21,8 +22,8 @@ class MainTableViewCell: UITableViewCell {
 // MARK: - ViewCustomizing
 extension MainTableViewCell: ViewCustomizing {
     func setupUI() {
-        titleLabel.textColor = CurrentEnvironment.color.darkGray
-        companyNameLabel.textColor = CurrentEnvironment.color.darkGray
+        titleLabel.textColor = color.darkGray
+        companyNameLabel.textColor = color.darkGray
     }
 }
 

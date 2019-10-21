@@ -11,7 +11,7 @@ import UIKit
 //MARK: - To be Conformed by MainRouter
 protocol MainRouterInput: AnyObject {
     static func navigationControllerForMainModuleSetup(builder: MainModuleBuilder) -> UINavigationController
-    func navigateToDetailViewController(job: Job, userLocation: Location?, context: UINavigationController)
+    func navigateToDetailViewController(imageLoading: ImageLoading, job: Job, userLocation: Location?, context: UINavigationController)
 }
 
 final class MainRouter: MainRouterInput {
@@ -21,8 +21,8 @@ final class MainRouter: MainRouterInput {
         return context
     }
     
-    func navigateToDetailViewController(job: Job, userLocation: Location?, context: UINavigationController) {
-        let builder = DetailModuleBuilder()
+    func navigateToDetailViewController(imageLoading: ImageLoading, job: Job, userLocation: Location?, context: UINavigationController) {
+        let builder = DetailModuleBuilder(imageLoader: imageLoading, job: job, userLocation: userLocation)
         DetailRouter.present(job: job, userLocation: userLocation, builder: builder, context: context)
     }
 }

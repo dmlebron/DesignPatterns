@@ -44,6 +44,7 @@ private extension DetailViewController {
 }
 
 final class DetailViewController: UIViewController {
+    private let color = Color()
     private(set) var presenter: DetailViewOutput!
     private var viewData: ViewData?
     
@@ -115,11 +116,11 @@ private extension DetailViewController {
 // MARK: - ViewCustomizing
 extension DetailViewController: ViewCustomizing {
     func setupUI() {
-        nameLabel.textColor = CurrentEnvironment.color.darkGray
-        topDividerView.backgroundColor = CurrentEnvironment.color.darkGray
+        nameLabel.textColor = color.darkGray
+        topDividerView.backgroundColor = color.darkGray
         companyImageView.contentMode = .scaleAspectFit
-        readMoreButton.setTitleColor(CurrentEnvironment.color.darkGray, for: .normal)
-        readMoreButton.backgroundColor = CurrentEnvironment.color.softGray
+        readMoreButton.setTitleColor(color.darkGray, for: .normal)
+        readMoreButton.backgroundColor = color.softGray
     }
     
     func setupSelectors() {

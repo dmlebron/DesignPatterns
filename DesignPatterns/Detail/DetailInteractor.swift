@@ -23,9 +23,11 @@ protocol DetailInteractorOutput: AnyObject {
 final class DetailInteractor {
     private weak var presenter: DetailInteractorOutput?
     private let job: Job
+    private let imageLoader: ImageLoading
     let userLocation: Location?
     
-    init(job: Job, userLocation: Location?) {
+    init(imageLoader: ImageLoading, job: Job, userLocation: Location?) {
+        self.imageLoader = imageLoader
         self.job = job
         self.userLocation = userLocation
     }
@@ -39,7 +41,7 @@ extension DetailInteractor: DetailInteractorInput {
     
     func fetchJob() {
         presenter?.changed(job: job)
-        CurrentEnvironment.imageLoader.load(url: job.imageUrl) { [weak self] (image) in
+        imageLoader.load(url: job.imageUrl) { [weak self] (image) in
             self?.presenter?.loaded(companyLogo: image)
         }
     }

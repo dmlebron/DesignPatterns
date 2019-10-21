@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Environment {
+private struct Environment {
     let apiURLSring: String
     let apiClient: ApiClientType
     let locationService: LocationServiceType

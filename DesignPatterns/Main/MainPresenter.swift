@@ -19,14 +19,18 @@ private extension MainPresenter {
 
 final class MainPresenter {
     private typealias ViewDataType = MainViewController.ViewDataType
+    
     let interactor: MainInteractorInput
     let router: MainRouterInput
+    let imageLoading: ImageLoading
+    
     private(set) var userLocation: Location?
     private weak var view: MainViewInput?
     
-    init(interactor: MainInteractorInput, router: MainRouterInput) {
+    init(interactor: MainInteractorInput, router: MainRouterInput, imageLoading: ImageLoading) {
         self.interactor = interactor
         self.router = router
+        self.imageLoading = imageLoading
     }
 }
 
@@ -50,7 +54,7 @@ extension MainPresenter: MainViewOutput {
     
     func cellTapped(job: Job?, navigationController: UINavigationController?) {
         guard let navigationController = navigationController, let job = job else { return }
-        router.navigateToDetailViewController(job: job, userLocation: userLocation, context: navigationController)
+        router.navigateToDetailViewController(imageLoading: imageLoading, job: job, userLocation: userLocation, context: navigationController)
     }
 }
 

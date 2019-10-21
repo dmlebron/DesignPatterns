@@ -10,8 +10,19 @@ import XCTest
 @testable import DesignPatterns
 
 class MainModuleBuilderTests: XCTestCase {
+    private var mockImageLoader: MockImageLoader!
+    private var mockApiClient: MockApiClient!
+    private var mockLocationService: MockLocationService!
+    
+    override func setUp() {
+        super.setUp()
+        mockImageLoader = MockImageLoader()
+        mockApiClient = MockApiClient()
+        mockLocationService = MockLocationService()
+    }
+    
     func test_Module() {
-        let module = MainModuleBuilder.init().module
+        let module = MainModuleBuilder.init(locationService: mockLocationService, apiClient: mockApiClient, imageLoading: mockImageLoader).module
         let view = module as? MainViewController
         let presenter = view?.presenter as? MainPresenter
         let interactor = presenter?.interactor as? MainInteractor

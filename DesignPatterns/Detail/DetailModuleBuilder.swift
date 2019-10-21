@@ -8,11 +8,22 @@
 import UIKit
 
 struct DetailModuleBuilder {
-    func module(job: Job, userLocation: Location?) -> UIViewController {
+    private let imageLoader: ImageLoading
+    private let job: Job
+    private let userLocation: Location?
+    
+    init(imageLoader: ImageLoading, job: Job, userLocation: Location?) {
+        self.imageLoader = imageLoader
+        self.job = job
+        self.userLocation = userLocation
+    }
+    
+    var module: UIViewController {
         let view = UIStoryboard.detail.instantiateInitialViewController() as! DetailViewController
         let router = DetailRouter()
-        let interactor = DetailInteractor(job: job, userLocation: userLocation)
+        let interactor = DetailInteractor(imageLoader: imageLoader, job: job, userLocation: userLocation)
         let presenter = DetailPresenter(interactor: interactor, router: router)
+        
         interactor.set(presenter: presenter)
         presenter.set(view: view)
         view.set(presenter: presenter)

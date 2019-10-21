@@ -10,10 +10,17 @@ import XCTest
 @testable import DesignPatterns
 
 class DetailModuleBuilderTests: XCTestCase {
+    private var mockImageLoader: MockImageLoader!
+    
+    override func setUp() {
+        super.setUp()
+        mockImageLoader = MockImageLoader()
+    }
+    
     func test_Module_UserLocation() {
         let mockJob = MockJob.allFields
         let mockUserLocation = MockLocation.boston
-        let module = DetailModuleBuilder.init().module(job: mockJob, userLocation: mockUserLocation)
+        let module = DetailModuleBuilder.init(imageLoader: mockImageLoader, job: mockJob, userLocation: mockUserLocation).module
         
         let view = module as? DetailViewController
         let presenter = view?.presenter as? DetailPresenter
@@ -30,7 +37,7 @@ class DetailModuleBuilderTests: XCTestCase {
     
     func test_Module_NoUserLocation() {
         let mockJob = MockJob.allFields
-        let module = DetailModuleBuilder.init().module(job: mockJob, userLocation: nil)
+        let module = DetailModuleBuilder.init(imageLoader: mockImageLoader, job: mockJob, userLocation: nil).module
         
         let view = module as? DetailViewController
         let presenter = view?.presenter as? DetailPresenter

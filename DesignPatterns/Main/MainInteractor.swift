@@ -24,7 +24,14 @@ protocol MainInteractorOutput: AnyObject {
 }
 
 final class MainInteractor {
+    private let locationService: LocationServiceType
+    private let apiClient: ApiClientType
     private(set) weak var presenter: MainInteractorOutput?
+    
+    init(locationService: LocationServiceType, apiClient: ApiClientType) {
+        self.locationService = locationService
+        self.apiClient = apiClient
+    }
 }
 
 // MARK: - MainInteractorInput
@@ -44,7 +51,7 @@ extension MainInteractor: MainInteractorInput {
     }
     
     func updateCurrentAddress() {
-        CurrentEnvironment.locationService.currentAddress { [unowned self] (location) in
+        locationService.currentAddress { [unowned self] (location) in
             self.presenter?.changed(userLocation: location)
         }
     }
@@ -55,7 +62,7 @@ private extension MainInteractor {
     func fetchJobs(query: String, city: String? = nil) {
         let route = city != nil ? Route.parameters([.jobType: query, .location: city!]) : Route.parameters([Parameter.jobType: query])
         guard let url = URL(string: route.completeUrl) else { return }
-        CurrentEnvironment.apiClient.get(url: url) { [unowned self] result in
+        apiClient.get(url: url) { [unowned self] result in
             switch result {
             case .success(let jobs):
                 self.presenter?.changed(jobs: jobs)
@@ -67,7 +74,7 @@ private extension MainInteractor {
     }
     
     func searchAddress(address: String, completion: @escaping (Location?) -> Void) {
-        CurrentEnvironment.locationService.locationFor(address: address) { (searchLocation) in
+        locationService.locationFor(address: address) { (searchLocation) in
             completion(searchLocation)
         }
     }

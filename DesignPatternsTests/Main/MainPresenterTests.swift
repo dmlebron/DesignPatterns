@@ -14,13 +14,14 @@ class MainPresenterTests: XCTestCase {
     var mockInteractor: MockMainInteractor!
     var mockView: MockMainView!
     var mockRouter: MockMainRouter!
+    var mockImageLoader: MockImageLoader!
 
     override func setUp() {
-        CurrentEnvironment = Environment.mock
         mockInteractor = MockMainInteractor()
         mockRouter = MockMainRouter()
         mockView = MockMainView()
-        presenter = MainPresenter(interactor: mockInteractor, router: mockRouter)
+        mockImageLoader = MockImageLoader()
+        presenter = MainPresenter(interactor: mockInteractor, router: mockRouter, imageLoading: mockImageLoader)
         presenter.set(view: mockView)
     }
 
@@ -151,8 +152,8 @@ class MockMainRouter: MainRouterInput {
         return UINavigationController()
     }
 
-    var didCallNavigateToDetail: (job: Job, userLocation: Location?, context: UINavigationController)?
-    func navigateToDetailViewController(job: Job, userLocation: Location?, context: UINavigationController) {
-        didCallNavigateToDetail = (job: job, userLocation: userLocation, context: context)
+    var didCallNavigateToDetail: (imageLoading: ImageLoading, job: Job, userLocation: Location?, context: UINavigationController)?
+    func navigateToDetailViewController(imageLoading: ImageLoading, job: Job, userLocation: Location?, context: UINavigationController) {
+        didCallNavigateToDetail = (imageLoading: imageLoading, job: job, userLocation: userLocation, context: context)
     }
 }

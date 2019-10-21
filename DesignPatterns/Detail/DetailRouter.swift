@@ -20,8 +20,7 @@ final class DetailRouter {}
 // MARK: - DetailRouterInput
 extension DetailRouter: DetailRouterInput {
     static func present(job: Job, userLocation: Location?, builder: DetailModuleBuilder, context: UINavigationController) {
-        let module = builder.module(job: job, userLocation: userLocation)
-        context.pushViewController(module, animated: true)
+        context.pushViewController(builder.module, animated: true)
     }
 
     func openUrl(_ url: URL?) {

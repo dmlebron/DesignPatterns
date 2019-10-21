@@ -56,6 +56,7 @@ final class MainViewController: UIViewController {
     @IBOutlet weak var locationText: UITextField!
     @IBOutlet weak var locationView: UIView!
     @IBOutlet weak var currentLocationButton: UIButton!
+    private let color = Color()
     private(set) var presenter: MainViewOutput!
     private var tableViewData = TableViewViewData(numberOfSections: 0, numberOfRows: 0, items: [:]) {
         didSet {
@@ -150,7 +151,7 @@ extension MainViewController: ViewCustomizing {
     func setupUI() {
         navigationItem.title = Constants.Text.title
         
-        tableView.backgroundColor = CurrentEnvironment.color.white
+        tableView.backgroundColor = color.white
         tableView.tableFooterView = UIView()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = Constants.estimatedRowHeight
@@ -160,19 +161,19 @@ extension MainViewController: ViewCustomizing {
         let searchPlaceholder = NSAttributedString(string: Constants.Text.placeholderTitle, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         searchText.attributedPlaceholder = searchPlaceholder
         searchText.clearButtonMode = .whileEditing
-        searchText.textColor = CurrentEnvironment.color.white
+        searchText.textColor = color.white
         
         let locationPlaceholder = NSAttributedString(string: Constants.Text.placeholderZipcode, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         locationText.attributedPlaceholder = locationPlaceholder
         locationText.clearButtonMode = .whileEditing
-        locationText.textColor = CurrentEnvironment.color.white
+        locationText.textColor = color.white
         
-        locationView.backgroundColor = CurrentEnvironment.color.darkGray
+        locationView.backgroundColor = color.darkGray
         
         currentLocationButton.setImage(UIImage.location, for: .normal)
         currentLocationButton.imageView?.contentMode = .scaleAspectFit
         
-        view.backgroundColor = CurrentEnvironment.color.darkGray
+        view.backgroundColor = color.darkGray
     }
     
     func additionalSetup() {

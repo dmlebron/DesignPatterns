@@ -7,17 +7,22 @@
 
 import UIKit
 
-/// Environment
-var CurrentEnvironment = Environment.development
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        CurrentEnvironment.locationService.requestWhenInUseAuthorization()
-        setupSharedUI()
+        let color = Color()
         
-        setupWindow()
+        setupSharedUI(color: color)
+        
+        let locationService = LocationService()
+        locationService.requestWhenInUseAuthorization()
+        
+        let apiClient = ApiClient()
+        let imageCache = ImageCache()
+        let imageLoading = ImageLoader(imageCache: imageCache)
+        
+        setupWindow(locationService: locationService, apiClient: apiClient, imageLoading: imageLoading)
         
         return true
     }
@@ -25,17 +30,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 // MARK: - Private Methods
 private extension AppDelegate {
-    func setupSharedUI() {
-        UINavigationBar.appearance().barTintColor = CurrentEnvironment.color.darkGray
+    func setupSharedUI(color: Color) {
+        UINavigationBar.appearance().barTintColor = color.darkGray
         UINavigationBar.appearance().isTranslucent = false
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: CurrentEnvironment.color.white]
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: color.white]
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
         UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().tintColor = CurrentEnvironment.color.white
+        UINavigationBar.appearance().tintColor = color.white
     }
     
-    func setupWindow() {
-        let mainBuilder = MainModuleBuilder()
+    func setupWindow(locationService: LocationServiceType, apiClient: ApiClientType, imageLoading: ImageLoading) {
+        let mainBuilder = MainModuleBuilder(locationService: locationService, apiClient: apiClient, imageLoading: imageLoading)
         let navigationController = MainRouter.navigationControllerForMainModuleSetup(builder: mainBuilder)
         let window = UIWindow()
         window.rootViewController = navigationController

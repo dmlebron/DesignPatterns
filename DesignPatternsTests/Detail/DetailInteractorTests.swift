@@ -10,19 +10,18 @@ import XCTest
 @testable import DesignPatterns
 
 class DetailInteractorTests: XCTestCase {
-    var interactor: DetailInteractor!
-    var mockPresenter: MockDetailPresenter!
-    var mockJob: Job!
-    var mockImageLoader: MockImageLoader!
-    var mockLocationService: MockLocationService!
+    private var interactor: DetailInteractor!
+    private var mockPresenter: MockDetailPresenter!
+    private var mockJob: Job!
+    private var mockImageLoader: MockImageLoader!
+    private var mockLocationService: MockLocationService!
     
     override func setUp() {
-        CurrentEnvironment = Environment.mock
-        mockImageLoader = CurrentEnvironment.imageLoader as? MockImageLoader
-        mockLocationService = CurrentEnvironment.locationService as? MockLocationService
+        mockImageLoader = MockImageLoader()
+        mockLocationService = MockLocationService()
         mockJob = MockJob.allFields
         mockPresenter = MockDetailPresenter()
-        interactor = DetailInteractor(job: mockJob, userLocation: nil)
+        interactor = DetailInteractor(imageLoader: mockImageLoader, job: mockJob, userLocation: nil)
         interactor.set(presenter: mockPresenter)
     }
     

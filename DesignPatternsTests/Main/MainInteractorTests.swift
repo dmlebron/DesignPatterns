@@ -10,17 +10,16 @@ import XCTest
 @testable import DesignPatterns
 
 class MainInteractorTests: XCTestCase {
-    var interactor: MainInteractor!
-    var mockPresenter: MockMainPresenter!
-    var mockApiClient: MockApiClient!
-    var mockLocationService: MockLocationService!
-    
+    private var interactor: MainInteractor!
+    private var mockPresenter: MockMainPresenter!
+    private var mockApiClient: MockApiClient!
+    private var mockLocationService: MockLocationService!
+
     override func setUp() {
-        CurrentEnvironment = Environment.mock
-        mockApiClient = CurrentEnvironment.apiClient as? MockApiClient
-        mockLocationService = CurrentEnvironment.locationService as? MockLocationService
+        mockApiClient = MockApiClient()
+        mockLocationService = MockLocationService()
         mockPresenter = MockMainPresenter()
-        interactor = MainInteractor()
+        interactor = MainInteractor(locationService: mockLocationService, apiClient: mockApiClient)
         interactor.set(presenter: mockPresenter)
     }
     
@@ -30,7 +29,7 @@ class MainInteractorTests: XCTestCase {
     }
     
     func test_SetPresenter() {
-        interactor = MainInteractor()
+        interactor = MainInteractor(locationService: mockLocationService, apiClient: mockApiClient)
         
         XCTAssertNil(interactor.presenter)
         
