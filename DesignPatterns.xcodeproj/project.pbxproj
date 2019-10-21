@@ -37,6 +37,8 @@
 		EE38F7402229DAA700F07F66 /* MockJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE38F73F2229DAA700F07F66 /* MockJob.swift */; };
 		EE38F7422229DBE000F07F66 /* MockUserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE38F7412229DBE000F07F66 /* MockUserLocation.swift */; };
 		EE38F7452229E6BD00F07F66 /* DetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE38F7442229E6BD00F07F66 /* DetailViewModelTests.swift */; };
+		EEF08F6E235E114B00C73D0A /* ApiClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF08F6D235E114B00C73D0A /* ApiClientTests.swift */; };
+		EEF08F70235E145A00C73D0A /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF08F6F235E145A00C73D0A /* MockURLSession.swift */; };
 		EEF6D2DD22247A6F004BE390 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF6D2DC22247A6E004BE390 /* DetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +87,8 @@
 		EE38F73F2229DAA700F07F66 /* MockJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJob.swift; sourceTree = "<group>"; };
 		EE38F7412229DBE000F07F66 /* MockUserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserLocation.swift; sourceTree = "<group>"; };
 		EE38F7442229E6BD00F07F66 /* DetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModelTests.swift; sourceTree = "<group>"; };
+		EEF08F6D235E114B00C73D0A /* ApiClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClientTests.swift; sourceTree = "<group>"; };
+		EEF08F6F235E145A00C73D0A /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		EEF6D2DC22247A6E004BE390 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -164,6 +168,7 @@
 				461DC3B42228D930004151B7 /* Models */,
 				461DC3B32228D92A004151B7 /* ViewModels */,
 				4654D54B2220F07300782AFA /* Info.plist */,
+				EEF08F6D235E114B00C73D0A /* ApiClientTests.swift */,
 			);
 			path = DesignPatternsTests;
 			sourceTree = "<group>";
@@ -229,6 +234,7 @@
 				EE38F73F2229DAA700F07F66 /* MockJob.swift */,
 				EE38F7412229DBE000F07F66 /* MockUserLocation.swift */,
 				46672BDB222AE69200A3DD55 /* MockImageLoader.swift */,
+				EEF08F6F235E145A00C73D0A /* MockURLSession.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -361,6 +367,7 @@
 				4654D5782221294800782AFA /* DetailViewController.swift in Sources */,
 				4654D5602220F38D00782AFA /* Protocols.swift in Sources */,
 				469EEA59222392D6005E75A3 /* UserLocation.swift in Sources */,
+				EEF08F70235E145A00C73D0A /* MockURLSession.swift in Sources */,
 				4654D5652221057500782AFA /* Job.swift in Sources */,
 				4654D5352220F07200782AFA /* AppDelegate.swift in Sources */,
 				46672BDC222AE69200A3DD55 /* MockImageLoader.swift in Sources */,
@@ -387,6 +394,7 @@
 				461DC3B82228E2D5004151B7 /* MainViewModelTests.swift in Sources */,
 				461DC3B62228D94D004151B7 /* LocationTests.swift in Sources */,
 				EE38F7452229E6BD00F07F66 /* DetailViewModelTests.swift in Sources */,
+				EEF08F6E235E114B00C73D0A /* ApiClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
