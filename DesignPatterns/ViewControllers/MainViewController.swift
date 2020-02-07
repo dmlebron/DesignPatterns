@@ -61,20 +61,20 @@ private extension MainViewController {
     }
     
     func bindViewModel() {
-        viewModel.output.tableViewDataPublisher
+        viewModel.output.tableViewDataPublisher?
             .sink { [weak self] data in
                 self?.tableViewData = data
                 self?.tableView.reloadData()
             }
             .store(in: &cancellables)
         
-        viewModel.output.locationPublisher
+        viewModel.output.locationPublisher?
             .sink { [weak self] location in
                 self?.locationChanged(location)
             }
             .store(in: &cancellables)
         
-        viewModel.output.detailViewControllerPublisher
+        viewModel.output.detailViewControllerPublisher?
             .sink { [weak self] in
                 self?.pushViewController($0)
             }
