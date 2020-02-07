@@ -26,15 +26,22 @@ struct Location {
     let country: String
     let postalCode: String?
     
-    init(city: String, country: String, postalCode: String? = nil) throws {
+    init(city: String, country: String, postalCode: String?) throws {
         self.city = city.capitalized
         self.country = country.uppercased()
         self.postalCode = postalCode
         try validate()
     }
     
+    init(city: String, country: String) {
+        self.city = city.capitalized
+        self.country = country.uppercased()
+        self.postalCode = nil
+    }
+    
     var parsed: String {
-        return "\(city), \(country) \(postalCode ?? "No Postal Code")"
+        guard !city.isEmpty, !country.isEmpty else { return "" }
+        return "\(city), \(country)"
     }
 }
 

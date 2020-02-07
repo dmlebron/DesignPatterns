@@ -23,7 +23,7 @@ private extension MainViewController {
     }
 }
 
-typealias TableViewViewData = MainViewController.TableViewViewData
+typealias MainTableViewViewData = MainViewController.TableViewViewData
 
 final class MainViewController: UIViewController {
     
@@ -68,13 +68,13 @@ private extension MainViewController {
             }
             .store(in: &cancellables)
         
-        viewModel.output.locationPublisher?
+        viewModel.output.locationPublisher
             .sink { [weak self] location in
                 self?.locationChanged(location)
             }
             .store(in: &cancellables)
         
-        viewModel.output.detailViewControllerPublisher?
+        viewModel.output.detailViewControllerPublisher
             .sink { [weak self] in
                 self?.pushViewController($0)
             }
@@ -139,25 +139,26 @@ extension MainViewController: UITableViewDelegate {
 // MARK: - UITextFieldDelegate
 extension MainViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if range.isBackspacing {
-            return true
-        }
-        
-        // TODO: Should this onoly accepts zipcode?
-        // we can show a carousel with possible locations based on the input zipcode
-        if textField == locationText {
-            guard !string.trimmingCharacters(in: .letters).isEmpty else {
-                return false
-            }
-        }
+//        if range.isBackspacing {
+//            return true
+//        }
+//
+//        // TODO: Should this onoly accepts zipcode?
+//        // we can show a carousel with possible locations based on the input zipcode
+//        if textField == locationText {
+//            guard !string.trimmingCharacters(in: .letters).isEmpty else {
+//                return false
+//            }
+//        }
         
         return true
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if let query = searchText.text {
-            viewModel.input.searchTapped(query: query, address: locationText.text)
-        }
+        if let query = searchText.text, !query.isEmpty {
+             viewModel.input.searchTapped(query: query, address: locationText.text)
+         }
+
         view.endEditing(true)
         return false
     }

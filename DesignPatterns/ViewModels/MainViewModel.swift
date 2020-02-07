@@ -8,17 +8,17 @@
 import UIKit
 import Combine
 
-protocol MainViewModelInput: AnyObject {
+protocol MainViewModelInput {
     func viewDidAppear()
     func searchTapped(query: String, address: String?)
     func cellTapped(job: Job)
     func updateCurrentLocationTapped()
 }
 
-protocol MainViewModelOutput: AnyObject {
-    var locationPublisher: AnyPublisher<Location?, Never>? { get set }
-    var tableViewDataPublisher: AnyPublisher<TableViewViewData, Never>? { get set }
-    var detailViewControllerPublisher: AnyPublisher<UIViewController, Never>? { get set }
+protocol MainViewModelOutput {
+    var locationPublisher: AnyPublisher<Location, Never> { get }
+    var tableViewDataPublisher: AnyPublisher<MainTableViewViewData, Never>? { get }
+    var detailViewControllerPublisher: AnyPublisher<UIViewController, Never> { get }
 //    func showAlert(error: Error)
 //    func pushViewController(_ viewController: UIViewController)
 }
@@ -29,6 +29,7 @@ protocol MainViewModelType {
 }
 
 // MARK: - Constants
+
 private extension MainViewModel {
     enum Constants {
         enum TableView {
@@ -53,12 +54,17 @@ final class MainViewModel {
     private let locationService: LocationServiceType
     private let apiClient: ApiClientType
     private let imageLoader: ImageLoading
-//    private(set) var userLocation: Location?
-    private var subscriptions: [AnyCancellable] = []
-
+    private let detailViewController = PassthroughSubject<UIViewController, Never>()
+    private let jobs = PassthroughSubject<Jobs, Never>()
+    private var searchTappedPub = PassthroughSubject<SearchQuery, Never>()
+    
+    let locationPublisher: AnyPublisher<Location, Never>
+    private(set) var tableViewDataPublisher: AnyPublisher<MainTableViewViewData, Never>?
+    let detailViewControllerPublisher: AnyPublisher<UIViewController, Never>
+    
     struct SearchQuery: Equatable {
         let query: String
-        let zipCode: String?
+        let address: String?
     }
     
     init(locationService: LocationServiceType, apiClient: ApiClientType, color: Color, imageLoader: ImageLoading) {
@@ -67,52 +73,55 @@ final class MainViewModel {
         self.color = color
         self.imageLoader = imageLoader
         
-        locationPublisher = location
-            .removeDuplicates()
-            .eraseToAnyPublisher()
-        
-        // TODO: How to add error query and how to update the location and perform a request after?
-        tableViewDataPublisher = searchTappedPub
-            .breakpoint()
-            .print()
-            .flatMap { searchQuery -> Future<SearchQuery, Never> in
-                self.searchAddress(query: searchQuery.query, zipCode: searchQuery.zipCode)
-            }
-            .combineLatest(location)
-            .print()
-            .flatMap { result -> AnyPublisher<Jobs, Never>  in
-                self.fetchJobs(query: result.0.query, city: result.1?.city)
-            }
-            .print()
-            .map { jobs in
-                TableViewViewData(numberOfSections: Constants.TableView.numberOfSections, numberOfRows: jobs.count, items: jobs)
-            }
+        locationPublisher = locationService
+            .locationPublisher
             .eraseToAnyPublisher()
         
         detailViewControllerPublisher = detailViewController
             .eraseToAnyPublisher()
+        
+        tableViewDataPublisher = searchTappedPub
+            .flatMap { searchQuery -> AnyPublisher<SearchQuery, Never> in
+                self.locationService.updateLocation(address: searchQuery.address)
+                return Just(searchQuery)
+                    .eraseToAnyPublisher()
+            }
+            .zip(locationPublisher)
+            .flatMap { result -> AnyPublisher<Jobs, Never>  in
+                self.fetchJobs(query: result.0.query, city: result.1.city)
+            }
+            .map { jobs in
+                MainTableViewViewData(numberOfSections: Constants.TableView.numberOfSections, numberOfRows: jobs.count, items: jobs)
+            }
+            .eraseToAnyPublisher()
+        
+//        tableViewDataPublisher = searchTappedPub
+//            .flatMap { searchQuery in
+//                self.locationService
+//                    .updateLocationForAddress(searchQuery.address)
+//                    .map { location in
+//                        (searchQuery, location)
+//                    }
+//            }
+//            .flatMap { result -> AnyPublisher<Jobs, Never>  in
+//                self.fetchJobs(query: result.0.query, city: result.1.city)
+//            }
+//            .map { jobs in
+//                MainTableViewViewData(numberOfSections: Constants.TableView.numberOfSections, numberOfRows: jobs.count, items: jobs)
+//            }
+//            .eraseToAnyPublisher()
     }
-    
-    private let jobs = PassthroughSubject<Jobs, Never>()
-    
-    private let location = PassthroughSubject<Location?, Never>()
-    var locationPublisher: AnyPublisher<Location?, Never>?
-    
-    var tableViewDataPublisher: AnyPublisher<TableViewViewData, Never>?
-    
-    private let detailViewController = PassthroughSubject<UIViewController, Never>()
-    var detailViewControllerPublisher: AnyPublisher<UIViewController, Never>?
-
-    private var searchTappedPub = PassthroughSubject<SearchQuery, Never>()
-    
 }
+
+// MARK: - MainViewModelType
 
 extension MainViewModel: MainViewModelType {
     var input: MainViewModelInput { return self }
     var output: MainViewModelOutput { return self }
 }
 
-// MARK: - Private Methods
+// MARK: - Private
+
 private extension MainViewModel {
     func fetchJobs(query: String, city: String? = nil) -> AnyPublisher<Jobs, Never> {
         if query.isEmpty {
@@ -129,44 +138,25 @@ private extension MainViewModel {
     }
     
     func updateCurrentAddress() {
-        locationService.currentAddress { [weak self] (location) in
-            self?.location.send(location)
-        }
-    }
-    
-    func searchAddress(query: String, zipCode: String?) -> Future<SearchQuery, Never> {
-        let future = Future<SearchQuery, Never>({ result in
-            if let zipCode = zipCode, !zipCode.isEmpty, let _ = Int(zipCode) {
-                self.locationService.locationFor(address: zipCode) { [weak self] (location) in
-                    self?.location.send(location)
-                    result(.success(SearchQuery(query: query, zipCode: zipCode)))
-                }
-            } else {
-                result(.success(SearchQuery(query: query, zipCode: nil)))
-            }
-        })
-
-        return future
+        locationService.updateCurrentAddress()
     }
 }
 
 // MARK: - MainViewModelOutput
+
 extension MainViewModel: MainViewModelOutput {
     
 }
 
 // MARK: - MainViewModelInput
+
 extension MainViewModel: MainViewModelInput {
     func viewDidAppear() {
         updateCurrentAddress()
     }
     
-
     func searchTapped(query: String, address: String?) {
-        let searchQuery = SearchQuery(query: query, zipCode: address)
-//        searchQueryPub.send(searchQuery)
-//        searchAddress(zipCode: address)
-//        fetchJobs(query: query)
+        let searchQuery = SearchQuery(query: query, address: address)
         searchTappedPub.send(searchQuery)
     }
     
@@ -177,20 +167,5 @@ extension MainViewModel: MainViewModelInput {
     
     func updateCurrentLocationTapped() {
         updateCurrentAddress()
-    }
-    
-    func numberOfSections() -> Int {
-        return Constants.TableView.numberOfSections
-    }
-    
-    func numberOfRows() -> Int {
-        return 0//jobs.
-    }
-    
-    func jobAtIndexPath(_ indexPath: IndexPath) -> Job? {
-//        guard jobs.count > indexPath.row else {
-            return nil
-//        }
-//        return jobs[indexPath.row]
     }
 }
