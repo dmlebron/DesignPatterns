@@ -17,10 +17,12 @@
 		4627A7F2222F68B100F29798 /* DetailRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4627A7F1222F68B100F29798 /* DetailRouterTests.swift */; };
 		4627A7F4222F68C300F29798 /* DetailModuleBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4627A7F3222F68C300F29798 /* DetailModuleBuilderTests.swift */; };
 		463FAB1323EF146B001C20A4 /* MockEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463FAB1223EF146B001C20A4 /* MockEnvironment.swift */; };
+		463FAB2123EF160E001C20A4 /* MockApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D568222122FF00782AFA /* MockApiClient.swift */; };
+		463FAB2223EF160E001C20A4 /* MockLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D56E2221248000782AFA /* MockLocationService.swift */; };
+		463FAB2323EF160E001C20A4 /* MockImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464067CA222F55950015BFE5 /* MockImageLoader.swift */; };
+		463FAB2423EF160E001C20A4 /* MockJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464067CC222F55A30015BFE5 /* MockJob.swift */; };
+		463FAB2523EF160E001C20A4 /* MockLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464067CE222F55C30015BFE5 /* MockLocation.swift */; };
 		464067C9222F55630015BFE5 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464067C8222F55630015BFE5 /* ImageLoader.swift */; };
-		464067CB222F55950015BFE5 /* MockImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464067CA222F55950015BFE5 /* MockImageLoader.swift */; };
-		464067CD222F55A30015BFE5 /* MockJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464067CC222F55A30015BFE5 /* MockJob.swift */; };
-		464067CF222F55C30015BFE5 /* MockLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464067CE222F55C30015BFE5 /* MockLocation.swift */; };
 		465010BF222236FE0062DF6D /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010BE222236FE0062DF6D /* ImageCache.swift */; };
 		465010C1222245510062DF6D /* App+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010C0222245510062DF6D /* App+UIImage.swift */; };
 		4654D5352220F07200782AFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5342220F07200782AFA /* AppDelegate.swift */; };
@@ -32,14 +34,12 @@
 		4654D5622220F43C00782AFA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4654D5612220F43C00782AFA /* Main.storyboard */; };
 		4654D5652221057500782AFA /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5642221057500782AFA /* Job.swift */; };
 		4654D56722210B2800782AFA /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D56622210B2800782AFA /* Environment.swift */; };
-		4654D5702221248F00782AFA /* MockLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D56E2221248000782AFA /* MockLocationService.swift */; };
 		4654D5722221273C00782AFA /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5712221273C00782AFA /* Color.swift */; };
 		4654D5762221291600782AFA /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4654D5752221291600782AFA /* Detail.storyboard */; };
 		4654D5782221294800782AFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5772221294800782AFA /* DetailViewController.swift */; };
 		4654D57A2221299C00782AFA /* App+Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5792221299C00782AFA /* App+Storyboard.swift */; };
 		4654D57E22212B5100782AFA /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D57C22212B5100782AFA /* MainTableViewCell.swift */; };
 		4654D57F22212B5100782AFA /* MainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4654D57D22212B5100782AFA /* MainTableViewCell.xib */; };
-		4654D5812221302200782AFA /* MockApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D568222122FF00782AFA /* MockApiClient.swift */; };
 		4675E84222279A1100586622 /* Attr+Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E84122279A1100586622 /* Attr+Label.swift */; };
 		4675E84522279B7E00586622 /* JobDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E84422279B7E00586622 /* JobDescriptionViewController.swift */; };
 		4675E84722279EE900586622 /* JobDescriptionModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E84622279EE900586622 /* JobDescriptionModuleBuilder.swift */; };
@@ -359,9 +359,11 @@
 				TargetAttributes = {
 					4654D5302220F07200782AFA = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1130;
 					};
 					4654D5442220F07300782AFA = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1130;
 						TestTargetID = 4654D5302220F07200782AFA;
 					};
 				};
@@ -411,8 +413,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				464067CB222F55950015BFE5 /* MockImageLoader.swift in Sources */,
-				464067CD222F55A30015BFE5 /* MockJob.swift in Sources */,
 				EEAED51422249B7000B9587B /* DetailModuleBuilder.swift in Sources */,
 				4654D57E22212B5100782AFA /* MainTableViewCell.swift in Sources */,
 				4654D57A2221299C00782AFA /* App+Storyboard.swift in Sources */,
@@ -426,16 +426,13 @@
 				EEAED50C22249AEC00B9587B /* DetailInteractor.swift in Sources */,
 				EEAED50E22249AF800B9587B /* DetailPresenter.swift in Sources */,
 				4654D5352220F07200782AFA /* AppDelegate.swift in Sources */,
-				464067CF222F55C30015BFE5 /* MockLocation.swift in Sources */,
 				4654D56722210B2800782AFA /* Environment.swift in Sources */,
 				EEAED50A22249AE000B9587B /* MainPresenter.swift in Sources */,
 				465010C1222245510062DF6D /* App+UIImage.swift in Sources */,
 				EEAED51022249B1C00B9587B /* DetailRouter.swift in Sources */,
-				4654D5812221302200782AFA /* MockApiClient.swift in Sources */,
 				EEAED51222249B2600B9587B /* MainRouter.swift in Sources */,
 				4654D5572220F35100782AFA /* MainViewController.swift in Sources */,
 				4675E84722279EE900586622 /* JobDescriptionModuleBuilder.swift in Sources */,
-				4654D5702221248F00782AFA /* MockLocationService.swift in Sources */,
 				4654D5722221273C00782AFA /* Color.swift in Sources */,
 				4675E84222279A1100586622 /* Attr+Label.swift in Sources */,
 				4654D55C2220F36400782AFA /* LocationService.swift in Sources */,
@@ -449,12 +446,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				463FAB2323EF160E001C20A4 /* MockImageLoader.swift in Sources */,
+				463FAB2223EF160E001C20A4 /* MockLocationService.swift in Sources */,
 				4627A7F4222F68C300F29798 /* DetailModuleBuilderTests.swift in Sources */,
 				4627A7E8222F687200F29798 /* MainPresenterTests.swift in Sources */,
 				4627A7F2222F68B100F29798 /* DetailRouterTests.swift in Sources */,
 				4627A7EA222F687D00F29798 /* MainRouterTests.swift in Sources */,
 				4627A7F0222F68A500F29798 /* DetailPresenterTests.swift in Sources */,
+				463FAB2423EF160E001C20A4 /* MockJob.swift in Sources */,
 				461DC3B62228D94D004151B7 /* LocationTests.swift in Sources */,
+				463FAB2123EF160E001C20A4 /* MockApiClient.swift in Sources */,
+				463FAB2523EF160E001C20A4 /* MockLocation.swift in Sources */,
 				4627A7EC222F688D00F29798 /* MainModuleBuilderTests.swift in Sources */,
 				4627A7E6222F686600F29798 /* MainInteractorTests.swift in Sources */,
 				4627A7EE222F689900F29798 /* DetailInteractorTests.swift in Sources */,
@@ -602,7 +604,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmlebron.DesignPatterns;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -620,7 +622,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmlebron.DesignPatterns;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -640,7 +642,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmlebron.DesignPatternsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DesignPatterns.app/DesignPatterns";
 			};
@@ -661,7 +663,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmlebron.DesignPatternsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DesignPatterns.app/DesignPatterns";
 			};
