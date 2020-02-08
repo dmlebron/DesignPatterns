@@ -8,6 +8,7 @@
 
 import Foundation
 import MapKit
+@testable import DesignPatterns
 
 class MockLocationService: LocationServiceType {
     private var expectedUserLocation: Location?

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+@testable import DesignPatterns
 
 struct MockJob {
     static var onlyTitleNameAndUrl: Job {

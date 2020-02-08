@@ -34,11 +34,3 @@ struct Environment {
                                          color: Color(),
                                          imageLoader: ImageLoader(imageCache: ImageCache()))
 }
-
-extension Environment {
-    static let mock = Environment(apiURLSring: "https://jobs.github.com/positions.json",
-                                  apiClient: MockApiClient(),
-                                  locationService: MockLocationService(),
-                                  color: Color(),
-                                  imageLoader: MockImageLoader())
-}
