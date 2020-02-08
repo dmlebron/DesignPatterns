@@ -304,9 +304,11 @@
 				TargetAttributes = {
 					4654D5302220F07200782AFA = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1130;
 					};
 					4654D5442220F07300782AFA = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1130;
 						TestTargetID = 4654D5302220F07200782AFA;
 					};
 				};
@@ -534,7 +536,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmlebron.DesignPatterns;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -552,7 +554,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmlebron.DesignPatterns;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -572,7 +574,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmlebron.DesignPatternsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DesignPatterns.app/DesignPatterns";
 			};
@@ -593,7 +595,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmlebron.DesignPatternsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DesignPatterns.app/DesignPatterns";
 			};
