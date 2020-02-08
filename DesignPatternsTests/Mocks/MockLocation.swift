@@ -6,6 +6,7 @@
 //  Copyright © 2019 dmlebron. All rights reserved.
 //
 import Foundation
+@testable import DesignPatterns
 
 struct MockLocation {
     static var boston: Location {

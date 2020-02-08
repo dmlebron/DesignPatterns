@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		461DC3B62228D94D004151B7 /* LocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461DC3B52228D94D004151B7 /* LocationTests.swift */; };
+		463FAB0B23EF13EB001C20A4 /* MockApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D568222122FF00782AFA /* MockApiClient.swift */; };
+		463FAB0C23EF13EB001C20A4 /* MockLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D56E2221248000782AFA /* MockLocationService.swift */; };
+		463FAB0D23EF13EB001C20A4 /* MockJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46672BDF222B4C6700A3DD55 /* MockJob.swift */; };
+		463FAB0E23EF13EB001C20A4 /* MockLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46672BE1222B4C7200A3DD55 /* MockLocation.swift */; };
+		463FAB0F23EF13EB001C20A4 /* MockImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46672BE3222B4C7E00A3DD55 /* MockImageLoader.swift */; };
+		463FAB1123EF142E001C20A4 /* MockEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463FAB1023EF142E001C20A4 /* MockEnvironment.swift */; };
 		465010BF222236FE0062DF6D /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010BE222236FE0062DF6D /* ImageCache.swift */; };
 		465010C1222245510062DF6D /* App+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465010C0222245510062DF6D /* App+UIImage.swift */; };
 		4654D5352220F07200782AFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5342220F07200782AFA /* AppDelegate.swift */; };
@@ -19,18 +25,13 @@
 		4654D5622220F43C00782AFA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4654D5612220F43C00782AFA /* Main.storyboard */; };
 		4654D5652221057500782AFA /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5642221057500782AFA /* Job.swift */; };
 		4654D56722210B2800782AFA /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D56622210B2800782AFA /* Environment.swift */; };
-		4654D5702221248F00782AFA /* MockLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D56E2221248000782AFA /* MockLocationService.swift */; };
 		4654D5722221273C00782AFA /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5712221273C00782AFA /* Color.swift */; };
 		4654D5762221291600782AFA /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4654D5752221291600782AFA /* Detail.storyboard */; };
 		4654D5782221294800782AFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5772221294800782AFA /* DetailViewController.swift */; };
 		4654D57A2221299C00782AFA /* App+Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D5792221299C00782AFA /* App+Storyboard.swift */; };
 		4654D57E22212B5100782AFA /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D57C22212B5100782AFA /* MainTableViewCell.swift */; };
 		4654D57F22212B5100782AFA /* MainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4654D57D22212B5100782AFA /* MainTableViewCell.xib */; };
-		4654D5812221302200782AFA /* MockApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654D568222122FF00782AFA /* MockApiClient.swift */; };
 		46672BDE222B4C1E00A3DD55 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46672BDD222B4C1E00A3DD55 /* ImageLoader.swift */; };
-		46672BE0222B4C6700A3DD55 /* MockJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46672BDF222B4C6700A3DD55 /* MockJob.swift */; };
-		46672BE2222B4C7200A3DD55 /* MockLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46672BE1222B4C7200A3DD55 /* MockLocation.swift */; };
-		46672BE4222B4C7E00A3DD55 /* MockImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46672BE3222B4C7E00A3DD55 /* MockImageLoader.swift */; };
 		4675E83A22278FCD00586622 /* JobDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E83922278FCD00586622 /* JobDescriptionViewController.swift */; };
 		4675E83C2227911800586622 /* Attr+Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675E83B2227911800586622 /* Attr+Label.swift */; };
 		469EEA59222392D6005E75A3 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EEA58222392D6005E75A3 /* Location.swift */; };
@@ -49,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		461DC3B52228D94D004151B7 /* LocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTests.swift; sourceTree = "<group>"; };
+		463FAB1023EF142E001C20A4 /* MockEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEnvironment.swift; sourceTree = "<group>"; };
 		465010BE222236FE0062DF6D /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		465010C0222245510062DF6D /* App+UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+UIImage.swift"; sourceTree = "<group>"; };
 		4654D5312220F07200782AFA /* DesignPatterns.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesignPatterns.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -141,7 +143,6 @@
 				4654D5582220F35B00782AFA /* Core */,
 				4654D55D2220F36D00782AFA /* Helpers */,
 				4654D5402220F07300782AFA /* Info.plist */,
-				4654D56C2221232300782AFA /* Mocks */,
 				4654D5632221056B00782AFA /* Models */,
 				4654D55E2220F37C00782AFA /* UI */,
 				4654D5552220F32D00782AFA /* ViewControllers */,
@@ -152,6 +153,7 @@
 		4654D5482220F07300782AFA /* DesignPatternsTests */ = {
 			isa = PBXGroup;
 			children = (
+				4654D56C2221232300782AFA /* Mocks */,
 				461DC3B42228D930004151B7 /* Models */,
 				461DC3B32228D92A004151B7 /* ViewModels */,
 				4654D54B2220F07300782AFA /* Info.plist */,
@@ -221,6 +223,7 @@
 				46672BDF222B4C6700A3DD55 /* MockJob.swift */,
 				46672BE1222B4C7200A3DD55 /* MockLocation.swift */,
 				46672BE3222B4C7E00A3DD55 /* MockImageLoader.swift */,
+				463FAB1023EF142E001C20A4 /* MockEnvironment.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -340,22 +343,17 @@
 				4654D57A2221299C00782AFA /* App+Storyboard.swift in Sources */,
 				46672BDE222B4C1E00A3DD55 /* ImageLoader.swift in Sources */,
 				465010BF222236FE0062DF6D /* ImageCache.swift in Sources */,
-				46672BE2222B4C7200A3DD55 /* MockLocation.swift in Sources */,
 				4654D5782221294800782AFA /* DetailViewController.swift in Sources */,
 				4654D5602220F38D00782AFA /* Protocols.swift in Sources */,
 				46F94D44232B5A17007FBADB /* NSRange+TextField.swift in Sources */,
 				4675E83A22278FCD00586622 /* JobDescriptionViewController.swift in Sources */,
 				4675E83C2227911800586622 /* Attr+Label.swift in Sources */,
 				469EEA59222392D6005E75A3 /* Location.swift in Sources */,
-				46672BE4222B4C7E00A3DD55 /* MockImageLoader.swift in Sources */,
 				4654D5652221057500782AFA /* Job.swift in Sources */,
 				4654D5352220F07200782AFA /* AppDelegate.swift in Sources */,
 				4654D56722210B2800782AFA /* Environment.swift in Sources */,
 				465010C1222245510062DF6D /* App+UIImage.swift in Sources */,
-				46672BE0222B4C6700A3DD55 /* MockJob.swift in Sources */,
-				4654D5812221302200782AFA /* MockApiClient.swift in Sources */,
 				4654D5572220F35100782AFA /* MainViewController.swift in Sources */,
-				4654D5702221248F00782AFA /* MockLocationService.swift in Sources */,
 				4654D5722221273C00782AFA /* Color.swift in Sources */,
 				4654D55C2220F36400782AFA /* LocationService.swift in Sources */,
 				4654D55B2220F36400782AFA /* ApiClient.swift in Sources */,
@@ -366,7 +364,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				463FAB1123EF142E001C20A4 /* MockEnvironment.swift in Sources */,
+				463FAB0F23EF13EB001C20A4 /* MockImageLoader.swift in Sources */,
+				463FAB0E23EF13EB001C20A4 /* MockLocation.swift in Sources */,
+				463FAB0C23EF13EB001C20A4 /* MockLocationService.swift in Sources */,
+				463FAB0D23EF13EB001C20A4 /* MockJob.swift in Sources */,
 				461DC3B62228D94D004151B7 /* LocationTests.swift in Sources */,
+				463FAB0B23EF13EB001C20A4 /* MockApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

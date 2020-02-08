@@ -6,6 +6,7 @@
 //  Copyright © 2019 dmlebron. All rights reserved.
 //
 import UIKit
+@testable import DesignPatterns
 
 class MockImageLoader: ImageLoading {
     private var expectedImage: UIImage?
