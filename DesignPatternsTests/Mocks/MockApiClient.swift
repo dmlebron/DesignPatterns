@@ -7,6 +7,7 @@
 //
 
 import Foundation
+@testable import DesignPatterns
 
 class MockApiClient: ApiClientType {
     enum Error: Swift.Error {

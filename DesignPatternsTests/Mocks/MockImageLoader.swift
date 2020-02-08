@@ -7,6 +7,7 @@
 //
 
 import UIKit
+@testable import DesignPatterns
 
 class MockImageLoader: ImageLoading {
     private var expectedImage: UIImage?

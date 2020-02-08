@@ -7,6 +7,7 @@
 //
 
 import Foundation
+@testable import DesignPatterns
 
 struct MockLocation {
     static var boston: Location {
