@@ -7,7 +7,6 @@
 
 import UIKit
 
-// MARK: - DataDisplayable
 private extension MainViewController {
     enum Constants {
         enum Text {
@@ -18,6 +17,8 @@ private extension MainViewController {
             static var placeholderTitle: String { return "Input Search" }
             static var placeholderZipcode: String { return "Enter Zipcode" }
         }
+        
+        static let estimatedRowHeight: CGFloat = 80
     }
 }
 
@@ -88,8 +89,10 @@ extension MainViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {
             return UITableViewCell()
         }
-        cell.titleLabel.text = job.title
-        cell.companyNameLabel.text = job.companyName
+        
+        let cellViewData = MainTableViewCell.ViewData(titleLabelColor: viewModel.color.darkGray, companyLabelColor: viewModel.color.darkGray, title: job.title, companyName: job.companyName)
+        
+        cell.setup(viewData: cellViewData)
         return cell
     }
 }
@@ -117,23 +120,30 @@ extension MainViewController: UITextFieldDelegate {
 extension MainViewController: ViewCustomizing {
     func setupUI() {
         navigationItem.title = Constants.Text.title
-        tableView.backgroundColor = CurrentEnvironment.color.white
+        
+        tableView.backgroundColor = viewModel.color.white
         tableView.tableFooterView = UIView()
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 80
+        tableView.estimatedRowHeight = Constants.estimatedRowHeight
+        
         topDividerView.backgroundColor = UIColor.black
-        searchText.textColor = CurrentEnvironment.color.white
+        
         let searchPlaceholder = NSAttributedString(string: Constants.Text.placeholderTitle, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         searchText.attributedPlaceholder = searchPlaceholder
         searchText.clearButtonMode = .whileEditing
-        locationText.textColor = CurrentEnvironment.color.white
+        searchText.textColor = viewModel.color.white
+        
         let locationPlaceholder = NSAttributedString(string: Constants.Text.placeholderZipcode, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         locationText.attributedPlaceholder = locationPlaceholder
         locationText.clearButtonMode = .whileEditing
-        view.backgroundColor = CurrentEnvironment.color.darkGray
-        locationView.backgroundColor = CurrentEnvironment.color.darkGray
+        locationText.textColor = viewModel.color.white
+        
+        locationView.backgroundColor = viewModel.color.darkGray
+        
         currentLocationButton.setImage(UIImage.location, for: .normal)
         currentLocationButton.imageView?.contentMode = .scaleAspectFit
+        
+        view.backgroundColor = viewModel.color.darkGray
     }
     
     func additionalSetup() {

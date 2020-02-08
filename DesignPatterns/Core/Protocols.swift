@@ -50,3 +50,10 @@ extension CellRegistration {
         return UINib(nibName: name, bundle: nil)
     }
 }
+
+// MARK: - CellDisplaying
+protocol CellDisplaying {
+    associatedtype ViewData
+    
+    func setup(viewData: ViewData)
+}

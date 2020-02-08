@@ -14,13 +14,16 @@ final class MainViewModelTests: XCTestCase {
     var mockViewController: MockMainViewControllerOutput!
     var mockLocationService: MockLocationService!
     var mockApiClient: MockApiClient!
+    var color: Color!
+    var mockImageLoader: MockImageLoader!
     
     override func setUp() {
-        CurrentEnvironment = Environment.mock
+        mockImageLoader = MockImageLoader()
+        color = Color()
+        mockLocationService = MockLocationService()
+        mockApiClient = MockApiClient()
         mockViewController = MockMainViewControllerOutput()
-        viewModel = MainViewModel(output: mockViewController)
-        mockLocationService = CurrentEnvironment.locationService as? MockLocationService
-        mockApiClient = CurrentEnvironment.apiClient as? MockApiClient
+        viewModel = MainViewModel(output: mockViewController, locationService: mockLocationService, apiClient: mockApiClient, color: color, imageLoader: mockImageLoader)
     }
 
     override func tearDown() {

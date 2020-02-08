@@ -9,8 +9,9 @@ import UIKit
 
 enum Route {
     private var baseUrl: String {
-        return CurrentEnvironment.apiURLSring
+        return "https://jobs.github.com/positions.json"
     }
+    case none
     case parameters([Parameter: String])
     
     var completeUrl: String {
@@ -62,6 +63,6 @@ extension ApiClient: ApiClientType {
                     completion(.failed(error))
                 }
             }
-            }.resume()
+        }.resume()
     }
 }
