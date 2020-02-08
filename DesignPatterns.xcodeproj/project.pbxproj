@@ -16,6 +16,7 @@
 		4627A7F0222F68A500F29798 /* DetailPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4627A7EF222F68A500F29798 /* DetailPresenterTests.swift */; };
 		4627A7F2222F68B100F29798 /* DetailRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4627A7F1222F68B100F29798 /* DetailRouterTests.swift */; };
 		4627A7F4222F68C300F29798 /* DetailModuleBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4627A7F3222F68C300F29798 /* DetailModuleBuilderTests.swift */; };
+		463FAB1323EF146B001C20A4 /* MockEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463FAB1223EF146B001C20A4 /* MockEnvironment.swift */; };
 		464067C9222F55630015BFE5 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464067C8222F55630015BFE5 /* ImageLoader.swift */; };
 		464067CB222F55950015BFE5 /* MockImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464067CA222F55950015BFE5 /* MockImageLoader.swift */; };
 		464067CD222F55A30015BFE5 /* MockJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464067CC222F55A30015BFE5 /* MockJob.swift */; };
@@ -73,6 +74,7 @@
 		4627A7EF222F68A500F29798 /* DetailPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenterTests.swift; sourceTree = "<group>"; };
 		4627A7F1222F68B100F29798 /* DetailRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRouterTests.swift; sourceTree = "<group>"; };
 		4627A7F3222F68C300F29798 /* DetailModuleBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModuleBuilderTests.swift; sourceTree = "<group>"; };
+		463FAB1223EF146B001C20A4 /* MockEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEnvironment.swift; sourceTree = "<group>"; };
 		464067C8222F55630015BFE5 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		464067CA222F55950015BFE5 /* MockImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageLoader.swift; sourceTree = "<group>"; };
 		464067CC222F55A30015BFE5 /* MockJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJob.swift; sourceTree = "<group>"; };
@@ -191,7 +193,6 @@
 				4654D5582220F35B00782AFA /* Core */,
 				4654D55D2220F36D00782AFA /* Helpers */,
 				4654D5402220F07300782AFA /* Info.plist */,
-				4654D56C2221232300782AFA /* Mocks */,
 				4654D5632221056B00782AFA /* Models */,
 				4654D55E2220F37C00782AFA /* UI */,
 			);
@@ -201,6 +202,7 @@
 		4654D5482220F07300782AFA /* DesignPatternsTests */ = {
 			isa = PBXGroup;
 			children = (
+				4654D56C2221232300782AFA /* Mocks */,
 				4627A7E4222F685000F29798 /* Main */,
 				4627A7E3222F684900F29798 /* Detail */,
 				461DC3B42228D930004151B7 /* Models */,
@@ -260,6 +262,7 @@
 				464067CA222F55950015BFE5 /* MockImageLoader.swift */,
 				464067CC222F55A30015BFE5 /* MockJob.swift */,
 				464067CE222F55C30015BFE5 /* MockLocation.swift */,
+				463FAB1223EF146B001C20A4 /* MockEnvironment.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 				4627A7EC222F688D00F29798 /* MainModuleBuilderTests.swift in Sources */,
 				4627A7E6222F686600F29798 /* MainInteractorTests.swift in Sources */,
 				4627A7EE222F689900F29798 /* DetailInteractorTests.swift in Sources */,
+				463FAB1323EF146B001C20A4 /* MockEnvironment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,7 @@
 
 import UIKit
 
-private struct Environment {
+struct Environment {
     let apiURLSring: String
     let apiClient: ApiClientType
     let locationService: LocationServiceType
@@ -33,12 +33,4 @@ private struct Environment {
                                          locationService: LocationService(),
                                          color: Color(),
                                          imageLoader: ImageLoader(imageCache: ImageCache()))
-}
-
-extension Environment {
-    static let mock = Environment(apiURLSring: "https://jobs.github.com/positions.json",
-                                  apiClient: MockApiClient(),
-                                  locationService: MockLocationService(),
-                                  color: Color(),
-                                  imageLoader: MockImageLoader())
 }
