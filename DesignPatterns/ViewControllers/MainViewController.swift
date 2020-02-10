@@ -11,13 +11,16 @@ import UIKit
 private extension MainViewController {
     enum Constants {
         enum Text {
-            static var title: String { return "Search Github Jobs" }
-            static var noLocation: String { return "No Location" }
-            static var errorTitle: String { return "Error" }
-            static var okButtonTitle: String { return "OK" }
-            static var placeholderTitle: String { return "Input Search" }
-            static var placeholderZipcode: String { return "Enter Zipcode" }
+            static let title = "Search Github Jobs"
+            static let noLocation = "No Location"
+            static let errorTitle = "Error"
+            static let okButtonTitle = "OK"
+            static let placeholderTitle = "Input Search"
+            static let placeholderZipcode = "Enter Zipcode"
+            
         }
+        
+        static let minimumQueryLength = 2
     }
 }
 
@@ -32,6 +35,8 @@ final class MainViewController: UIViewController {
         }
     }
     private(set) var jobs: Jobs = []
+    private var searchTextTimer: Timer?
+    
     @IBOutlet weak var topDividerView: UIView!
     @IBOutlet weak var searchText: UITextField!
     @IBOutlet weak var tableView: UITableView!
@@ -51,19 +56,22 @@ final class MainViewController: UIViewController {
 
 // MARK: - Private Methods
 private extension MainViewController {
-    func search() {
-        guard let query = searchText.text, !query.isEmpty else { return }
-        if let zipcode = locationText.text, !zipcode.isEmpty {
-            fetchJobs(query: query, city: zipcode)
+    func search(query: String) {
+        guard !query.isEmpty else { return }
+        
+        if let address = locationText.text, address.count > Constants.minimumQueryLength {
+            fetchJobs(query: query, city: address)
+            
         } else {
             fetchJobs(query: query)
         }
-        searchText.resignFirstResponder()
     }
     
     func fetchJobs(query: String, city: String? = nil) {
         let route = city != nil ? Route.parameters([.jobType: query, .location: city!]) : Route.parameters([Parameter.jobType: query])
+        
         guard let url = URL(string: route.completeUrl) else { return }
+        
         CurrentEnvironment.apiClient.get(url: url) { [unowned self] result in
             switch result {
             case .success(let jobs):
@@ -84,17 +92,11 @@ private extension MainViewController {
         }
     }
     
-    func updateAddressFor(address: String, completion: @escaping (Location?) -> Void) {
-        CurrentEnvironment.locationService.locationFor(address: address) { (userLocation) in
-            guard let userLocation = userLocation else { return completion(nil) }
-            completion(userLocation)
-        }
-    }
-    
     func showAlert(error: Error) {
         let alertController = UIAlertController(title: Constants.Text.errorTitle, message: error.localizedDescription, preferredStyle: .alert)
         let alertAction = UIAlertAction(title: Constants.Text.okButtonTitle, style: .default)
         alertController.addAction(alertAction)
+        
         present(alertController, animated: true)
     }
 }
@@ -111,8 +113,11 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as! MainTableViewCell
+        
         cell.titleLabel.text = jobs[indexPath.row].title
+        
         cell.companyNameLabel.text = jobs[indexPath.row].companyName
+        
         return cell
     }
 }
@@ -121,9 +126,12 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
         guard let viewController = UIStoryboard.detail.instantiateInitialViewController() as? DetailViewController else { return }
+        
         let job = jobs[indexPath.row]
         viewController.set(job: job)
+        
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
@@ -131,24 +139,44 @@ extension MainViewController: UITableViewDelegate {
 // MARK: - UITextFieldDelegate
 extension MainViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if range.isBackspacing {
-            return true
+        
+        let query: String
+        
+        if textField == searchText {
+            let newText = (textField.text! as NSString)
+                .replacingCharacters(in: range, with: string)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            query = newText
+            
+        } else {
+            query = searchText?.text ?? ""
         }
         
-        // TODO: Should this onoly accepts zipcode?
-        // we can show a carousel with possible locations based on the input zipcode
-        if textField == locationText {
-            guard !string.trimmingCharacters(in: .letters).isEmpty else {
-                return false
-            }
+        guard query.count > Constants.minimumQueryLength else { return true }
+        
+        if let timer = searchTextTimer {
+            timer.invalidate()
         }
+        
+        searchTextTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false, block: { [weak self] _ in
+            
+            self?.search(query: query)
+        })
         
         return true
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        search()
+        textField.resignFirstResponder()
+        
         return false
+    }
+}
+
+extension MainViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        view.endEditing(true)
     }
 }
 
@@ -156,21 +184,28 @@ extension MainViewController: UITextFieldDelegate {
 extension MainViewController: ViewCustomizing {
     func setupUI() {
         navigationItem.title = Constants.Text.title
+        
         tableView.backgroundColor = CurrentEnvironment.color.white
         tableView.tableFooterView = UIView()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 80
+        
         topDividerView.backgroundColor = UIColor.black
-        searchText.textColor = CurrentEnvironment.color.white
+        
         let searchPlaceholder = NSAttributedString(string: Constants.Text.placeholderTitle, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
         searchText.attributedPlaceholder = searchPlaceholder
         searchText.clearButtonMode = .whileEditing
-        locationText.textColor = CurrentEnvironment.color.white
+        searchText.textColor = CurrentEnvironment.color.white
+        
         let locationPlaceholder = NSAttributedString(string: Constants.Text.placeholderZipcode, attributes: [NSAttributedString.Key.foregroundColor : UIColor(white: 0.6, alpha: 0.5)])
+        locationText.textColor = CurrentEnvironment.color.white
         locationText.attributedPlaceholder = locationPlaceholder
         locationText.clearButtonMode = .whileEditing
+        
         view.backgroundColor = CurrentEnvironment.color.darkGray
+        
         locationView.backgroundColor = CurrentEnvironment.color.darkGray
+        
         currentLocationButton.setImage(UIImage.location, for: .normal)
         currentLocationButton.imageView?.contentMode = .scaleAspectFit
     }
