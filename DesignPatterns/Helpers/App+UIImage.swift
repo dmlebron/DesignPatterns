@@ -10,6 +10,6 @@ import UIKit
 
 extension UIImage {
     static var location: UIImage? {
-        return UIImage(named: "location")
+        return UIImage(systemName: "location")
     }
 }
