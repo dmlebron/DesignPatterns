@@ -159,10 +159,9 @@ extension MainViewController: UITextFieldDelegate {
             timer.invalidate()
         }
         
-        searchTextTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false, block: { [weak self] _ in
-            
+        searchTextTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] _ in
             self?.search(query: query)
-        })
+        }
         
         return true
     }

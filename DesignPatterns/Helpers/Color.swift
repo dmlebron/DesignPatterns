@@ -49,7 +49,7 @@ struct Color {
     }
     
     var softGray: UIColor {
-        return .groupTableViewBackground
+        return .systemGroupedBackground
     }
     
     var white: UIColor {
