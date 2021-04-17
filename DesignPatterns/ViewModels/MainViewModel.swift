@@ -145,7 +145,13 @@ private extension MainViewModel {
 // MARK: - MainViewModelOutput
 
 extension MainViewModel: MainViewModelOutput {
-    
+    func showAlert(error: Error) {
+
+    }
+
+    func pushViewController(_ viewController: UIViewController) {
+
+    }
 }
 
 // MARK: - MainViewModelInput
